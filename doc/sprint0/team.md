@@ -2,3 +2,4 @@
 |-----------|--------|------------|-------|---------------------|-----------------|
 | Chieh-An -Change |    chang144    |      1006200736      |    chiehan.chang@mail.utoronto.ca   |    discord    |                 |
 | Eddy Chen | chenedd1 | 1008180488 | eddyalfred.chen@mail.utoronto.ca | discord | Eddy Chen |
+| Richie Hsieh | hsiehhua | 1008289362 | richie.hsieh@mail.utoronto.ca | discord | Richie Hsieh |
