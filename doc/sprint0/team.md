@@ -4,3 +4,4 @@
 | Eddy Chen | chenedd1 | 1008180488 | eddyalfred.chen@mail.utoronto.ca | discord | Eddy Chen |
 | Richie Hsieh | hsiehhua | 1008289362 | richie.hsieh@mail.utoronto.ca | discord | Richie Hsieh |
 | Ethan Rosenbloom | rosen183 | 1009509024 | ethan.rosenbloom@mail.utoronto.ca | discord | Ethan Rosenbloom |
+| Ali Iqbal | iqbalal4 | 1009189897 | ali.iqbal@mail.utoronto.ca | discord | Ali Iqbal |
