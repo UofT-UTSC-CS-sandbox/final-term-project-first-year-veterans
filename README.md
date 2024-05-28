@@ -1,4 +1,14 @@
-# Workflow:
+# Breifly Description of this Project
+
+# Motivation
+
+# Installation
+Currently, our produce is hold on the internet. 
+There is no download required.
+Therefore, this is no installation required.
+
+# Contribution:
+## Workflow & Branch Naming
 This project will focus on the "Git flow" workflow.
 This means that we will have the following branches:
 
@@ -33,3 +43,10 @@ Development branch:
 Feature branch:
 - DEV-1-[feature name]. 
   - For example, if we implement the login feature, the possible feature branch will be DEV-1-LoginPage.
+## Issues
+We will use the git issue to mention a potential question.
+
+## Before Merge to Development Branch
+We will use the git pull request before merging to the Development branch. So that, everyone can use the pull request from development branch to their local branch after new change.
+
+
