@@ -1,4 +1,4 @@
-#Workflow:
+# Workflow:
 This project will focus on the "Git flow" workflow.
 This means that we will have the following branches:
 
