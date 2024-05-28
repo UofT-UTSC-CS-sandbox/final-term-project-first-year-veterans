@@ -1,7 +1,24 @@
 # Breifly Description of this Project
-  (TBD)
+What is the purpose of our project?
+
+Our project is designed for a university student who is willing to :
+1. find a mentor for academic purposes
+2. find a mentor or see someone's experience in a career (i.e. include internship)
+3. find a teammate or colleague to attend an event
+4. find a teammate to build a project together.
+
+Why does this project come out?
+
+We intend to create a website to create a better social networking platform for students in any university worldwide. Due to COVID-19, we observe that people have less chance to connect with others.
+
+How will this project work?
+
+We will build a website that includes four main categories: academic, career, project, and event. Each category will provide specific information and resources tailored to the needs of university students.
+Students can find some information based on their interest in these four categories.
+  
 # Motivation
-  (TBD)
+Recently year, Job marketing is not good. Students may need a reference to get a job. However, due to covid-19, people take a class through internet. People may not have a chance to make a friend from their class or even university. Therefore, this porject comes out with our mind. We want to provide a platform to student so that they can increase the amount of networking. Also, provide some help in terms of giving career suggestion, acadmic mentor advisor, and finding a team to do project.
+
 # Installation
 Currently, our produce is hold on the internet. 
 
