@@ -6,7 +6,7 @@ This means that we will have the following branches:
 
 2. Hotfix branch: A branch to fix an emergency bug from the Main branch.
 
-3. Release branch: A branch pre-processes and tests the deployment code before merging with the Main branch.
+3. Release branch: A branch pre-processes and tests the deployment code before merging into the Main branch.
 
 4. Development branch: A branch that stores collections of change or adds new features.
 
@@ -14,7 +14,7 @@ This means that we will have the following branches:
 
 Format of each branch:
 Main branch: 
-version[number] F
+version[number] 
 For example, version1.0
 
 Release branch: 
