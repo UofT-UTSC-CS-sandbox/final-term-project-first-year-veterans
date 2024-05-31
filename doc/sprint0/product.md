@@ -24,14 +24,14 @@ Since this website focuses mainly on peer help, this app's target users will be 
 
 ANSWER:
 
-Scenario 1 (Andy): 
+Scenario 1: 
 A user may choose our product to find a new friend or learn a different culture if they are not a domestic student. Based on our response to question 2, we have provided some personas, and one which suits this example is Kevin. Kevin is an international student. This is his first time coming to Canada. He can use this website to solve the issue of Social Networking. He can find a Japanese student in Ontario, and even a Japanese student at the same university. As such, he won't feel lonely. In the meantime, he may also find Canadian Born Japanese at the same university on this website. So, he has a mentor to tell him about the cultural differences and improve his English by mainly using English in discussions and Japanese as support. In this case, Kevin can spend less time learning English and the differences in cultural behavior. Thus, he can put his rest of time on studying his UX/UI design.
 
-Scenario 2 (Eddy): 
+Scenario 2: 
 For more general use cases, when searching for academic aid, a user can find people from the same campus as them to help, which allows for advice tailored to the courses they’re taking and the professors they know. This also facilitates the creation of projects and events for in person participation. Given that modern communication platforms are more general use, our platform is focused on academia and career progression. It cuts out the noise and distractions, and even pre-categorizes projects, academia, and more, thus making it easier to find collaborators you are looking for.
 
-Scenario 3 (Rachel):
-For an upper year student the platform will be a good resource as they will be provided with quick access to other students who have common interests and knowledge bases. Consider the user Rachel mentioned in part 2. Rachel seeks career advice, the career section will allow many users to post/ask questions, notably this will allow people with more experience to respond. Similarly Rachel can aid others in academics as she is more advanced in the years, this may be a good resource for her as demonstrating teaching abilities it may be beneficial to her resume.
+Scenario 3:
+Consider an upper year student named Rachel. The platform will be a good resource as they will be provided with quick access to other students who have common interests and knowledge bases. Consider the user Rachel mentioned in part 2. Rachel seeks career advice, the career section will allow many users to post/ask questions, notably this will allow people with more experience to respond. Similarly Rachel can aid others in academics as she is more advanced in the years, this may be a good resource for her as demonstrating teaching abilities it may be beneficial to her resume.
 
 ### Q4: What does "DONE" means to your Team 
 
