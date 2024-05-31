@@ -17,18 +17,18 @@ We will build a website that includes four main categories: academic, career, pr
 Students can find some information based on their interest in these four categories.
   
 # Motivation
-Recently, job marketing has not been good. Students may need a referral to get a job. However, due to COVID-19, people take classes through the Internet. People may have yet to make friends from their class or even university. Therefore, this project comes to mind. We want to provide a platform for students to increase their social networking. Also, help with career suggestions, academic mentor advisor, and finding a team to do the project.
+Recently, the job market has not been good. Students may need a referral to get a job. However, due to COVID-19 and online courses, many students did not have the chance to make friends or connect with colleagues. Therefore, this project comes to mind as we would like to provide a platform for students to broaden their social network as well as offer guidance with career choices, academics, and allowing students to work on projects together.
 
 # Installation
-Currently, our produce is hold on the internet. 
+Currently, our product is held on the internet. 
 
 There is no download required.
 
-Therefore, this is no installation required.
+Therefore, there is no installation required.
 
 # Contribution:
 ## Workflow & Branch Naming
-This project will focus on the "Git flow" workflow.
+This project will use the "Git flow" workflow.
 This means that we will have the following branches:
 
 1. Main branch: A branch that deploys websites.
