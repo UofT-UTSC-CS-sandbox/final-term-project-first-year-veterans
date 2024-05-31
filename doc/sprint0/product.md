@@ -8,7 +8,6 @@ We are planning to build a social network akin to a mix between a web forum and 
 
 ANSWER:
 
-Andy’s Brief Description:
 Since this website focuses mainly on peer help, this app's target users will be students. However, students could have different demographics, such as age, gender, occupation, and income. We can divide the age into first-year, final-year, and other students. They could be between 19 and 26 years old. We mainly separate first-year and final-year students from other students because this website can provide social networking for the first-year and provide career mentors to the final year. Therefore, we emphasize this range of people. In terms of gender, this website should be friendly to any gender, not limited to men, females, and LGBTQ+. Occupation mainly focuses on students but also includes students who may have a job. So, this website is open to any incoming type of students. We have provided more specific examples of our persona below.
 
 
