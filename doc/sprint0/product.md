@@ -17,7 +17,7 @@ Since this website focuses mainly on peer help, this app's target users will be 
 2) Rachel:
     - 4th year, female, undergraduate, native english speaker. She need some career advice, and helpers for the project she is working on. Can provide help with academics.
 
-3) Eddy:
+3) Ren:
    - 2nd yr, LGBTQ+, undergrad needs help with academics, can help with 1st yr academics. Wants to get a head start on filling out their resume; looking for a project to take part in.
 
 ### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
