@@ -1,5 +1,5 @@
 # Notes about this file:
-This file contains all the user stories for the product backlog. Each of the user stories have been grouped by the purpose and where 
+This file contains all the user stories for the product backlog, followed by their respective acceptance criteria. Each of the user stories have been grouped by their purpose.
 
 ## General Sign up and User Actions
 - User story 1: As a new user, I want to click a sign up button on the home page, so that I can go to a sign up page and prepare to create an account.
