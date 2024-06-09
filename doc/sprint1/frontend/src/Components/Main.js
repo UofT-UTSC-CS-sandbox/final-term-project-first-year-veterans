@@ -1,5 +1,6 @@
 import logo from '../logo.svg';
 import React from 'react';
+import TopBar from './top_bar';
 
 function Main() {
   return (
