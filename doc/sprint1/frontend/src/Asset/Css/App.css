@@ -36,3 +36,30 @@
     transform: rotate(360deg);
   }
 }
+
+/* css for search bar */
+.search_input {
+  display: inline;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-right: 20px;
+  width: 50%;
+}
+
+/* css for top bar */
+@media (min-width: 768px) {
+  .me-md-auto {
+      margin-right: auto !important;
+  }
+}
+
+.link-body-emphasis {
+  color: RGBA(var(--bs-emphasis-color-rgb), var(--bs-link-opacity, 1)) !important;
+  -webkit-text-decoration-color: RGBA(var(--bs-emphasis-color-rgb), var(--bs-link-underline-opacity, 1)) !important;
+  text-decoration-color: RGBA(var(--bs-emphasis-color-rgb), var(--bs-link-underline-opacity, 1)) !important;
+}
+
+.webName {
+  font-weight: 1000;
+}

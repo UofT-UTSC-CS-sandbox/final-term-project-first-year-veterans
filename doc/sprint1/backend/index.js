@@ -2,8 +2,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 // new socket server
-// var WebSocketServer = require('ws').Server
-// 	,wss = new WebSocketServer({ port: 8000 });
+var WebSocketServer = require('ws').Server
+	,wss = new WebSocketServer({ port: 8000 });
 
 const cookie_api = require('./routes/cookie_api');
 const signin_api = require('./routes/signin_api');
@@ -20,16 +20,16 @@ app.use('', cookie_api);
 app.use('', signin_api);
 app.use('', search_api);
 
-// wss.on('connection', function connection(ws) {
-//     console.log('New client connected');
+wss.on('connection', function connection(ws) {
+    console.log('New client connected');
 
-//     ws.on('message', function incoming(message) {
-//         const buffer = Buffer.from(message);
-//         counsole.log(buffer.toString());
-//         console.log('received: %s', message);
-//         ws.send('${message}');
-//     });
-// });
+    ws.on('message', function incoming(message) {
+        const buffer = Buffer.from(message);
+        counsole.log(buffer.toString());
+        console.log('received: %s', message);
+        ws.send('${message}');
+    });
+});
 
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);

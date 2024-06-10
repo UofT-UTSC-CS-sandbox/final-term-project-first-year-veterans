@@ -1,9 +1,9 @@
-import react from 'react';
+import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { api_checkAuth } from './Components/api';  
 import Main from './Components/Main';
-import Login from './Components/signin';
+import Login from './Components/login';
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

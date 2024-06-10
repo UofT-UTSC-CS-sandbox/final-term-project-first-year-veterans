@@ -10,3 +10,4 @@ module.exports = {
     driver,
     getSession: () => driver.session()
 };
+  
