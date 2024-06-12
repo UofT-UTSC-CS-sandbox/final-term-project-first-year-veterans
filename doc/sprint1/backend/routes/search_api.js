@@ -3,21 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 const router = express.Router();
+const resultList = [];
 
 // connect to neo4j
-//const { driver, getSession } = require("../neo4j.js");
-
-// An example of a search result
-
-//start the session
-//const session = getSession();
-//const resultList = [];
-//session.run("Placeholder Text").then(result => {
-    //result.records.forEach(record => {
-        //store results of query into list
-        //resultList.push(record.get('placeholder name of node property'));
-    //});
-//})
+const { driver, getSession } = require("../neo4j.js");
 
 const users = [
     {
@@ -62,6 +51,21 @@ router.post('/api/search/', function (req, res) {
     let search_data = req.body;
     const state = search_data.filters;
     console.log(search_data.query);
+
+    //start the neo4j session
+    resultList = [];
+    const session = getSession();
+    const query = "MATCH (n) WHERE n:User OR n:Post OR n:Project RETURN n";
+    if (search_data.query != ''){
+        //Checks for users with matching uid's, posts with matching title/content, and projects with matching name/creator/description
+        query = "Match (n) WHERE (n:User AND n.uid CONTAINS '" + search_data.query + "') OR (n:Post AND (n.title CONTAINS '" + search_data.query + "' OR n.content CONTAINS '" + search_data.query + "')) OR (n:Project AND (n.name CONTAINS '" + search_data.query + "' OR n.creator CONTAINS '" + search_data.query + "' OR n.description CONTAINS '" + search_data.query + "') RETURN n";
+    }
+    session.run(query).then(result => {
+        result.records.forEach(record => {
+            //store results of query into list
+            resultList.push(record.get('n'));
+        });
+    })
 
     if (search_data.query == 'all'){
         res.status(200);
