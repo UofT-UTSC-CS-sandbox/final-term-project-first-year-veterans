@@ -1,4 +1,4 @@
-# Breifly Description of this Project
+# Briefly Description of this Project
 What is the purpose of our project?
 
 Our project is designed for a university student who is willing to :
