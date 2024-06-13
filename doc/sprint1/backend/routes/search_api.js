@@ -1,103 +1,74 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const app = express();
-app.use(bodyParser.json());
+const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes');
+const user_filter = require('../helper_functions/filter_functions/user_filter');
+const post_filter = require('../helper_functions/filter_functions/post_filter');
+const project_filter = require('../helper_functions/filter_functions/project_filter');  
 const router = express.Router();
-const resultList = [];
+let resultList = [];
 
 // connect to neo4j
 const { driver, getSession } = require("../neo4j.js");
 
-const users = [
-    {
-        id: 1,
-        username: 'NotTrending1AndCrim',
-        email: 'john@example.com',
-        trending: false,
-        major: "criminology"
-    },
-    {
-        id: 2,
-        username: 'Trending1AndStats',
-        email: 'Trending1@example.com',
-        trending: true,
-        major: "statistics"
-    },
-    {
-        id: 3,
-        username: 'Trending2AndMath',
-        email: 'Trending2@example.com',
-        trending: true,
-        major: "math"
-    },
-    {
-        id: 4,
-        username: 'NotTrending2AndCS',
-        email: 'NotTrending@example.com',
-        trending: false, // Not trending
-        major: "computer_science"
-    },
-    {
-        id: 5,
-        username: 'Trending3AndCrim',
-        email: 'User5@example.com',
-        trending: true, // Not trending
-        major: "criminology"
-    }
-];
-
-router.post('/api/search/', function (req, res) {
+router.post('/api/search/', async function (req, res) {
     console.log('Server received: POST /api/search/');
     let search_data = req.body;
-    const state = search_data.filters;
+    const filters = search_data.filters;
+    const type = search_data.type;
     console.log(search_data.query);
+    console.log(filters);
+    console.log(type);
 
     //start the neo4j session
     resultList = [];
     const session = getSession();
-    const query = "MATCH (n) WHERE n:User OR n:Post OR n:Project RETURN n";
+    let query = "MATCH (n:User) RETURN n AS node " + 
+                "UNION MATCH (n:Post) RETURN n AS node " + 
+                "UNION MATCH (n:Project) RETURN n AS node";
+    const params = {search_words: search_data.query}; // Use params to plog in search_data.query to prevent SQL injection
     if (search_data.query != ''){
-        //Checks for users with matching uid's, posts with matching title/content, and projects with matching name/creator/description
-        query = "Match (n) WHERE (n:User AND n.uid CONTAINS '" + search_data.query + "') OR (n:Post AND (n.title CONTAINS '" + search_data.query + "' OR n.content CONTAINS '" + search_data.query + "')) OR (n:Project AND (n.name CONTAINS '" + search_data.query + "' OR n.creator CONTAINS '" + search_data.query + "' OR n.description CONTAINS '" + search_data.query + "') RETURN n";
-    }
-    session.run(query).then(result => {
-        result.records.forEach(record => {
-            //store results of query into list
-            resultList.push(record.get('n'));
-        });
-    })
 
-    if (search_data.query == 'all'){
-        res.status(200);
-        return res.json(users);
+        // Write query in this way to prevent SQL injection
+        query = "Match (u:User) WHERE u.uid CONTAINS $search_words RETURN u AS node" + 
+                " UNION " + 
+                "Match (p:Post) WHERE p.title CONTAINS $search_words OR p.content CONTAINS $search_words RETURN p AS node" + 
+                " UNION " +
+                "Match (r:Project) WHERE r.name CONTAINS $search_words OR r.creator CONTAINS $search_words OR r.description CONTAINS $search_words RETURN r AS node";   
     }
-    else if (state.length != 0){
-        switch (state[0]){
-            case 'trending':
-                res.status(200); // Setting HTTP status code
-                const trendingUsers = users.filter(user => user.trending); // Filtering trending users
-                console.log(trendingUsers);
-                res.json(trendingUsers); // Sending JSON response with trending users
+
+    try {
+        let result = await session.run(query, params);
+        switch (type) {
+            case 'User', 'Filters':
+                result = await user_filter(session, result);
                 break;
-            case 'newest':
-                const newestUser = [users.reduce((max, user) => (user.id > max.id ? user : max), users[0])];
-                res.status(200);
-                console.log(newestUser);
-                res.json(newestUser);
+            case 'Post':
+                result = await post_filter(session, result);
                 break;
-            case 'math':
-            case 'computer_science':
-            case 'statistics':
-                res.status(200);
-                const filteredUsers = users.filter(user => user.major === state[0]);
-                console.log(filteredUsers);
-                res.json(filteredUsers);
+            case 'Project':
+                result = await project_filter(session, result);
+                break;
+            default:
                 break;
         }
-    } else {
-        return res.json([users]);
+        console.log(result.records);
+        result.records.forEach(record => {
+            //store results of query into list
+            // console.log(record.get('node').properties);
+            let nodeProperties = record.get('node').properties;
+            nodeProperties = convertNeo4jTypes(nodeProperties);
+            resultList.push(nodeProperties);
+        });
+        console.log(resultList);
+
+        res.status(200);
+        res.json(resultList);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    } finally {
+        await session.close();
     }
-    
+        
 });
 
 module.exports = router;

@@ -9,21 +9,33 @@ function SearchBar() {
     const [query, setQuery] = useState('');
     const [filters, setFilters] = useState([]);
     const [results, setResults] = useState([]);
+    const [type, setType] = useState('Filters');
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const search_data = {"query": query, "filters":filters}
+        const search_data = {"query": query, "type": type, "filters":filters}
         const callback = (data) => {
             setResults(data);
         };
 
         api_search(search_data, callback);
     };
+
+    const handleType = (event, newtype) => {
+        event.preventDefault();
+        const search_data = {"query": query, "type": newtype, "filters":filters}
+        const callback = (data) => {
+            setType(newtype);
+            setResults(data);
+        };
+
+        api_search(search_data, callback);
+    }
     
     // General handle filter function
     const handleFilter = (event, filter_type) => {
         event.preventDefault();
-        const search_data = {"query": query, "filters":[filter_type]}
+        const search_data = {"query": query, "type": type, "filters":[filter_type]}
         const callback = (data) => {
             setFilters(filter_type)
             setResults(data);
@@ -48,11 +60,12 @@ function SearchBar() {
             <div className = "dropdown-container">
                 <Dropdown>
                     <Dropdown.Toggle className="dropbtn" variant="success" id="dropdown-basic">
-                        Filters
+                        {type}
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'newest')}>Newest</Dropdown.Item>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'trending')}>Trending</Dropdown.Item>
+                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleType(e, 'User')}>User</Dropdown.Item>
+                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleType(e, 'Project')}>Project</Dropdown.Item>
+                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleType(e, 'Post')}>Post</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                 <Dropdown>
@@ -69,10 +82,12 @@ function SearchBar() {
             <div>
                 <h2>Search Results:</h2>
                 <ul>
-                {console.log(results)}
-                {results.map((result, index) => (
-                    <li key={index}>{result.username} ({result.email})</li>
-                ))}
+                    {console.log(results)}
+                    {results.map((result, index) => (
+                        Object.keys(result).map((key, index2) => ( 
+                            <li key={index2}>{key}: {result[key]}</li>
+                        ))
+                    ))}
                 </ul>
             </div>
         </div>
