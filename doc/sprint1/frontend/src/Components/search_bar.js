@@ -5,6 +5,9 @@ import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, Outl
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../Asset/Css/App.css';
 
+// These options are going to be fetched from the database
+// Later on we need to add an api require for these options
+// For now, we just hard code them
 const majorOptions = [
     'Computer Science',
     'Mathematics',
@@ -12,9 +15,9 @@ const majorOptions = [
 ];
 
 const categoryOptions = [
-    'Software Development',
-    'Data Analysis',
-    'Machine Learning'
+    'Computer Science',
+    'Mathematics',
+    'Statistics'
 ];
 
 function SearchBar() {
