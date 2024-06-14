@@ -1,19 +1,32 @@
 import React from 'react';
 import { useState } from 'react';
-import {api_search, api_filter_search} from './api'; 
-
+import {api_search} from './api'; 
+import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../Asset/Css/App.css';
 
+const majorOptions = [
+    'Computer Science',
+    'Mathematics',
+    'Statistics'
+];
+
+const categoryOptions = [
+    'Software Development',
+    'Data Analysis',
+    'Machine Learning'
+];
+
 function SearchBar() {
     const [query, setQuery] = useState('');
-    const [filters, setFilters] = useState([]);
     const [results, setResults] = useState([]);
+    const [selectedOptions, setSelectedOptions] = useState([]);
+    const [typeOptions, setTypeOptions] = useState(categoryOptions);
     const [type, setType] = useState('Filters');
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const search_data = {"query": query, "type": type, "filters":filters}
+        const search_data = {"query": query, "type": type, "selectedOptions":selectedOptions}
         const callback = (data) => {
             setResults(data);
         };
@@ -21,27 +34,25 @@ function SearchBar() {
         api_search(search_data, callback);
     };
 
+    const callback = (data) => {
+        setResults(data);
+    };
+
     const handleType = (event, newtype) => {
         event.preventDefault();
-        const search_data = {"query": query, "type": newtype, "filters":filters}
-        const callback = (data) => {
-            setType(newtype);
-            setResults(data);
-        };
-
+        const search_data = {"query": query, "type": newtype, "selectedOptions":selectedOptions}
         api_search(search_data, callback);
+        setType(newtype);
+        newtype === "User" ? setTypeOptions(majorOptions) : setTypeOptions(categoryOptions);
     }
     
     // General handle filter function
-    const handleFilter = (event, filter_type) => {
+    const handleSelections = (event) => {
         event.preventDefault();
-        const search_data = {"query": query, "type": type, "filters":[filter_type]}
-        const callback = (data) => {
-            setFilters(filter_type)
-            setResults(data);
-        };
+        const search_data = {"query": query, "type": type, "selectedOptions":event.target.value}
         api_search(search_data, callback);
-    }
+        setSelectedOptions(event.target.value); // This is an async function, so the value is not updated immediately, need to use event.target.value
+    };
 
     return (
         <div>
@@ -58,7 +69,7 @@ function SearchBar() {
                 <button className = "submitbutton" type="submit">Search</button>
             </form>
             <div className = "dropdown-container">
-                <Dropdown>
+                <Dropdown style={{ alignContent: 'center' }}>
                     <Dropdown.Toggle className="dropbtn" variant="success" id="dropdown-basic">
                         {type}
                     </Dropdown.Toggle>
@@ -68,21 +79,32 @@ function SearchBar() {
                         <Dropdown.Item className="dropdown-content" onClick={(e) => handleType(e, 'Post')}>Post</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-                <Dropdown>
-                    <Dropdown.Toggle className="dropbtn" variant="success" id="dropdown-basic">
-                        Majors
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'Computer Science')}>Computer Science</Dropdown.Item>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'Mathematics')}>Mathematics</Dropdown.Item>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'Statistics')}>Statistics</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                <FormControl sx={{ m: 1, minWidth: 150 }}>
+                    <InputLabel id="select-label">{(type === "User") ? "Majors" : "Categories"}</InputLabel>
+                    <Select
+                        labelId="select-label"
+                        id="select"
+                        multiple
+                        value={selectedOptions}
+                        onChange={handleSelections}
+                        input={<OutlinedInput label={(type === "User") ? "Majors" : "Categories"} />}
+                        renderValue={(selected) => selected.join(', ')}
+                    >
+                        <MenuItem disabled>
+                            <strong>{(type === "User") ? "Majors" : "Categories"}</strong>
+                        </MenuItem>
+                        {typeOptions.map((option) => (
+                            <MenuItem key={option} value={option}>
+                                <Checkbox checked={selectedOptions.indexOf(option) > -1} />
+                                <ListItemText primary={option} />
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
             </div>
             <div>
                 <h2>Search Results:</h2>
                 <ul>
-                    {console.log(results)}
                     {results.map((result, index) => (
                         Object.keys(result).map((key, index2) => ( 
                             <li key={index2}>{key}: {result[key]}</li>

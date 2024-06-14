@@ -1,4 +1,4 @@
-async function post_project_major_filter(session, nodes, majors) {
+async function post_project_category_filter(session, nodes, categories) {
     const results = nodes.records.map(record => {
         // Use the id on node in neo4j to identify the node
         // Convert the neo4j integer to a javascript number
@@ -8,13 +8,13 @@ async function post_project_major_filter(session, nodes, majors) {
     const secondaryQuery = `
         UNWIND $results AS result 
         MATCH (n)-[:HAS_CATEGORY]->(p)
-        WHERE id(n) = result.id AND ANY(major in $majors WHERE p.name = major)
+        WHERE id(n) = result.id AND ANY(major in $categories WHERE p.name = major)
         RETURN n AS node
     `;
-    const params = {results, majors};
+    const params = {results, categories};
 
     const secondaryResult = await session.run(secondaryQuery, params);
     return secondaryResult;
 };
 
-module.exports = post_project_major_filter;
+module.exports = post_project_category_filter;

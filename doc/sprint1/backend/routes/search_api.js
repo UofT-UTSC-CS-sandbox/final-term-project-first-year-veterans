@@ -4,7 +4,7 @@ const user_filter = require('../helper_functions/filter_functions/user_filter');
 const post_filter = require('../helper_functions/filter_functions/post_filter');
 const project_filter = require('../helper_functions/filter_functions/project_filter');
 const user_major_filter = require('../helper_functions/filter_functions/user_major_filter');  
-const post_project_major_filter = require('../helper_functions/filter_functions/post_project_major_filter');
+const post_project_category_filter = require('../helper_functions/filter_functions/post_project_category_filter');
 const router = express.Router();
 let resultList = [];
 
@@ -14,11 +14,11 @@ const { driver, getSession } = require("../neo4j.js");
 router.post('/api/search/', async function (req, res) {
     console.log('Server received: POST /api/search/');
     let search_data = req.body;
-    const filters = search_data.filters;
+    const categories = search_data.selectedOptions; // Or majors for User
     const type = search_data.type;
-    console.log(search_data.query);
-    console.log(filters);
-    console.log(type);
+    console.log("search words: ", search_data.query);
+    console.log("categories: ", categories);
+    console.log("types: ", type);
 
     //start the neo4j session
     resultList = [];
@@ -43,7 +43,8 @@ router.post('/api/search/', async function (req, res) {
             case 'User':
                 result = await user_filter(session, result);
                 break;
-            case 'Post', 'Filters':
+            case 'Post':
+            case 'Filters':
                 result = await post_filter(session, result);
                 break;
             case 'Project':
@@ -52,12 +53,13 @@ router.post('/api/search/', async function (req, res) {
             default:
                 break;
         }
-        if (filters.length() > 0) {
+        if (categories && categories.length > 0) {
+            console.log("in categories filter");
             if (type == 'User'){
-                result = await user_major_filter(session, result, filters);
+                result = await user_major_filter(session, result, categories);
             }
             else {
-                result = await post_project_major_filter(session, result, filters);
+                result = await post_project_category_filter(session, result, categories);
             }
         }
         console.log(result.records);
