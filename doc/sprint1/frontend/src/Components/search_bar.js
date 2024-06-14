@@ -73,9 +73,9 @@ function SearchBar() {
                         Majors
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'computer_science')}>Computer Science</Dropdown.Item>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'math')}>Math</Dropdown.Item>
-                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'statistics')}>Statistics</Dropdown.Item>
+                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'Computer Science')}>Computer Science</Dropdown.Item>
+                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'Mathematics')}>Mathematics</Dropdown.Item>
+                        <Dropdown.Item className="dropdown-content" onClick={(e) => handleFilter(e, 'Statistics')}>Statistics</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
