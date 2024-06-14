@@ -8,6 +8,7 @@ var WebSocketServer = require('ws').Server
 const cookie_api = require('./routes/cookie_api');
 const signin_api = require('./routes/signin_api');
 const search_api = require('./routes/search_api');
+const profile_api = require('./routes/profile');
 
 const port = 3000;
 const app = express();
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use('', cookie_api);
 app.use('', signin_api);
 app.use('', search_api);
+app.use('', profile_api);
 
 wss.on('connection', function connection(ws) {
     console.log('New client connected');
