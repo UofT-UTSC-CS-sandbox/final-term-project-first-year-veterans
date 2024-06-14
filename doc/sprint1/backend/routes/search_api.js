@@ -2,7 +2,9 @@ const express = require('express');
 const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes');
 const user_filter = require('../helper_functions/filter_functions/user_filter');
 const post_filter = require('../helper_functions/filter_functions/post_filter');
-const project_filter = require('../helper_functions/filter_functions/project_filter');  
+const project_filter = require('../helper_functions/filter_functions/project_filter');
+const user_major_filter = require('../helper_functions/filter_functions/user_major_filter');  
+const post_project_major_filter = require('../helper_functions/filter_functions/post_project_major_filter');
 const router = express.Router();
 let resultList = [];
 
@@ -38,10 +40,10 @@ router.post('/api/search/', async function (req, res) {
     try {
         let result = await session.run(query, params);
         switch (type) {
-            case 'User', 'Filters':
+            case 'User':
                 result = await user_filter(session, result);
                 break;
-            case 'Post':
+            case 'Post', 'Filters':
                 result = await post_filter(session, result);
                 break;
             case 'Project':
@@ -49,6 +51,14 @@ router.post('/api/search/', async function (req, res) {
                 break;
             default:
                 break;
+        }
+        if (filters.length() > 0) {
+            if (type == 'User'){
+                result = await user_major_filter(session, result, filters);
+            }
+            else {
+                result = await post_project_major_filter(session, result, filters);
+            }
         }
         console.log(result.records);
         result.records.forEach(record => {
