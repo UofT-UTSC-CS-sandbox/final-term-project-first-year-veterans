@@ -1,6 +1,7 @@
 // libraries: ws, express, cookie-parser, neo4j-driver
 const express = require('express');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 // new socket server
 var WebSocketServer = require('ws').Server
 	,wss = new WebSocketServer({ port: 8000 });
@@ -8,10 +9,11 @@ var WebSocketServer = require('ws').Server
 const cookie_api = require('./routes/cookie_api');
 const signin_api = require('./routes/signin_api');
 const search_api = require('./routes/search_api');
-const profile_api = require('./routes/profile');
+const profile_fetch_api = require('./routes/profile_fetch_api');
 
 const port = 3000;
 const app = express();
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -20,7 +22,7 @@ app.use(cookieParser());
 app.use('', cookie_api);
 app.use('', signin_api);
 app.use('', search_api);
-app.use('', profile_api);
+app.use('', profile_fetch_api);
 
 wss.on('connection', function connection(ws) {
     console.log('New client connected');
