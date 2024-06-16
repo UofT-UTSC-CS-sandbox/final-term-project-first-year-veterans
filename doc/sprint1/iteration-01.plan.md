@@ -16,7 +16,7 @@
   - Ethan
 - **Backend Developer**: Handles the server-side logic and database management using Neo4j.
   - Ali
-  - Andy
+  - Eddy
 - **Full Stack Developer**: Bridges the gap between frontend and backend, ensuring smooth integration.
   - Richie
 
