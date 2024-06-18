@@ -9,7 +9,9 @@ async function update_minor(tx, uid, minors) {
 
         const createQueries = minors.map(minor => {
             const createQuery = `
-                MATCH (s:Student {sid: $uid}), (a:Academic_disciplines {name: $minor})
+                MATCH (s:Student {sid: $uid})
+                WITH s
+                MATCH (a:Academic_disciplines {name: $minor})
                 CREATE (s)-[:MINOR_IN]->(a);
             `;
             return tx.run(createQuery, { uid: uid, minor: minor });

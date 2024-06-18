@@ -9,7 +9,9 @@ async function update_major(tx, uid, majors) {
 
         const createQueries = majors.map(major => {
             const createQuery = `
-                MATCH (s:Student {sid: $uid}), (a:Academic_disciplines {name: $major})
+                MATCH (s:Student {sid: $uid})
+                WITH s
+                MATCH (a:Academic_disciplines {name: $major})
                 CREATE (s)-[:MAJOR_IN]->(a);
             `;
             return tx.run(createQuery, { uid: uid, major: major });
