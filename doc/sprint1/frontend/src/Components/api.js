@@ -77,8 +77,8 @@ function api_profile_fetch(profile_data, cb){
 	.catch(error=>console.log(error));
 }
 
-function api_profile_modify(profile_data, cb){
-	let url="/api/profile/modify";
+function api_profile_update(profile_data, cb){
+	let url="/api/profile/update";
 	fetch(url, {
 		method: "POST", 
 		mode: "same-origin", // no-cors, *cors, same-origin
@@ -98,4 +98,4 @@ function api_profile_modify(profile_data, cb){
 }
 
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_modify};
+export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update};

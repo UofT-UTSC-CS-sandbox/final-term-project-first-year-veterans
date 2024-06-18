@@ -11,6 +11,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useEffect } from 'react';
 
 import { api_profile_fetch } from './api';
+import { api_profile_update } from './api';
 
 const uid = "Richie_Hsieh";
 
@@ -33,6 +34,7 @@ function ProfileForm() {
       setProfiles(data.profiles);
     };
 
+    // Preload the data
     useEffect(() => {
         api_profile_fetch({uid: uid}, callback);
     }, []);
@@ -41,12 +43,12 @@ function ProfileForm() {
     const minorNames = [
       'Mathematics',
       'Computer Science',
-      'Statistic',
+      'Statistics',
     ];
     const majorNames = [
       'Mathematics',
       'Computer Science',
-      'Statistic',
+      'Statistics',
     ];
     const nationalityNames = [
       'Canada',
@@ -68,7 +70,9 @@ function ProfileForm() {
     function handleModify(event){
       event.preventDefault();
       if (modify){
-        // Save the data to the database
+        api_profile_update({uid: uid, profiles: profiles}, (data) => {
+          console.log(data);
+        });
       }
       setModify(!modify);
     }

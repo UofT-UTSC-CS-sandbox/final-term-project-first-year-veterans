@@ -60,7 +60,7 @@ router.post('/api/profile/fetch', (req, res) => {
 
         console.log(properties);
 
-        profiles.email = properties[0].mail;
+        profiles.email = properties[0].email;
         profiles.first_name = properties[1].first_name;
         profiles.last_name = properties[1].last_name;
         profiles.phone_number = properties[1].phone_number;
