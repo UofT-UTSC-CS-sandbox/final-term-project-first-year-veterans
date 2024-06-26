@@ -2,8 +2,16 @@ import React from 'react';
 import { Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Asset/Css/App.css';
+import { usePage } from './PageContext';
 
 function TopBar() {
+  const { currentPage, handlePageChange } = usePage();
+
+  const handleClick = (e, page) => {
+    e.preventDefault();
+    handlePageChange(page);
+  };
+  
   return (
     <div className="Top_Bar">
       <div className="container">
@@ -13,11 +21,11 @@ function TopBar() {
           </Navbar.Brand>
 
           <ul className="nav nav-pills">
-            <li className="nav-item"><a href="#" className="nav-link active" aria-current="page">Home</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Home</a></li>
             <li className="nav-item"><a href="#" className="nav-link">Features</a></li>
             <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
             <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
-            <li className="nav-item"><a href="#" className="nav-link">About</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
           </ul>
         </header>
       </div>
