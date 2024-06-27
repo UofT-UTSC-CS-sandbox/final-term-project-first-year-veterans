@@ -23,26 +23,25 @@ function App() {
             {!appointment ? 
               <div class="col-md-12">
                   <Calendar style={{height: "95vh"}} appointment={appointment} 
+
                     onShowAppointmentForm={(appointment) => {
                         setAppointment(appointment)
-                        console.log(appointment)
                       }} 
                   />
               </div>:
-              <div class="col-md-8">
+              <div class="col-md-7">
                 <Calendar style={{height: "95vh"}} appointment={appointment} 
                   onShowAppointmentForm={(appointment) => {
                       setAppointment(appointment)
-                      console.log(appointment)
                     }} 
                 />
             </div>
             }
             
-            <div class="col-md-4 d-flex align-items-center justify-content-center">
+            <div class="col-md-5 d-flex align-items-center justify-content-center">
                 {appointment && 
                 <div> 
-                  <ResponsiveForm start={appointment.start} end={appointment.end} 
+                  <ResponsiveForm start={appointment.start} end={appointment.end} title={appointment.title} appointment={appointment}
                     onShowAppointmentForm={() => {
                         setAppointment();
                     }}

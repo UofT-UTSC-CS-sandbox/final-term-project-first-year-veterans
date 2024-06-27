@@ -4,31 +4,48 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-import { api_create_event } from './api';
+import { api_create_event,  api_update_event} from './api';
 
 export default function ResponsiveForm( props) {
+  let update = false;
+  if (props.title){
+    update = true;
+    
+  }
+  const t = update?props.title:'';
   const {start, end} = props;
-  const [title, setTitle] = React.useState('');
+  const [title, setTitle] = React.useState(t);
   const [startTime, setStartTime] = React.useState(dayjs(new Date(start)));
   const [endTime, setEndTime] = React.useState(dayjs(new Date(end)));
 
-  const handleSubmit = (event) => {
-    api_create_event({title, start: startTime, end: endTime}, (data) => {
+  const handleAddEvent = (event) => {
+    api_create_event({title: title, start: startTime, end: endTime}, (data) => {
       console.log(data);
     });
 
     event.preventDefault();
-    // Handle form submission
-    console.log('Title:', title);
-    console.log('Start Time:', startTime);
-    console.log('End Time:', endTime);
+    props.onShowAppointmentForm();
+  };
+  const handleUpdateEvent = (event) => {
+    console.log(props.appointment.id);
+    console.log(title);
+    api_update_event(props.appointment.id, {title: title, start: startTime, end: endTime}, (data) => {
+      console.log(data);
+      }
+    );
+    event.preventDefault();
     props.onShowAppointmentForm();
   };
 
+  
+
   return (
     <Container maxWidth="sm">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={update?handleUpdateEvent:handleAddEvent}>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            {update?<h1>Update New Event</h1>:<h1>Create New Event</h1>}
+          </Grid>
           <Grid item xs={12}>
             <TextField
               label="Title"
@@ -38,7 +55,7 @@ export default function ResponsiveForm( props) {
               required
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
               <DateTimePicker
@@ -48,7 +65,7 @@ export default function ResponsiveForm( props) {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
               <DateTimePicker

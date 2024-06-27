@@ -17,6 +17,7 @@ export default function Calendar(props) {
   useEffect(() => {
     api_calendar_fetch((data) => {
       setEvents(data.map((event) => ({
+        id: event.id,
         title: event.title,
         start: new Date(event.start),
         end: new Date(event.end),
@@ -33,6 +34,10 @@ export default function Calendar(props) {
       selectable
       onSelectSlot={({start, end}) => {
         props.onShowAppointmentForm({start, end});
+      }}
+      onDoubleClickEvent={(event) => {
+        props.onShowAppointmentForm(event);
+
       }}
       {...props}
     />
