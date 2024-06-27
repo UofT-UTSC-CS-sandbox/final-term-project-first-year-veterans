@@ -4,33 +4,55 @@ import { useEffect } from 'react';
 import { api_checkAuth } from './Components/api';  
 import Main from './Components/Main';
 import Login from './Components/login';
+import Calendar from './Components/Calendar';
+import ResponsiveForm from './Components/ResponsiveForm';
+import TopBar from './Components/top_bar';
 
 function App() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-
-    // Check if the cookie still work, check when the page is loaded
-    useEffect(() => {
-      api_checkAuth((data) => {
-          const { loggedIn } = data;
-          if (loggedIn) {
-              setIsLoggedIn(true);
-          }
-          setIsLoading(false);
-      });
-    }, []);
-
-    const handleLogin = (status) => {
-        setIsLoggedIn(status);
-    }
-
-    if (isLoading) {
-      return <div>Loading...</div>; // Show loading screen
-    }
-
+    
+    const [appointment, setAppointment] = useState();
     return (
-      <div className="App">
-        {isLoggedIn ? <Main /> : <Login onLogin={handleLogin} />}
+
+
+      <div className="App container">
+
+        
+        <div class="row">
+            {/* <TopBar class="col-md-12"/> */}
+
+            {!appointment ? 
+              <div class="col-md-12">
+                  <Calendar style={{height: "95vh"}} appointment={appointment} 
+                    onShowAppointmentForm={(appointment) => {
+                        setAppointment(appointment)
+                        console.log(appointment)
+                      }} 
+                  />
+              </div>:
+              <div class="col-md-8">
+                <Calendar style={{height: "95vh"}} appointment={appointment} 
+                  onShowAppointmentForm={(appointment) => {
+                      setAppointment(appointment)
+                      console.log(appointment)
+                    }} 
+                />
+            </div>
+            }
+            
+            <div class="col-md-4 d-flex align-items-center justify-content-center">
+                {appointment && 
+                <div> 
+                  <ResponsiveForm start={appointment.start} end={appointment.end} 
+                    onShowAppointmentForm={() => {
+                        setAppointment();
+                    }}
+                  />
+                </div>}
+            </div>
+        </div>
+            
+
+
       </div>
     );
 }
