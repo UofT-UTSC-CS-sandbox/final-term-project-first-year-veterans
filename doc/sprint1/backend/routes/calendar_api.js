@@ -42,5 +42,11 @@ router.put('/api/UpdateEvent/:eventId', (req, res) => {
 
 });
 
+router.delete('/api/DeleteEvent/:eventId', (req, res) => {
+    const eventId = parseInt(req.params.eventId);
+    DB = DB.filter(event => event.id !== eventId);
+    res.send(DB);
+});
+
 
 module.exports = router;

@@ -5,6 +5,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import { api_create_event,  api_update_event} from './api';
+import { api_delete_event } from './api';
 
 export default function ResponsiveForm( props) {
   let update = false;
@@ -36,6 +37,16 @@ export default function ResponsiveForm( props) {
     event.preventDefault();
     props.onShowAppointmentForm();
   };
+
+  const handleDelete = (event) => {
+    console.log(props.appointment.id);
+    api_delete_event(props.appointment.id, (data) => {
+      console.log(data);
+      }
+    );
+    event.preventDefault();
+    props.onShowAppointmentForm();
+  }
 
   
 
@@ -75,7 +86,12 @@ export default function ResponsiveForm( props) {
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={12}>
+          {update?<Grid item xs={6}>
+            <Button  variant="contained" color="error" onClick={handleDelete} fullWidth>
+              Delete
+            </Button>
+          </Grid>:null}
+          <Grid item xs={update?6:12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
               Submit
             </Button>

@@ -155,4 +155,23 @@ function api_update_event(eventId, eventInfo, cb) {
     .catch(error => console.log(error));
 }
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_calendar_fetch, api_create_event, api_update_event};
+function api_delete_event(eventId, cb) {
+    let url = `/api/DeleteEvent/${eventId}`;
+    fetch(url, {
+        method: "DELETE", 
+        mode: "same-origin", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    })
+    .then(response => response.json())
+    .then(data => cb(data)) // cb is a callback function run after the fetch is completed
+    .catch(error => console.log(error));
+}
+
+
+export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
