@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { TextField, Button, Container, Grid } from '@mui/material';
+import { TextField, Button, Container, Grid, IconButton} from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import { api_create_event,  api_update_event} from './api';
 import { api_delete_event } from './api';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 export default function ResponsiveForm( props) {
   let update = false;
@@ -53,7 +55,13 @@ export default function ResponsiveForm( props) {
   return (
     <Container maxWidth="sm">
       <form onSubmit={update?handleUpdateEvent:handleAddEvent}>
+
         <Grid container spacing={2}>
+          <Grid item xs={12} className='d-flex justify-content-end' >
+            <IconButton onClick={props.onShowAppointmentForm}>
+              <CloseIcon />
+            </IconButton>
+          </Grid>
           <Grid item xs={12}>
             {update?<h1>Update New Event</h1>:<h1>Create New Event</h1>}
           </Grid>
