@@ -125,4 +125,22 @@ function api_create_post(post_data, cb){
 	.catch(error=>console.log(error));
 }
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post};
+function api_fetch_posts(cb) {
+    let url = "/api/posts";
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    })
+    .then(response => response.json())
+    .then(data => cb(data)) // cb is a callback function run after the fetch is completed
+    .catch(error => console.log(error));
+}
+
+export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post, api_fetch_posts};

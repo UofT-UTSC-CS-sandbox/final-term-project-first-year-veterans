@@ -1,0 +1,17 @@
+.avatar{
+    width: 200px;
+    height: 200px;
+}
+
+.card{
+
+    background-color: #FFC96F;
+}
+
+.titleForPersonalInfo{
+    color: #ED5959;
+}
+
+label{
+    font-weight: bold;
+}
