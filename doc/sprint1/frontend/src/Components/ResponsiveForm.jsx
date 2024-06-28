@@ -58,7 +58,7 @@ export default function ResponsiveForm( props) {
 
         <Grid container spacing={2}>
           <Grid item xs={12} className='d-flex justify-content-end' >
-            <IconButton onClick={props.onShowAppointmentForm}>
+            <IconButton onClick={props.onShowAppointmentForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
               <CloseIcon />
             </IconButton>
           </Grid>
