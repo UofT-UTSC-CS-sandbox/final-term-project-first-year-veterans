@@ -31,28 +31,33 @@ function App() {
                       }} 
                   />
               </div>:
+              
               <div className="col-md-7">
                 <Calendar style={{height: "95vh"}} toggleCalendarForm={toggleCalendarForm} 
+                  
                   openCalendarForm={(toggleCalendarForm) => {
 
                       setToggleCalendarForm(toggleCalendarForm)
 
                     }} 
                 />
-            </div>
+              </div>
             }
             
             <div className="col-md-5 d-flex align-items-center justify-content-center">
                 {toggleCalendarForm && 
-                <div> 
-                  <CalendarForm start={toggleCalendarForm.start} end={toggleCalendarForm.end} title={toggleCalendarForm.title} toggleCalendarForm={toggleCalendarForm}
-                    turnOffCalendarForm={() => {
+                  <div> 
+                    <CalendarForm start={toggleCalendarForm.start} end={toggleCalendarForm.end} title={toggleCalendarForm.title} toggleCalendarForm={toggleCalendarForm}
+                      
+                      turnOffCalendarForm={() => {
 
-                        setToggleCalendarForm();
-                        
-                    }}
-                  />
-                </div>}
+                          setToggleCalendarForm();
+                          
+                      }}
+                   
+                    />
+                  </div>
+                }
             </div>
         </div>
             
