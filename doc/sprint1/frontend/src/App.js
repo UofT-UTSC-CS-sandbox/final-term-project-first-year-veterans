@@ -7,6 +7,7 @@ import Login from './Components/login';
 import Calendar from './Components/Calendar';
 import CalendarForm from './Components/CalendarForm';
 import TopBar from './Components/top_bar';
+import DailyPlanCard from './Components/DailyCalendarCard'; 
 
 function App() {
     
@@ -16,7 +17,7 @@ function App() {
 
       <div className="App container">
 
-        
+        <DailyPlanCard />;
         <div className="row">
             {/* <TopBar className="col-md-12"/> */}
 

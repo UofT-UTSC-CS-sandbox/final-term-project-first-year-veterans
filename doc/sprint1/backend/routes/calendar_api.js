@@ -11,6 +11,7 @@ let DB = [
         title: 'Today’s Event',
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 0), // Today at 10:00 AM
         end: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 0), // Today at 11:00 AM
+    
     },
     {
         id: 2,
@@ -39,7 +40,6 @@ router.put('/api/UpdateEvent/:eventId', (req, res) => {
     DB[eventIndex].start = req.body.start || DB[eventIndex].start;
     DB[eventIndex].end = req.body.end || DB[eventIndex].end;    
     res.send(DB);
-
 });
 
 router.delete('/api/DeleteEvent/:eventId', (req, res) => {
