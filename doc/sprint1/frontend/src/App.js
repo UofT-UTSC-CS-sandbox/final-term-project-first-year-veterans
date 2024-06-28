@@ -5,12 +5,12 @@ import { api_checkAuth } from './Components/api';
 import Main from './Components/Main';
 import Login from './Components/login';
 import Calendar from './Components/Calendar';
-import ResponsiveForm from './Components/ResponsiveForm';
+import CalendarForm from './Components/CalendarForm';
 import TopBar from './Components/top_bar';
 
 function App() {
     
-    const [appointment, setAppointment] = useState();
+    const [canlendar, setcanlendar] = useState();
     return (
 
 
@@ -20,30 +20,36 @@ function App() {
         <div class="row">
             {/* <TopBar class="col-md-12"/> */}
 
-            {!appointment ? 
+            {!canlendar ? 
               <div class="col-md-12">
-                  <Calendar style={{height: "95vh"}} appointment={appointment} 
+                  <Calendar style={{height: "95vh"}} canlendar={canlendar} 
 
-                    onShowAppointmentForm={(appointment) => {
-                        setAppointment(appointment)
+                    openCalendarForm={(canlendar) => {
+
+                        setcanlendar(canlendar)
+
                       }} 
                   />
               </div>:
               <div class="col-md-7">
-                <Calendar style={{height: "95vh"}} appointment={appointment} 
-                  onShowAppointmentForm={(appointment) => {
-                      setAppointment(appointment)
+                <Calendar style={{height: "95vh"}} canlendar={canlendar} 
+                  openCalendarForm={(canlendar) => {
+
+                      setcanlendar(canlendar)
+
                     }} 
                 />
             </div>
             }
             
             <div class="col-md-5 d-flex align-items-center justify-content-center">
-                {appointment && 
+                {canlendar && 
                 <div> 
-                  <ResponsiveForm start={appointment.start} end={appointment.end} title={appointment.title} appointment={appointment}
-                    onShowAppointmentForm={() => {
-                        setAppointment();
+                  <CalendarForm start={canlendar.start} end={canlendar.end} title={canlendar.title} canlendar={canlendar}
+                    openCalendarForm={() => {
+
+                        setcanlendar();
+                        
                     }}
                   />
                 </div>}

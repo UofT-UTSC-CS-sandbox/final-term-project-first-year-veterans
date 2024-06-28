@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, Button, Container, Grid, IconButton} from '@mui/material';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,45 +9,84 @@ import { api_delete_event } from './api';
 import CloseIcon from '@mui/icons-material/Close';
 
 
-export default function ResponsiveForm( props) {
+export default function CalendarForm( props) {
+  /* 
+    props will include the following attributes:
+
+      - start={canlendar.start} 
+      
+      - end={canlendar.end} 
+      
+      - title={canlendar.title} 
+      
+      - canlendar={canlendar}
+      
+      - openCalendarForm={() => {
+                    
+          setcanlendar(  have calendar or without calendar );
+          
+        }}
+  */
+  
+  /* Determine if the form is for updating an event or creating a new event.
+     If the title is not empty, then it is for updating an event.
+     Otherwise, it is for creating a new event.
+  */
   let update = false;
   if (props.title){
+
     update = true;
     
   }
-  const t = update?props.title:'';
-  const {start, end} = props;
-  const [title, setTitle] = React.useState(t);
-  const [startTime, setStartTime] = React.useState(dayjs(new Date(start)));
-  const [endTime, setEndTime] = React.useState(dayjs(new Date(end)));
 
+
+  // The title could be intiailly empty or it could be the title of the event that could be updated.
+  const [title, setTitle] = useState(update?props.title:'');
+
+  // The start and end time will always have a value.
+  // To use mui component to display the date and time, we need to convert the date to dayjs object.
+  /* 
+    However, when we use JSON.stringify to send the data to the backend, 
+    the result of applying JSON.stringify to a dayjs object and date object are the same string.
+  */
+  const [startTime, setStartTime] = useState(dayjs(new Date(props.start)));
+
+  const [endTime, setEndTime] = useState(dayjs(new Date(props.end)));
+
+
+  /*
+    The following handle funtion will deal with the event creation.
+    
+  */
   const handleAddEvent = (event) => {
     api_create_event({title: title, start: startTime, end: endTime}, (data) => {
       console.log(data);
     });
 
     event.preventDefault();
-    props.onShowAppointmentForm();
+    props.openCalendarForm();
+
   };
+
   const handleUpdateEvent = (event) => {
-    console.log(props.appointment.id);
+    console.log(props.canlendar.id);
     console.log(title);
-    api_update_event(props.appointment.id, {title: title, start: startTime, end: endTime}, (data) => {
+    api_update_event(props.canlendar.id, {title: title, start: startTime, end: endTime}, (data) => {
       console.log(data);
       }
     );
     event.preventDefault();
-    props.onShowAppointmentForm();
+    props.openCalendarForm();
   };
 
   const handleDelete = (event) => {
-    console.log(props.appointment.id);
-    api_delete_event(props.appointment.id, (data) => {
+    console.log(props.canlendar.id);
+    api_delete_event(props.canlendar.id, (data) => {
       console.log(data);
       }
     );
     event.preventDefault();
-    props.onShowAppointmentForm();
+    props.openCalendarForm();
   }
 
   
@@ -58,7 +97,7 @@ export default function ResponsiveForm( props) {
 
         <Grid container spacing={2}>
           <Grid item xs={12} className='d-flex justify-content-end' >
-            <IconButton onClick={props.onShowAppointmentForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
+            <IconButton onClick={props.openCalendarForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
               <CloseIcon />
             </IconButton>
           </Grid>

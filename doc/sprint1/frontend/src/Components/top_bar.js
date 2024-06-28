@@ -17,7 +17,9 @@ function TopBar() {
       <div className="container">
         <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
           <Navbar.Brand href="/" className="d-flex align-items-center me-md-auto link-body-emphasis"> 
+            
             <span className="webName fs-4">EDU PRODIGI</span>
+            
           </Navbar.Brand>
 
           <ul className="nav nav-pills">
