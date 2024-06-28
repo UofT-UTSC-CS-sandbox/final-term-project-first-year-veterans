@@ -4,6 +4,7 @@ import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import PostsPage from './PostsPage';
+import HomePage from './Home';
 import { PageProvider, usePage } from './PageContext';
 
 function Main() {
@@ -26,6 +27,8 @@ const PageContent = () => {
       return <ProfileForm />;
   } else if (currentPage === 'Posts') {
     return <PostsPage/>;
+  } else if (currentPage === 'Home') {
+    return <HomePage/>;
   } else {
     return null;
   }
