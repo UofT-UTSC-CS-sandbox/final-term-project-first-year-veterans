@@ -4,8 +4,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-import { api_create_event,  api_update_event} from './api';
-import { api_delete_event } from './api';
+import { api_create_event,  api_update_event} from '../api';
+import { api_delete_event } from '../api';
 import CloseIcon from '@mui/icons-material/Close';
 
 

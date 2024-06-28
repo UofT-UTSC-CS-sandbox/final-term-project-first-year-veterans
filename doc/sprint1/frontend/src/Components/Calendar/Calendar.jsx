@@ -3,7 +3,7 @@ import React from 'react';
 import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { api_calendar_fetch } from './api';
+import { api_calendar_fetch } from '../api';
 import { useEffect } from 'react';
 import { useState } from 'react';
 

@@ -3,6 +3,7 @@ import React from 'react';
 import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
+import CalendarPage from './Calendar/CalendarPage';
 import { PageProvider, usePage } from './PageContext';
 
 function Main() {
@@ -23,6 +24,8 @@ const PageContent = () => {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
+  } else if (currentPage === 'Calendar') {
+      return <CalendarPage />;
   } else {
       return null;
   }
