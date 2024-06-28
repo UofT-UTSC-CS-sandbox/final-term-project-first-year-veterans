@@ -116,17 +116,26 @@ export default function CalendarForm( props) {
   return (
     <Container maxWidth="sm">
       
-      <form onSubmit={update?handleUpdateEvent:handleAddEvent}>
+      <form >
 
         <Grid container spacing={2}>
+          {/* The following part is the close button inside the form. */}
           <Grid item xs={12} className='d-flex justify-content-end' >
             <IconButton onClick={props.turnOffCalendarForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
               <CloseIcon />
             </IconButton>
           </Grid>
+
+          {/* The following part is for title of the form button */}
           <Grid item xs={12}>
+            
+            {/* The following part is Update Event if the update hook set to true. */}
+
             {update?<h1>Update New Event</h1>:<h1>Create New Event</h1>}
+
           </Grid>
+
+          {/* The following part is for the title of the event. */}
           <Grid item xs={12}>
             <TextField
               label="Title"
@@ -136,6 +145,8 @@ export default function CalendarForm( props) {
               required
             />
           </Grid>
+
+          {/* The following part is for the start time of the event. */}
           <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
@@ -146,6 +157,8 @@ export default function CalendarForm( props) {
               />
             </LocalizationProvider>
           </Grid>
+
+          {/* The following part is for the end time of the event. */}
           <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
@@ -156,18 +169,33 @@ export default function CalendarForm( props) {
               />
             </LocalizationProvider>
           </Grid>
-          {update?<Grid item xs={6}>
-            <Button  variant="contained" color="error" onClick={handleDelete} fullWidth>
-              Delete
-            </Button>
-          </Grid>:null}
+
+          {/* 
+              The following part is for the delete button. 
+              The delete button will only show up when the user is updating an event.
+          */}
+          {update?
+
+            <Grid item xs={6}>
+              <Button  variant="contained" color="error" onClick={handleDelete} fullWidth>
+                Delete
+              </Button>
+            </Grid>:null
+          
+          }
+
+
+          {/* The following part is for the create or update button depending on what user wants to do on the calendar. */}
           <Grid item xs={update?6:12}>
-            <Button type="submit" variant="contained" color="primary" fullWidth>
+            <Button variant="contained" color="primary"onClick={update?handleUpdateEvent:handleAddEvent}  fullWidth>
             {update?'update':'create'}
             </Button>
           </Grid>
+
         </Grid>
+      
       </form>
+
     </Container>
   );
 }
