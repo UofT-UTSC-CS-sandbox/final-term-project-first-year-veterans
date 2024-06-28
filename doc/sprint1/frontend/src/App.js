@@ -10,45 +10,45 @@ import TopBar from './Components/top_bar';
 
 function App() {
     
-    const [canlendar, setcanlendar] = useState();
+    const [toggleCalendarForm, setToggleCalendarForm] = useState();
     return (
 
 
       <div className="App container">
 
         
-        <div class="row">
-            {/* <TopBar class="col-md-12"/> */}
+        <div className="row">
+            {/* <TopBar className="col-md-12"/> */}
 
-            {!canlendar ? 
-              <div class="col-md-12">
-                  <Calendar style={{height: "95vh"}} canlendar={canlendar} 
+            {!toggleCalendarForm ? 
+              <div className="col-md-12">
+                  <Calendar style={{height: "95vh"}} toggleCalendarForm={toggleCalendarForm} 
 
-                    openCalendarForm={(canlendar) => {
+                    openCalendarForm={(toggleCalendarForm) => {
 
-                        setcanlendar(canlendar)
+                        setToggleCalendarForm(toggleCalendarForm)
 
                       }} 
                   />
               </div>:
-              <div class="col-md-7">
-                <Calendar style={{height: "95vh"}} canlendar={canlendar} 
-                  openCalendarForm={(canlendar) => {
+              <div className="col-md-7">
+                <Calendar style={{height: "95vh"}} toggleCalendarForm={toggleCalendarForm} 
+                  openCalendarForm={(toggleCalendarForm) => {
 
-                      setcanlendar(canlendar)
+                      setToggleCalendarForm(toggleCalendarForm)
 
                     }} 
                 />
             </div>
             }
             
-            <div class="col-md-5 d-flex align-items-center justify-content-center">
-                {canlendar && 
+            <div className="col-md-5 d-flex align-items-center justify-content-center">
+                {toggleCalendarForm && 
                 <div> 
-                  <CalendarForm start={canlendar.start} end={canlendar.end} title={canlendar.title} canlendar={canlendar}
-                    openCalendarForm={() => {
+                  <CalendarForm start={toggleCalendarForm.start} end={toggleCalendarForm.end} title={toggleCalendarForm.title} toggleCalendarForm={toggleCalendarForm}
+                    turnOffCalendarForm={() => {
 
-                        setcanlendar();
+                        setToggleCalendarForm();
                         
                     }}
                   />

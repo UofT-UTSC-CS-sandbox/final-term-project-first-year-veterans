@@ -14,7 +14,7 @@ export default function Calendar(props) {
   // Events is list of activities for the current user.
   const [events, setEvents] = useState([]);
 
-  // useEffect will re-render if there is an change in the contents of canlendar.
+  // useEffect will re-render if there is an change in the contents of toggleCalendarForm.
   useEffect(() => {
     
       // This API will fetch the lists of event
@@ -29,7 +29,7 @@ export default function Calendar(props) {
       })));
     });
   
-  }, [props.canlendar]);
+  }, [props.toggleCalendarForm]);
 
   return (
     <BigCalendar
@@ -53,7 +53,7 @@ export default function Calendar(props) {
 
       // If user double click an exist event, it will show the form to let user update the event.
       onDoubleClickEvent={(event) => {
-
+        console.log(event);
         props.openCalendarForm(event);
 
       }}

@@ -13,19 +13,17 @@ export default function CalendarForm( props) {
   /* 
     props will include the following attributes:
 
-      - start={canlendar.start} 
+      - start
+        -- {toggleCalendarForm.start} 
       
-      - end={canlendar.end} 
+      - end
+        -- {toggleCalendarForm.end} 
       
-      - title={canlendar.title} 
-      
-      - canlendar={canlendar}
-      
-      - openCalendarForm={() => {
-                    
-          setcanlendar(  have calendar or without calendar );
-          
-        }}
+      - title
+        -- {toggleCalendarForm.title} 
+            
+      - turnOffCalendarForm=
+        -- {() => { setToggleCalendarForm(); } }
   */
   
   /* Determine if the form is for updating an event or creating a new event.
@@ -60,44 +58,69 @@ export default function CalendarForm( props) {
   */
   const handleAddEvent = (event) => {
     api_create_event({title: title, start: startTime, end: endTime}, (data) => {
+      console.log("=== handle Add Event ===");
+
       console.log(data);
+
+      console.log("=== End of handle Add Event ===");
     });
 
     event.preventDefault();
-    props.openCalendarForm();
+    props.turnOffCalendarForm();
 
   };
+
+  /*
+    The following handle funtion will deal with the event update.
+  */
 
   const handleUpdateEvent = (event) => {
-    console.log(props.canlendar.id);
-    console.log(title);
-    api_update_event(props.canlendar.id, {title: title, start: startTime, end: endTime}, (data) => {
+
+    api_update_event(props.toggleCalendarForm.id, {title: title, start: startTime, end: endTime}, (data) => {
+      console.log("=== handle Update Event ===");
+
       console.log(data);
-      }
+    
+      console.log("=== End of handle Update Event ===");
+    }
     );
+
     event.preventDefault();
-    props.openCalendarForm();
+    props.turnOffCalendarForm();
+
   };
 
+  /*
+    The following handle funtion will deal with the event deletion.
+  */
+
   const handleDelete = (event) => {
-    console.log(props.canlendar.id);
-    api_delete_event(props.canlendar.id, (data) => {
+
+    api_delete_event(props.toggleCalendarForm.id, (data) => {
+
+      console.log("=== handle Delete Event ===");
+
       console.log(data);
+
+      console.log("=== End of handle Delete Event ===");
+
       }
     );
+
     event.preventDefault();
-    props.openCalendarForm();
+    props.turnOffCalendarForm();
   }
 
   
 
   return (
     <Container maxWidth="sm">
+      
       <form onSubmit={update?handleUpdateEvent:handleAddEvent}>
 
         <Grid container spacing={2}>
           <Grid item xs={12} className='d-flex justify-content-end' >
-            <IconButton onClick={props.openCalendarForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
+            <IconButton onClick={props.turnOffCalendarForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
               <CloseIcon />
             </IconButton>
           </Grid>
