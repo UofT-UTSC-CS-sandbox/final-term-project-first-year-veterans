@@ -101,7 +101,7 @@ export default function ResponsiveForm( props) {
           </Grid>:null}
           <Grid item xs={update?6:12}>
             <Button type="submit" variant="contained" color="primary" fullWidth>
-              Submit
+            {update?'update':'create'}
             </Button>
           </Grid>
         </Grid>
