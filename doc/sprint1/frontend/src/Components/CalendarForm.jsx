@@ -119,6 +119,7 @@ export default function CalendarForm( props) {
       <form >
 
         <Grid container spacing={2}>
+          
           {/* The following part is the close button inside the form. */}
           <Grid item xs={12} className='d-flex justify-content-end' >
             <IconButton onClick={props.turnOffCalendarForm} style={{ color: 'white', backgroundColor: '#EA5B60'}}>
