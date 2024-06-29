@@ -7,17 +7,21 @@ import PostsPage from './PostsPage';
 import CalendarPage from './Calendar/CalendarPage';
 import HomePage from './Home';
 import { PageProvider, usePage } from './PageContext';
+import { useState } from 'react';
 
 function Main() {
+  const [NotificationIcon, setNotificationIcon] = useState(false);
+
   return (
     <PageProvider>
       <div className="Main">
-          <TopBar />
-          <PageContent />
+          <TopBar NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
+          <PageContent NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
       </div>
   </PageProvider>
   );
 }
+
 const PageContent = (props) => {
   const { currentPage } = usePage();
   console.log(props);

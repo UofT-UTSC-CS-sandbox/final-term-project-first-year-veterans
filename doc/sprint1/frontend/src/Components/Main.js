@@ -5,6 +5,7 @@ import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import PostsPage from './PostsPage';
 import CalendarPage from './Calendar/CalendarPage';
+import HomePage from './Home';
 import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
 
@@ -30,6 +31,8 @@ const PageContent = (props) => {
       return <ProfileForm />;
   } else if (currentPage === 'Posts') {
     return <PostsPage/>;
+  } else if (currentPage === 'Home') {
+    return <HomePage/>;
   } else if (currentPage === 'Calendar') {
       return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else {

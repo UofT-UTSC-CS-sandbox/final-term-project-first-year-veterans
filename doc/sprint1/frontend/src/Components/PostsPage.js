@@ -1,19 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Asset/Css/Posts.css";
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import ListItemText from '@mui/material/ListItemText';
-import { useEffect } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
+import Container from '@mui/material/Container';
+import PostCard from './PostCard';
+import { api_create_post, api_fetch_posts } from './api';
 
 function PostsPage() {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [postTitle, setPostTitle] = useState('');
   const [postMessage, setPostMessage] = useState('');
-  const [results, setResults] = useState([]);
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    api_fetch_posts(data => {
+      setPosts(data);
+      setLoading(false);
+    });
+  }, []);
 
   const handleCreatePostClick = () => {
     setShowCreatePost(!showCreatePost);
@@ -21,17 +28,18 @@ function PostsPage() {
 
   const handleSubmitPost = (event) => {
     event.preventDefault();
-    setShowCreatePost(!showCreatePost);
-    const search_data = { "postTitle": postTitle, "postMessage": postMessage };
-    const callback = (data) => {
-      setResults(data);
-    };
-    console.log(search_data);
-  }
+    const post_data = { userId: "Richie_Hsieh", postTitle, postMessage };
+    api_create_post(post_data, (data) => {
+      setPosts([...posts, data]);
+      setShowCreatePost(false);
+    });
+  };
 
   return (
     <div className="container">
-      <button className="createpostbutton" onClick={handleCreatePostClick}>Create Post</button>
+      <button className="createpostbutton" onClick={handleCreatePostClick}>
+        {showCreatePost ? 'Cancel' : 'Create Post'}
+      </button>
       {showCreatePost && (
         <div className="create-post-template">
           <h2>Create a New Post</h2>
@@ -56,18 +64,19 @@ function PostsPage() {
                 onChange={(e) => setPostMessage(e.target.value)}
               />
             </FormControl>
-            {/* <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="post-category">Category</InputLabel>
-              <Select id="post-category" label="Category">
-                <MenuItem value="category1">Category 1</MenuItem>
-                <MenuItem value="category2">Category 2</MenuItem>
-                <MenuItem value="category3">Category 3</MenuItem>
-              </Select>
-            </FormControl> */}
             <button type="submit" className="submitpostbutton">Submit</button>
           </form>
         </div>
       )}
+      <Container>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          posts.map(post => (
+            <PostCard key={post.id} title={post.title} body={post.body} />
+          ))
+        )}
+      </Container>
     </div>
   );
 }
