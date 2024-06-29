@@ -11,6 +11,7 @@ let DB = [
         title: 'Today’s Event',
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 0), // Today at 10:00 AM
         end: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 0), // Today at 11:00 AM
+        notificationTime: null,
     
     },
     {
@@ -18,6 +19,7 @@ let DB = [
         title: 'Tommorow’s Event',
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 10, 0), // Today at 10:00 AM
         end: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 11, 0), // Today at 11:00 AM
+        notificationTime: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 9, 0), // Today at 9
     },
 ];
 

@@ -8,7 +8,6 @@ const Notification = (props) => {
   const[notifications, setNotifications] = useState([]);
 
   const today = new Date();
-  console.log(props.toggleAddEvent)
 
   useEffect(() => {
 
@@ -31,10 +30,9 @@ const Notification = (props) => {
         notificationTime: new Date(event.notificationTime)
       })));
 
-      console.log(notifications);
     });
 
-  }, [anchorEl, props.toggleAddEvent]);
+  }, [anchorEl, props.NotificationIcon]);
 
 
   const handleClick = (event) => {

@@ -8,13 +8,13 @@ import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
 
 function Main() {
-  const [toggleAddEvent, setToggleAddEvent] = useState(false);
+  const [NotificationIcon, setNotificationIcon] = useState(false);
 
   return (
     <PageProvider>
       <div className="Main">
-          <TopBar toggleAddEvent={toggleAddEvent} />
-          <PageContent toggleAddEvent={toggleAddEvent} setToggleAddEvent={setToggleAddEvent}/>
+          <TopBar NotificationIcon={NotificationIcon} />
+          <PageContent NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
       </div>
   </PageProvider>
   );
@@ -28,7 +28,7 @@ const PageContent = (props) => {
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
   } else if (currentPage === 'Calendar') {
-      return <CalendarPage  toggleAddEvent={props.toggleAddEvent} setToggleAddEvent={props.setToggleAddEvent} />;
+      return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else {
       return null;
   }
