@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { api_calendar_fetch } from './api';
+import { api_calendar_fetch, api_update_event } from './api';
+import { Divider } from '@mui/material';
+import { Checkbox } from '@mui/material';
 
 const Notification = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,7 +32,7 @@ const Notification = (props) => {
         start: new Date(event.start),
         end: new Date(event.end),
         notificationTime: new Date(event.notificationTime)
-      })));
+      })).sort((a, b) => a.start - b.start));
 
     });
 
@@ -47,6 +49,21 @@ const Notification = (props) => {
 
   const open = Boolean(anchorEl);
   const id = open ? 'notification-popover' : undefined;
+
+  const handleOnClick = (notification) => {
+    setNotifications(notifications.filter((event) => event.id !== notification.id));
+    api_update_event(notification.id, {
+      title: notification.title,
+      start: notification.start,
+      end: notification.end,
+      notificationTime: null
+    }, (data) => {
+      console.log("=== handle Update Event ===");
+      console.log(data);
+      console.log("=== End of handle Update Event ===");
+    
+    });
+  }
 
   return (
     <div>
@@ -71,9 +88,19 @@ const Notification = (props) => {
       >
         <List>
           {notifications.map((notification, index) => (
-            <ListItem key={index} >
-              <ListItemText  sx={{ '& .MuiListItemText-primary': { color: 'red' , fontWeight:'bold'} }} primary={(index + 1) +'. Event:' + ' ' + notification.title} secondary={notification.start.getFullYear() + '/'+stringMonth[notification.start.getMonth()]+ '/'+ notification.start.getDate()+ ' '+String(notification.start.getHours()).padStart(2, '0') + ':' + String(notification.start.getMinutes()).padStart(2, '0')} />
-            </ListItem>
+            <div>
+
+              <ListItem key={notification.id} >
+                <Checkbox
+                  edge="start"
+                  key={notification.id}
+                  onChange={() => handleOnClick(notification)}
+                />
+                <ListItemText  sx={{paddingLeft:'0.1rem', paddingRight:'0.1rem','& .MuiListItemText-primary': { color: 'red' , fontWeight:'bold'} }} primary={(index + 1) +'. Event:' + ' ' + notification.title} secondary={notification.start.getFullYear() + '/'+stringMonth[notification.start.getMonth()]+ '/'+ notification.start.getDate()+ ' '+String(notification.start.getHours()).padStart(2, '0') + ':' + String(notification.start.getMinutes()).padStart(2, '0')} />
+              </ListItem>
+              {((notifications.length - 1) > index)?<Divider component="li" />: null}
+            </div>
+
           ))}
         </List>
       </Popover>:
