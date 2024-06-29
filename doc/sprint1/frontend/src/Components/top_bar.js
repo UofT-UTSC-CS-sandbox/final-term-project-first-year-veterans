@@ -29,7 +29,7 @@ function TopBar(props) {
             <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
             <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
-            <li><EventNotification NotificationIcon={props.NotificationIcon}/></li>
+            <li><EventNotification NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon}/></li>
           </ul>
         </header>
       </div>

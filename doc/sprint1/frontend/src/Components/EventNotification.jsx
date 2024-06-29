@@ -63,6 +63,7 @@ const Notification = (props) => {
       console.log("=== End of handle Update Event ===");
     
     });
+    props.setNotificationIcon(!props.NotificationIcon);
   }
 
   return (

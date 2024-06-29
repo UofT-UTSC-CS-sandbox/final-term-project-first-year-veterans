@@ -13,7 +13,7 @@ function Main() {
   return (
     <PageProvider>
       <div className="Main">
-          <TopBar NotificationIcon={NotificationIcon} />
+          <TopBar NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
           <PageContent NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
       </div>
   </PageProvider>

@@ -26,7 +26,7 @@ function CalendarPage(props) {
             
               <div className={(typeOfForm === 0)?"col-md-12":"col-md-7"}>
                   
-                  <Calendar style={{height: "95vh"}} upadteContent={typeOfForm} setEventContent={(props) => setEventContent(props)} setTypeOfForm={(e) => {setTypeOfForm(e)
+                  <Calendar style={{height: "95vh"}} NotificationIcon={props.NotificationIcon} upadteContent={typeOfForm} setEventContent={(props) => setEventContent(props)} setTypeOfForm={(e) => {setTypeOfForm(e)
                     console.log(typeOfForm)
                   }}
                   
