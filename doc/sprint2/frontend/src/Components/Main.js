@@ -27,6 +27,8 @@ const PageContent = (props) => {
       return <ProfileForm />;
   } else if (currentPage === 'Posts') {
     return <PostsPage/>;
+  } else if (currentPage === 'Home') {
+    return <HomePage/>;
   } else if (currentPage === 'Calendar') {
       return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else {
