@@ -41,8 +41,9 @@ router.put('/api/UpdateEvent/:eventId', (req, res) => {
     DB[eventIndex].title = req.body.title || DB[eventIndex].title;
     DB[eventIndex].start = req.body.start || DB[eventIndex].start;
     DB[eventIndex].end = req.body.end || DB[eventIndex].end;    
-    DB[eventIndex].notificationTime = req.body.notificationTime || DB[eventIndex].notificationTime;
+    DB[eventIndex].notificationTime = req.body.notificationTime;
     res.send(DB);
+    console.log(DB);
 });
 
 router.delete('/api/DeleteEvent/:eventId', (req, res) => {
