@@ -1,7 +1,7 @@
 // src/HomePage.js
 import React from 'react';
 import { Container, Typography, Card, CardContent, Grid } from '@mui/material';
-
+import DailyPlanCard from './DailyCalendarCard';
 const newsItems = [
   { id: 1, title: 'New Feature Released', description: 'We have released a new feature that allows you to...' },
   { id: 2, title: 'Update on Privacy Policy', description: 'Our privacy policy has been updated to reflect...' },
@@ -35,6 +35,7 @@ const HomePage = () => {
           </Grid>
         ))}
       </Grid>
+      <DailyPlanCard/>
     </Container>
   );
 };
