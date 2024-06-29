@@ -39,6 +39,7 @@ router.put('/api/UpdateEvent/:eventId', (req, res) => {
     DB[eventIndex].title = req.body.title || DB[eventIndex].title;
     DB[eventIndex].start = req.body.start || DB[eventIndex].start;
     DB[eventIndex].end = req.body.end || DB[eventIndex].end;    
+    DB[eventIndex].notificationTime = req.body.notificationTime || DB[eventIndex].notificationTime;
     res.send(DB);
 });
 
