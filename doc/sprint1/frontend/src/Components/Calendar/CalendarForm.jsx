@@ -34,6 +34,8 @@ export default function CalendarForm( props) {
      If the title is not empty, then it is for updating an event.
      Otherwise, it is for creating a new event.
   */
+ console.log('Here:');
+  console.log(props);
   let update = false;
   if (props.title){
 
@@ -84,11 +86,13 @@ export default function CalendarForm( props) {
   
         console.log("=== End of handle Add Event without Notification===");
       });
-  
+      
       event.preventDefault();
       props.turnOffCalendarForm();
 
     }
+
+    props.setToggleUpdateNotification(!(props.toggleAddEvent));
 
 
   };
@@ -112,6 +116,7 @@ export default function CalendarForm( props) {
     event.preventDefault();
     props.turnOffCalendarForm();
 
+    props.setToggleUpdateNotification(!(props.toggleAddEvent));
   };
 
   /*
@@ -133,6 +138,8 @@ export default function CalendarForm( props) {
 
     event.preventDefault();
     props.turnOffCalendarForm();
+    
+    props.setToggleUpdateNotification(!(props.toggleAddEvent));
   }
 
   const handleSetToggleNotification = (event) => {
@@ -202,7 +209,36 @@ export default function CalendarForm( props) {
           </Grid>
 
           <Grid item xs={12}>
+            {update?
             <div className='d-flex justify-content-center'>
+            {(props.toggleCalendarForm.notificationTime <= new Date(null))&& props.toggleCalendarForm.notificationTime >= new Date(null)?
+            <div>
+              <FormControlLabel
+              value=""
+              control={<Checkbox />}
+              label="Notification:"
+              labelPlacement="end"
+              onClick={handleSetToggleNotification}
+            />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {toggleNotification?
+                 <DateTimePicker
+                 label="Notification Time"
+                 value={notificationTime}
+                 onChange={(newValue) => setNotificationTime(newValue)}
+                 
+                />: <DateTimePicker
+                  label="Notification Time"
+                  value={notificationTime}
+                  disabled
+                />
+                
+              }
+               
+              </LocalizationProvider>
+
+            </div>
+            :<div>
               <FormControlLabel
                 value=""
                 control={<Checkbox />}
@@ -210,6 +246,33 @@ export default function CalendarForm( props) {
                 labelPlacement="end"
                 onClick={handleSetToggleNotification}
               />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                {toggleNotification?
+                 <DateTimePicker
+                 label="Notification Time"
+                 value={notificationTime}
+                 onChange={(newValue) => setNotificationTime(newValue)}
+                 
+                />: <DateTimePicker
+                  label="Notification Time"
+                  value={notificationTime}
+                />
+                
+              }
+               
+              </LocalizationProvider>
+              </div>}
+             
+
+
+          </div>:<div className='d-flex justify-content-center'>
+              {<FormControlLabel
+                value=""
+                control={<Checkbox />}
+                label="Notification:"
+                labelPlacement="end"
+                onClick={handleSetToggleNotification}
+              />}
                <LocalizationProvider dateAdapter={AdapterDayjs}>
                   {toggleNotification?
                    <DateTimePicker
@@ -228,7 +291,7 @@ export default function CalendarForm( props) {
                 </LocalizationProvider>
 
 
-            </div>
+            </div>}
             
           </Grid>
 

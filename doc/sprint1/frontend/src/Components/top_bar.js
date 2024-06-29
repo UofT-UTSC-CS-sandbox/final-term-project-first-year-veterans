@@ -5,7 +5,7 @@ import '../Asset/Css/App.css';
 import { usePage } from './PageContext';
 import EventNotification from './EventNotification.jsx';
 
-function TopBar() {
+function TopBar(props) {
   const { currentPage, handlePageChange } = usePage();
 
   const handleClick = (e, page) => {
@@ -29,7 +29,7 @@ function TopBar() {
             <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
             <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
-            <li><EventNotification/></li>
+            <li><EventNotification toggleAddEvent={props.toggleAddEvent}/></li>
           </ul>
         </header>
       </div>

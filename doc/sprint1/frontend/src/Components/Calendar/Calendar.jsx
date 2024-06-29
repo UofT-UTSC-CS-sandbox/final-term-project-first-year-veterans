@@ -19,13 +19,15 @@ export default function Calendar(props) {
     
       // This API will fetch the lists of event
       api_calendar_fetch((data) => {
-
+      console.log(data);
       // Need to turn all the datetime from string into Date object and update all the events.
       setEvents(data.map((event) => ({
         id: event.id,
         title: event.title,
         start: new Date(event.start),
         end: new Date(event.end),
+        notificationTime: new Date(event.notificationTime)
+
       })));
     });
   

@@ -4,8 +4,8 @@ import Calendar from './Calendar';
 import CalendarForm from './CalendarForm';
 import DailyPlanCard from '../DailyCalendarCard';
 
-function CalendarPage({uid}) {
-    
+function CalendarPage(props) {
+    console.log(props);
     const [toggleCalendarForm, setToggleCalendarForm] = useState();
     return (
 
@@ -48,7 +48,10 @@ function CalendarPage({uid}) {
                           setToggleCalendarForm();
                           
                       }}
-                   
+                      
+                      toggleAddEvent={props.toggleAddEvent}
+                      
+                      setToggleUpdateNotification={props.setToggleAddEvent}
                     />
                   </div>
                 }

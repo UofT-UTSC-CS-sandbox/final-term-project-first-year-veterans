@@ -3,11 +3,12 @@ import { IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/m
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { api_calendar_fetch } from './api';
 
-const Notification = () => {
+const Notification = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const[notifications, setNotifications] = useState([]);
 
   const today = new Date();
+  console.log(props.toggleAddEvent)
 
   useEffect(() => {
 
@@ -27,12 +28,13 @@ const Notification = () => {
         title: event.title,
         start: new Date(event.start),
         end: new Date(event.end),
+        notificationTime: new Date(event.notificationTime)
       })));
 
       console.log(notifications);
     });
 
-  }, [anchorEl]);
+  }, [anchorEl, props.toggleAddEvent]);
 
 
   const handleClick = (event) => {
