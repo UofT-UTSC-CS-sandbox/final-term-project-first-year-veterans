@@ -87,7 +87,19 @@ const Notification = (props) => {
           horizontal: 'center',
         }}
       >
-        <List>
+        <List sx={{'overflow':'auto', maxHeight: '15rem','&::-webkit-scrollbar': {
+                    width: '10px',
+                },
+                '&::-webkit-scrollbar-track': {
+                    background: '#E0E0E0',
+                },
+                '&::-webkit-scrollbar-thumb': {
+                    backgroundColor: '#888',
+                    borderRadius: '1rem',
+                },
+                '&::-webkit-scrollbar-thumb:hover': {
+                    backgroundColor: '#555',
+                }}}>
           {notifications.map((notification, index) => (
             <div>
 
