@@ -6,6 +6,7 @@ import { api_calendar_fetch } from './api';
 const Notification = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const[notifications, setNotifications] = useState([]);
+  const stringMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   const today = new Date();
 
@@ -70,7 +71,7 @@ const Notification = (props) => {
         <List>
           {notifications.map((notification, index) => (
             <ListItem key={index} >
-              <ListItemText primary={notification.title} />
+              <ListItemText primary={notification.title} secondary={notification.start.getFullYear() + ' '+stringMonth[notification.start.getMonth()]+ ' ' + ' ' + notification.start.getDate()}/>
             </ListItem>
           ))}
         </List>
