@@ -7,7 +7,11 @@ import dayjs from 'dayjs';
 import { api_create_event,  api_update_event} from '../api';
 import { api_delete_event } from '../api';
 import CloseIcon from '@mui/icons-material/Close';
-
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 
 export default function CalendarForm( props) {
   /* 
@@ -51,22 +55,41 @@ export default function CalendarForm( props) {
 
   const [endTime, setEndTime] = useState(dayjs(new Date(props.end)));
 
+  const [toggleNotification, setToggleNotification] = useState(false);
+
+  const [notificationTime, setNotificationTime] = useState(dayjs(new Date(props.start)));
 
   /*
     The following handle funtion will deal with the event creation.
     
   */
   const handleAddEvent = (event) => {
-    api_create_event({title: title, start: startTime, end: endTime}, (data) => {
-      console.log("=== handle Add Event ===");
+    if (toggleNotification){
+      api_create_event({title: title||'No Title', start: startTime, end: endTime, notificationTime: notificationTime}, (data) => {
+        console.log("=== handle Add Event with Notification ===");
+  
+        console.log(data);
+  
+        console.log("=== End of handle Add Event with Notification ===");
+      });
+  
+      event.preventDefault();
+      props.turnOffCalendarForm();
+    }else{
+      
+      api_create_event({title: title||'No Title', start: startTime, end: endTime, notificationTime: null}, (data) => {
+        console.log("=== handle Add Event without Notification ===");
+  
+        console.log(data);
+  
+        console.log("=== End of handle Add Event without Notification===");
+      });
+  
+      event.preventDefault();
+      props.turnOffCalendarForm();
 
-      console.log(data);
+    }
 
-      console.log("=== End of handle Add Event ===");
-    });
-
-    event.preventDefault();
-    props.turnOffCalendarForm();
 
   };
 
@@ -75,8 +98,9 @@ export default function CalendarForm( props) {
   */
 
   const handleUpdateEvent = (event) => {
+    console.log(notificationTime)
 
-    api_update_event(props.toggleCalendarForm.id, {title: title, start: startTime, end: endTime}, (data) => {
+    api_update_event(props.toggleCalendarForm.id, {title: title, start: startTime, end: endTime, notificationTime: notificationTime}, (data) => {
       console.log("=== handle Update Event ===");
 
       console.log(data);
@@ -109,6 +133,12 @@ export default function CalendarForm( props) {
 
     event.preventDefault();
     props.turnOffCalendarForm();
+  }
+
+  const handleSetToggleNotification = (event) => {
+
+    setToggleNotification(event.target.checked);
+    
   }
 
   
@@ -169,6 +199,37 @@ export default function CalendarForm( props) {
                 onChange={(newValue) => setEndTime(newValue)}
               />
             </LocalizationProvider>
+          </Grid>
+
+          <Grid item xs={12}>
+            <div className='d-flex justify-content-center'>
+              <FormControlLabel
+                value=""
+                control={<Checkbox />}
+                label="Notification:"
+                labelPlacement="end"
+                onClick={handleSetToggleNotification}
+              />
+               <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  {toggleNotification?
+                   <DateTimePicker
+                   label="Notification Time"
+                   value={notificationTime}
+                   onChange={(newValue) => setNotificationTime(newValue)}
+                   
+                  />: <DateTimePicker
+                    label="Notification Time"
+                    value={notificationTime}
+                    disabled
+                  />
+                  
+                }
+                 
+                </LocalizationProvider>
+
+
+            </div>
+            
           </Grid>
 
           {/* 

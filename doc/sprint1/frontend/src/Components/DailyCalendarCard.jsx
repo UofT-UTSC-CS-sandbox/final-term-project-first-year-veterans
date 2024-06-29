@@ -77,9 +77,9 @@ const DailyPlanCard = () => {
         ,}}>
                     <ol className='d-flex flex-column align-items-center justify-content-center'>
                     
-                        {events.map((event) => (
+                        {events.map((event, index) => (
                             <li>
-                                <Typography variant="body1" key={event.id}>
+                                <Typography variant="body1" key={index}>
                                     {event.title}
                                 </Typography>
                             </li>

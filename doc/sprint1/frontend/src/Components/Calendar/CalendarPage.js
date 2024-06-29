@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import Calendar from './Calendar';
 import CalendarForm from './CalendarForm';
+import DailyPlanCard from '../DailyCalendarCard';
 
 function CalendarPage({uid}) {
     
@@ -13,7 +14,6 @@ function CalendarPage({uid}) {
         
         <div className="row">
             {/* <TopBar className="col-md-12"/> */}
-
             {!toggleCalendarForm ? 
               <div className="col-md-12">
                   <Calendar style={{height: "95vh"}} toggleCalendarForm={toggleCalendarForm} 
