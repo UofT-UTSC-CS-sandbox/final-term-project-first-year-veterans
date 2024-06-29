@@ -23,7 +23,8 @@ const Notification = (props) => {
         );
       });
 
-      setNotifications(allNotification.map((event) => ({
+      setNotifications(allNotification.map((event, index) => ({
+        index: index,
         id: event.id,
         title: event.title,
         start: new Date(event.start),
@@ -71,7 +72,7 @@ const Notification = (props) => {
         <List>
           {notifications.map((notification, index) => (
             <ListItem key={index} >
-              <ListItemText primary={notification.title} secondary={notification.start.getFullYear() + ' '+stringMonth[notification.start.getMonth()]+ ' ' + ' ' + notification.start.getDate()}/>
+              <ListItemText  sx={{ '& .MuiListItemText-primary': { color: 'red' , fontWeight:'bold'} }} primary={(index + 1) +'. Event:' + ' ' + notification.title} secondary={notification.start.getFullYear() + '/'+stringMonth[notification.start.getMonth()]+ '/'+ notification.start.getDate()+ ' '+String(notification.start.getHours()).padStart(2, '0') + ':' + String(notification.start.getMinutes()).padStart(2, '0')} />
             </ListItem>
           ))}
         </List>
