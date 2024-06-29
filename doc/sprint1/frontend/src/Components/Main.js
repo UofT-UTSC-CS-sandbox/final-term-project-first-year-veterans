@@ -3,11 +3,8 @@ import React from 'react';
 import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
-<<<<<<< HEAD
 import PostsPage from './PostsPage';
-=======
 import CalendarPage from './Calendar/CalendarPage';
->>>>>>> DEV-2-Calendar
 import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
 
@@ -31,13 +28,10 @@ const PageContent = (props) => {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
-<<<<<<< HEAD
   } else if (currentPage === 'Posts') {
     return <PostsPage/>;
-=======
   } else if (currentPage === 'Calendar') {
       return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
->>>>>>> DEV-2-Calendar
   } else {
     return null;
   }
