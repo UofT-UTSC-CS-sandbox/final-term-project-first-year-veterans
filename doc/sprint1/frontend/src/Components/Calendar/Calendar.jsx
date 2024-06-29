@@ -51,7 +51,7 @@ export default function Calendar(props) {
         }
       );
   
-  }, [props.upadteContent]);
+  }, [props.upadteContent, props.NotificationIcon]);
 
   
   return (
