@@ -128,19 +128,55 @@ function api_fetch_posts(cb) {
     let url = "/api/posts/fetch";
     fetch(url, {
         method: "GET",
-        mode: "same-origin", // no-cors, *cors, same-origin
-        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-        credentials: "same-origin", // include, *same-origin, omit
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
         headers: {
             'Content-Type': 'application/json',
         },
-        redirect: "follow", // manual, *follow, error
-        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
     })
-    .then(response => response.json())
-    .then(data => cb(data)) // cb is a callback function run after the fetch is completed
-    .catch(error => console.log(error));
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb(data))
+    .catch(error => {
+        console.error('Error fetching posts:', error);
+        cb([]); // Handle error by passing an empty array or appropriate default value
+    });
 }
+
+
+function api_fetch_newest_post(cb) {
+    let url = "/api/posts/fetch_newest";
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb(data))
+    .catch(error => {
+        console.error('Error fetching posts:', error);
+        cb([]); // Handle error by passing an empty array or appropriate default value
+    });
+}
+
 
 // CALENDAR API's
 function api_calendar_fetch(cb){
@@ -219,4 +255,4 @@ function api_delete_event(eventId, cb) {
     .catch(error => console.log(error));
 }
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post, api_fetch_posts, api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
+export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post, api_fetch_posts, api_fetch_newest_post, api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
