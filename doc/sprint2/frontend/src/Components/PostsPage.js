@@ -14,6 +14,7 @@ function PostsPage() {
   const [postMessage, setPostMessage] = useState('');
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  let postid = 0;
 
   useEffect(() => {
     api_fetch_posts(data => {
@@ -23,12 +24,15 @@ function PostsPage() {
   }, []);
 
   const handleCreatePostClick = () => {
+    setPostTitle(''); // Clear the post title input
+    setPostMessage(''); // Clear the post message input
     setShowCreatePost(!showCreatePost);
   };
 
   const handleSubmitPost = (event) => {
     event.preventDefault();
-    const post_data = { userId: "Richie_Hsieh", postTitle, postMessage };
+    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage };
+    console.log(post_data);
     api_create_post(post_data, (data) => {
       setPosts([...posts, data]);
       setShowCreatePost(false);
@@ -73,7 +77,7 @@ function PostsPage() {
           <CircularProgress />
         ) : (
           posts.map(post => (
-            <PostCard key={post.id} title={post.title} body={post.body} />
+            <PostCard key={post.postid} post={post} />
           ))
         )}
       </Container>

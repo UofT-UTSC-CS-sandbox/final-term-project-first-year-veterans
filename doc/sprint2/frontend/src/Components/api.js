@@ -106,7 +106,7 @@ function api_profile_update(profile_data, cb){
 // POST API'S
 
 function api_create_post(post_data, cb){
-    let url="/api/post";
+    let url="/api/posts/create";
 	fetch(url, {
 		method: "POST", 
 		mode: "same-origin", // no-cors, *cors, same-origin
@@ -118,7 +118,6 @@ function api_create_post(post_data, cb){
         body: JSON.stringify(post_data),
 		redirect: "follow", // manual, *follow, error
 		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-		// body: JSON.stringify(), // body data type must match "Content-Type" header
 	})
 	.then(response=>response.json())
 	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
@@ -126,7 +125,7 @@ function api_create_post(post_data, cb){
 }
 
 function api_fetch_posts(cb) {
-    let url = "/api/posts";
+    let url = "/api/posts/fetch";
     fetch(url, {
         method: "GET",
         mode: "same-origin", // no-cors, *cors, same-origin

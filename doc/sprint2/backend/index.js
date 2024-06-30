@@ -12,6 +12,7 @@ const search_api = require('./routes/search_api');
 const profile_fetch_api = require('./routes/profile_fetch_api');
 const api_profile_update = require('./routes/profile_update_api');
 const calenda_api = require('./routes/calendar_api');
+const posts_api = require('./routes/posts_api');
 
 const port = 3000;
 const app = express();
@@ -27,6 +28,7 @@ app.use('', search_api);
 app.use('', profile_fetch_api);
 app.use('', api_profile_update);
 app.use('', calenda_api);
+app.use('', posts_api);
 
 wss.on('connection', function connection(ws) {
     console.log('New client connected');
