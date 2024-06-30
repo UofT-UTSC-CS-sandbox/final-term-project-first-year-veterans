@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { usePage } from './PageContext';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -17,12 +18,12 @@ import Tab from '@mui/material/Tab';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
 
-
 import ChatIcon from '@mui/icons-material/Chat';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+
 
 
 const buttons = [
@@ -42,7 +43,7 @@ const Search = styled('div')(({ theme }) => ({
   marginRight: theme.spacing(2),
   marginLeft: 0,
   [theme.breakpoints.up('sm')]: {
-    width: '70%',
+    width: '66%',
     marginLeft: 'auto',
     marginRight: 'auto',
   },
@@ -73,19 +74,31 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function FriendList() {
+export default function FriendList({setUserpage_uid}) {
   const [value, setValue] = React.useState('1');
   const [hover, setHover] = React.useState(false);
   const [target, setTarget] = React.useState(null);
+
+  const { currentPage, handlePageChange } = usePage();
+
+  const handleClick = (e, label, uid) => {
+    e.preventDefault();
+    if (label === 'Account') {
+      setUserpage_uid(uid);
+      handlePageChange('User');
+    }
+  };
 
   var friends = [
     {
       name: "Remy Sharp",
       avatar: "/static/images/avatar/1.jpg",
+      uid: 'Richie_Hsieh',
     },
     {
       name: "Travis Howard",
       avatar: "/static/images/avatar/2.jpg",
+      uid: 'Richie_Hsieh',
     }
   ];
 
@@ -104,18 +117,28 @@ export default function FriendList() {
     setValue(newValue);
   };
 
+//   <IconButton 
+//   edge="end" 
+//   aria-label="delete" 
+//   sx={{ 
+//     marginRight: "10px", 
+//     marginLeft: 'auto',
+// }}>
+//   <PersonAddIcon />
+// </IconButton>
+
   return (
     <Box sx={{ width: '80%', typography: 'body1', marginLeft: 'auto', marginRight: 'auto'}}>
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', display:'flex' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Friend" value="1" />
             <Tab label="Follow" value="2" />
             <Tab label="Follower" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1">
-          <Search sx={{ marginBottom: '2em'}}>
+
+        <Search sx={{ marginBottom: '1em',  marginTop: '1em'}}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -123,7 +146,9 @@ export default function FriendList() {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+        </Search>
+
+        <TabPanel value="1">
           <List sx={{ 
             width: '100%', 
             maxWidth: '70%', 
@@ -142,7 +167,12 @@ export default function FriendList() {
                   secondary={
                     <Box sx={{ display: 'flex',}}> 
                       {buttons.map((button) => (
-                        <IconButton edge="end" aria-label={button.label} sx={{ marginRight: "10px" }}>
+                        <IconButton 
+                          edge="end" 
+                          aria-label={button.label} 
+                          sx={{ marginRight: "10px" }}
+                          onClick={(e) => handleClick(e, button.label, friend.uid)}
+                        >
                           {button.icon}
                         </IconButton>
                       ))}
@@ -160,15 +190,6 @@ export default function FriendList() {
         </TabPanel>
 
         <TabPanel value="2">
-         <Search sx={{ marginBottom: '2em'}}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
           <List sx={{ 
             width: '100%', 
             maxWidth: '70%', 
@@ -215,15 +236,6 @@ export default function FriendList() {
         </TabPanel>
 
         <TabPanel value="3">
-        <Search sx={{ marginBottom: '2em'}}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
           <List sx={{ 
             width: '100%', 
             maxWidth: '70%', 

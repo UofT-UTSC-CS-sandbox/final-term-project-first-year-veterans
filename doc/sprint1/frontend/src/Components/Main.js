@@ -4,7 +4,9 @@ import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import FriendList from './FriendList';
+import UserPage from './UserPage';
 import { PageProvider, usePage } from './PageContext';
+import { useState } from 'react';
 
 
 function Main() {
@@ -20,13 +22,16 @@ function Main() {
 
 const PageContent = () => {
   const { currentPage } = usePage();
+  const [userpage_uid, setUserpage_uid] = useState('');
 
   if (currentPage === 'Search') {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
   } else if (currentPage === 'Friends') {
-      return <FriendList />;
+      return <FriendList setUserpage_uid={setUserpage_uid}/>;
+  } else if (currentPage === 'User') {
+      return <UserPage uid={userpage_uid}/>;
   } else {
       return null;
   }
