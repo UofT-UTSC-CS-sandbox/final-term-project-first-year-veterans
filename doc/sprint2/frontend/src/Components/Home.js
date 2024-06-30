@@ -19,7 +19,11 @@ const HomePage = () => {
     <Container style={{ textAlign: 'center', marginTop: '20px', maxWidth: '100%' }}>
       <Grid container spacing={2}>
         <Grid item xs={2}>
-          {/* Left sidebar or any additional content */}
+          <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
+            <Typography variant="h6">Following</Typography>
+            <Box bgcolor="blue" padding="10px" borderRadius="10px" marginBottom="20px" >Person 1</Box>
+            <Box bgcolor="blue" padding="10px" borderRadius="10px" marginBottom="20px" >Person 2</Box>
+          </Box>
         </Grid>
 
         <Grid item xs={8}>
