@@ -29,17 +29,17 @@ router.post('/api/profile/fetch', (req, res) => {
     session.run(`
         MATCH (u:User {uid: $uid}) RETURN u AS node
         UNION
-        MATCH (u)-[:HAS_PROFILE]->(p:User_profile) RETURN p AS node
+        MATCH (u:User {uid: $uid})-[:HAS_PROFILE]->(p:User_profile) RETURN p AS node
         UNION
-        MATCH (u)-[:HAS_NATIONALITY]->(n:Nationality) RETURN n AS node
+        MATCH (u:User {uid: $uid})-[:HAS_NATIONALITY]->(n:Nationality) RETURN n AS node
         UNION
-        MATCH (u)-[:HAS_GENDER]->(g:Gender) RETURN g AS node
+        MATCH (u:User {uid: $uid})-[:HAS_GENDER]->(g:Gender) RETURN g AS node
         UNION
         MATCH (s:Student {sid: $uid})-[:ENROLL_IN]->(i:Institution) RETURN i AS node
         UNION
-        MATCH (s)-[:MAJOR_IN]->(a:Academic_disciplines) RETURN COLLECT(a) AS node
+        MATCH (s:Student {sid: $uid})-[:MAJOR_IN]->(a:Academic_disciplines) RETURN COLLECT(a) AS node
         UNION
-        MATCH (s)-[:MINOR_IN]->(b:Academic_disciplines) RETURN COLLECT(b) AS node
+        MATCH (s:Student {sid: $uid})-[:MINOR_IN]->(b:Academic_disciplines) RETURN COLLECT(b) AS node
     `, { uid: uid })
     .then(result => {
         console.log(result.records);
