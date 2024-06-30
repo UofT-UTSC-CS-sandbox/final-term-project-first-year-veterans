@@ -106,7 +106,7 @@ function api_profile_update(profile_data, cb){
 // POST API'S
 
 function api_create_post(post_data, cb){
-    let url="/api/posts/create";
+    let url="/api/posts/create/";
 	fetch(url, {
 		method: "POST", 
 		mode: "same-origin", // no-cors, *cors, same-origin
