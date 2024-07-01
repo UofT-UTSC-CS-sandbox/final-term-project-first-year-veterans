@@ -26,7 +26,7 @@ const HomePage = () => {
           </Box>
         </Grid>
 
-        <Grid item xs={8}>
+        <Grid item xs={7}>
           {post ? (
             <PostCard key={post.id} post={post} /> // Render the single post object
           ) : (
@@ -34,7 +34,7 @@ const HomePage = () => {
           )}
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
             <Typography variant="h6">People You May Be Interested In</Typography>
             {/* Add carousel or list of people here */}
