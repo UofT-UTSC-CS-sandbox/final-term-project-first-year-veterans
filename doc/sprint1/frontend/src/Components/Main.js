@@ -22,16 +22,17 @@ function Main() {
 
 const PageContent = () => {
   const { currentPage } = usePage();
-  const [userpage_uid, setUserpage_uid] = useState('');
+  const [userpageInfo, setUserpageInfo] = useState('');
 
   if (currentPage === 'Search') {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
   } else if (currentPage === 'Friends') {
-      return <FriendList setUserpage_uid={setUserpage_uid}/>;
+      return <FriendList setUserpageInfo={setUserpageInfo}/>;
   } else if (currentPage === 'User') {
-      return <UserPage uid={userpage_uid}/>;
+      console.log("userInfo: ", userpageInfo);
+      return <UserPage userpageInfo={userpageInfo}/>;
   } else {
       return null;
   }

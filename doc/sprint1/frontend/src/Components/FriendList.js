@@ -1,5 +1,9 @@
 import * as React from 'react';
 import { usePage } from './PageContext';
+import { api_friend_fetch } from './api';
+import { api_follow_fetch } from './api';
+import { api_follower_fetch } from './api';
+import { api_friend_remove } from './api';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -17,6 +21,12 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import InputBase from '@mui/material/InputBase';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 import ChatIcon from '@mui/icons-material/Chat';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
@@ -24,14 +34,16 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 
+const uid = 'Richie_Hsieh'; // Hardcoded user id for testing
 
-
+// Buttons for each friend/follow/follower
 const buttons = [
-  { icon: <AccountBoxIcon />, label: 'Account' },
-  { icon: <ChatIcon />, label: 'Chat' },
-  { icon: <GitHubIcon />, label: 'Github' },
+  { icon: <AccountBoxIcon />, label: 'Account', tip: 'View Account'},
+  { icon: <ChatIcon />, label: 'Chat', tip: 'Chat'},
+  { icon: <GitHubIcon />, label: 'Github', tip: 'Github'},
 ];
 
+// Styling for the search bar
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -74,58 +86,74 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function FriendList({setUserpage_uid}) {
-  const [value, setValue] = React.useState('1');
-  const [hover, setHover] = React.useState(false);
-  const [target, setTarget] = React.useState(null);
+export default function FriendList({setUserpageInfo}) {
+  const [value, setValue] = React.useState('1'); // Switch between Friend/Follow/Follower
+  const [hover, setHover] = React.useState(false); // Check if following button is hovered
+  const [target, setTarget] = React.useState(null); // Check which following button is hovered
+  const [friendList, setFriendList] = React.useState([]); // List of friends
+  const [followList, setFollowList] = React.useState([]); // List of follows
+  const [followerList, setFollowerList] = React.useState([]); // List of followers
+  const [open, setOpen] = React.useState(false); // Check if dialog is open
 
-  const { currentPage, handlePageChange } = usePage();
+  const { currentPage, handlePageChange } = usePage(); // handle page switching for user page
 
-  const handleClick = (e, label, uid) => {
+  const callback = (data) => { // Fetch friendList data callback
+    console.log(data.friends);
+    setFriendList(data.friends);
+  };
+
+  const callback2 = (data) => { // Fetch followList data callback
+    console.log(data.follows);
+    setFollowList(data.follows);
+  };
+
+  const callback3 = (data) => { // Fetch followerList data callback
+    console.log(data.followers);
+    setFollowerList(data.followers);
+  };
+
+  const callback4 = (data) => { // Remove friend callback
+    api_friend_fetch({uid: uid}, callback);
+    console.log(data);
+  };
+
+  React.useEffect(() => {  // Fetch data when switching between tabs
+    if (value === '1') api_friend_fetch({uid: uid}, callback);
+    else if (value === '2') api_follow_fetch({uid: uid}, callback2);
+    else if (value === '3') api_follower_fetch({uid: uid}, callback3);
+  }, [value]);
+
+  React.useEffect(() => { // Update friendList and re-render
+    console.log('FriendList Updated');
+  }, [friendList]);
+
+  const handleClick = (e, label, userInfo) => { // Handle button clicks
     e.preventDefault();
-    if (label === 'Account') {
-      setUserpage_uid(uid);
-      handlePageChange('User');
+    switch (label) {
+      case 'Account': // Open user page
+        setUserpageInfo(userInfo);
+        handlePageChange('User');
+        break;
+      case 'unfriend': // Open dialog for unfriending
+        console.log('Unfriend');
+        setOpen(true);
+        break;
+      case 'unfriend_confirm': // Confirm unfriending
+        console.log('Unfriend confirmed');
+        setOpen(false);
+        api_friend_remove({uid: uid, friend_uid: userInfo[0]}, callback4);
+      default:
+        console.log('Button Clicked');
     }
   };
 
-  var friends = [
-    {
-      name: "Remy Sharp",
-      avatar: "/static/images/avatar/1.jpg",
-      uid: 'Richie_Hsieh',
-    },
-    {
-      name: "Travis Howard",
-      avatar: "/static/images/avatar/2.jpg",
-      uid: 'Richie_Hsieh',
-    }
-  ];
+  const handleClose = () => { // Close dialog
+    setOpen(false);
+  };
 
-  var follows = [
-    {
-      name: "Remy Sharp",
-      avatar: "/static/images/avatar/1.jpg",
-    },
-    {
-      name: "Travis Howard",
-      avatar: "/static/images/avatar/2.jpg",
-    }
-  ];
-
-  const handleChange = (event, newValue) => {
+  const handleChange = (event, newValue) => { // Switch between tabs
     setValue(newValue);
   };
-
-//   <IconButton 
-//   edge="end" 
-//   aria-label="delete" 
-//   sx={{ 
-//     marginRight: "10px", 
-//     marginLeft: 'auto',
-// }}>
-//   <PersonAddIcon />
-// </IconButton>
 
   return (
     <Box sx={{ width: '80%', typography: 'body1', marginLeft: 'auto', marginRight: 'auto'}}>
@@ -135,6 +163,7 @@ export default function FriendList({setUserpage_uid}) {
             <Tab label="Friend" value="1" />
             <Tab label="Follow" value="2" />
             <Tab label="Follower" value="3" />
+            <Tab label="Requests" value="4" />
           </TabList>
         </Box>
 
@@ -148,7 +177,7 @@ export default function FriendList({setUserpage_uid}) {
             />
         </Search>
 
-        <TabPanel value="1">
+        <TabPanel value="1" key='1'>
           <List sx={{ 
             width: '100%', 
             maxWidth: '70%', 
@@ -156,31 +185,64 @@ export default function FriendList({setUserpage_uid}) {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}>
-          {friends.map((friend) => (
-            <div>
+          {friendList.map((friend) => ( // [uid, last_name, first_name]
+            <div key={friend[0]}>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt={friend.name} src={friend.avatar} />
+                  <Avatar alt={friend[1]} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={friend.name}
+                  primary={friend[2] + ' ' + friend[1]}
                   secondary={
                     <Box sx={{ display: 'flex',}}> 
                       {buttons.map((button) => (
+                        <Tooltip title={button.tip} key={button.label}>
+                          <IconButton 
+                            key={button.label}
+                            edge="end" 
+                            aria-label={button.label} 
+                            sx={{ marginRight: "10px" }}
+                            onClick={(e) => handleClick(e, button.label, friend)}
+                          >
+                            {button.icon}
+                          </IconButton>
+                        </Tooltip>
+                      ))}
+                      <Tooltip title="Unfriend">
                         <IconButton 
                           edge="end" 
-                          aria-label={button.label} 
-                          sx={{ marginRight: "10px" }}
-                          onClick={(e) => handleClick(e, button.label, friend.uid)}
+                          aria-label="delete" 
+                          sx={{ marginRight: "10px", marginLeft: 'auto'}}
+                          onClick={(e) => handleClick(e, 'unfriend', friend)}
                         >
-                          {button.icon}
+                          <PersonRemoveIcon />
                         </IconButton>
-                      ))}
-                      <IconButton edge="end" aria-label="delete" sx={{ marginRight: "10px", marginLeft: 'auto'}}>
-                        <PersonRemoveIcon />
-                      </IconButton>
+                      </Tooltip>
+                      <Dialog
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="alert-dialog-title"
+                          aria-describedby="alert-dialog-description"
+                        >
+                          <DialogTitle id="alert-dialog-title">
+                            {"Remove this use from your friend list?"}
+                          </DialogTitle>
+                          <DialogContent>
+                            <DialogContentText id="alert-dialog-description">
+                              Removing this user from your friend list will permanently delete all interactions and conversations with them. 
+                              Are you sure you want to proceed? This action cannot be undone.
+                            </DialogContentText>
+                          </DialogContent>
+                          <DialogActions>
+                            <Button onClick={handleClose}>Cancel</Button>
+                            <Button onClick={(e) => handleClick(e, 'unfriend_confirm', friend)} autoFocus>
+                              Confirm
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
                     </Box>
                   }
+                  secondaryTypographyProps={{ component: 'div' }}
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
@@ -189,7 +251,7 @@ export default function FriendList({setUserpage_uid}) {
           </List>
         </TabPanel>
 
-        <TabPanel value="2">
+        <TabPanel value="2" key='2'>
           <List sx={{ 
             width: '100%', 
             maxWidth: '70%', 
@@ -197,20 +259,22 @@ export default function FriendList({setUserpage_uid}) {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}>
-          {follows.map((follow, index) => (
-            <div>
+          {followList.map((follow, index) => ( // [uid, last_name, first_name]
+            <div key={follow[0]}>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt={follow.name} src={follow.avatar} />
+                  <Avatar alt={follow[1]} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={follow.name}
+                  primary={follow[2] + ' ' + follow[1]}
                   secondary={
                     <Box sx={{ display: 'flex',}}> 
                       {buttons.map((button) => (
-                        <IconButton edge="end" aria-label={button.label} sx={{ marginRight: "10px" }}>
-                          {button.icon}
-                        </IconButton>
+                        <Tooltip title={button.tip} key={button.label}>
+                          <IconButton edge="end" aria-label={button.label} sx={{ marginRight: "10px" }} key={button.label}>
+                            {button.icon}
+                          </IconButton>
+                        </Tooltip>
                       ))}
                       <Button 
                         variant="outlined" 
@@ -227,6 +291,7 @@ export default function FriendList({setUserpage_uid}) {
                       </Button>
                     </Box>
                   }
+                  secondaryTypographyProps={{ component: 'div' }}
                 />
               </ListItem>
               <Divider variant="inset" component="li" />
@@ -235,7 +300,7 @@ export default function FriendList({setUserpage_uid}) {
           </List>
         </TabPanel>
 
-        <TabPanel value="3">
+        <TabPanel value="3" key='3'>
           <List sx={{ 
             width: '100%', 
             maxWidth: '70%', 
@@ -243,20 +308,22 @@ export default function FriendList({setUserpage_uid}) {
             marginLeft: 'auto',
             marginRight: 'auto',
           }}>
-          {follows.map((follow, index) => (
-            <div>
+          {followerList.map((follower, index) => ( //[uid, last_name, first_name]
+            <div key={follower[0]}>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt={follow.name} src={follow.avatar} />
+                  <Avatar alt={follower[1]} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={follow.name}
+                  primary={follower[2] + ' ' + follower[1]}
                   secondary={
                     <Box sx={{ display: 'flex',}}> 
                       {buttons.map((button) => (
-                        <IconButton edge="end" aria-label={button.label} sx={{ marginRight: "10px" }}>
-                          {button.icon}
-                        </IconButton>
+                        <Tooltip title={button.tip} key={button.label}>
+                          <IconButton edge="end" aria-label={button.label} sx={{ marginRight: "10px" }} key={button.label}>
+                            {button.icon}
+                          </IconButton>
+                        </Tooltip>
                       ))}
                       <Button 
                         variant="outlined" 
@@ -267,6 +334,50 @@ export default function FriendList({setUserpage_uid}) {
                       </Button>
                     </Box>
                   }
+                  secondaryTypographyProps={{ component: 'div' }}
+                />
+              </ListItem>
+              <Divider variant="inset" component="li" />
+            </div>
+          ))}
+          </List>
+        </TabPanel>
+
+        <TabPanel value="4" key='4'>
+          <List sx={{ 
+            width: '100%', 
+            maxWidth: '70%', 
+            bgcolor: 'background.paper',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}>
+          {followerList.map((follower, index) => ( //[uid, last_name, first_name]
+            <div key={follower[0]}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar alt={follower[1]} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={follower[2] + ' ' + follower[1]}
+                  secondary={
+                    <Box sx={{ display: 'flex',}}> 
+                      {buttons.map((button) => (
+                        <Tooltip title={button.tip} key={button.label}>
+                          <IconButton edge="end" aria-label={button.label} sx={{ marginRight: "10px" }} key={button.label}>
+                            {button.icon}
+                          </IconButton>
+                        </Tooltip>
+                      ))}
+                      <Button 
+                        variant="outlined" 
+                        size="medium" 
+                        sx={{ marginRight: "10px", marginLeft: 'auto', }}
+                      >
+                        Follow Back
+                      </Button>
+                    </Box>
+                  }
+                  secondaryTypographyProps={{ component: 'div' }}
                 />
               </ListItem>
               <Divider variant="inset" component="li" />

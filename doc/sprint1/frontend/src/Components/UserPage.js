@@ -5,6 +5,7 @@ import { styled } from '@mui/system';
 import ChatIcon from '@mui/icons-material/Chat';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
 import IconButton from '@mui/material/IconButton';
 
@@ -20,7 +21,7 @@ const ActionButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 
-export default function UserPage({uid}) {
+export default function UserPage({userpageInfo}) { // [uid, last_name, first_name]
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6}>
@@ -31,10 +32,10 @@ export default function UserPage({uid}) {
             sx={{ width: 100, height: 100 }}
           />
           <Typography variant="h5" component="h1" gutterBottom>
-            HUA-HSUN HSIEH
+            {userpageInfo[2] + " " + userpageInfo[1]} 
           </Typography>
           <Typography variant="h5" component="h1" gutterBottom>
-            {uid}
+            {userpageInfo[0]}
           </Typography>
           <Typography variant="body1">
             University of Toronto Mississauga Student
