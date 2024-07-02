@@ -29,7 +29,7 @@ const verifyToken = (req, res, next) => {
 
   */
 
-  const token = req.cookies.auth;   // This code will provide the authentication token from the cookie
+  const token = req.cookies.authenticationToken;   // This code will provide the authentication token from the cookie
   
   
   if (!token) {

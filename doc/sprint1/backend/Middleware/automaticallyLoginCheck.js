@@ -7,7 +7,7 @@ const { SECRET_KEY } = require('./seceretKey');
 
 const automaticallyLoginCheck = (req, res, next) => {
 
-  const token = req.cookies.auth;     // This code will provide the authentication token from the cookie
+  const token = req.cookies.authenticationToken;     // This code will provide the authentication token from the cookie
 
   /* 
       If there exist a token, then we can verify whether it is a valid token or not.
