@@ -29,6 +29,7 @@ router.get('/api/events', function(req, res) {
 
 router.post('/api/AddEvents', function(req, res) {
     req.body.id = ++id;
+    console.log(req.body);
     DB.push(req.body);
     res.send(DB);
     }   
