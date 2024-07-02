@@ -12,6 +12,7 @@ let DB = [
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 0), // Today at 10:00 AM
         end: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 0), // Today at 11:00 AM
         notificationTime: null,
+        userId: 'username'
     
     },
     {
@@ -20,12 +21,13 @@ let DB = [
         start: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 10, 0), // Today at 10:00 AM
         end: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 11, 0), // Today at 11:00 AM
         notificationTime: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 9, 0), // Today at 9
+        userId: 'username1'
     },
 ];
 
 router.get('/api/events',verifyToken , function(req, res) {
-    console.log(req.userId);
-    res.send(DB);
+   
+    res.send(DB.filter(event => event.userId===req.userId));
 });
 
 router.post('/api/AddEvents', function(req, res) {
