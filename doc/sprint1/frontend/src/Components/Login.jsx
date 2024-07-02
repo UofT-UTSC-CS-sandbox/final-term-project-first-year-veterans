@@ -60,7 +60,7 @@ function Login({ onLogin }) {
         }}
       >
         <Typography variant="h4" component="h1" gutterBottom sx={{ color: '#d9534f' }}>
-          Sign Up
+          Login
         </Typography>
         <form>
           <TextField
