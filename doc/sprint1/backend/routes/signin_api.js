@@ -10,6 +10,7 @@ const xss = require('xss');
 
 const router = express.Router();
 
+
 // The following is temporay database.
 const DB = [
   { email: 'email', password: 'password', username: 'username1' },
@@ -20,9 +21,9 @@ const DB = [
 const EXPIRATION_TIME = 60 * 60 * 24; // 24 hours
 
 router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
-  
-  console.log('Server received: POST /api/signin');
+  console.log('username: '+req.userId)
 
+  
   // The following code will sanatize the user's input to avoid xss attack.
   const email = xss(req.body.email);
   const password = xss(req.body.password);

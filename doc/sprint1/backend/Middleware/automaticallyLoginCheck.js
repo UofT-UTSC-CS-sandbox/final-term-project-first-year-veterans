@@ -22,7 +22,7 @@ const automaticallyLoginCheck = (req, res, next) => {
       if (err) {
         // We should ignore the token expire error, the /signin GET request will deal with it.
         if (err instanceof TokenExpiredError) {
-        
+          
           console.log("Token expired");
           next(); // Token expired, proceed to the next middleware or route handler
       
