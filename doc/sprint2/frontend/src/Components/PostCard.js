@@ -23,17 +23,17 @@ const PostCard = ({ post }) => {
 
   useEffect(() => {
     setLikeCount(post.likeCount);
-    const clickedState = localStorage.getItem(`post_${post.postid}_clicked`);
-    setIsClicked(clickedState === 'true');
+    const clickedState = localStorage.getItem(`post_${post.postid}_clicked`) === 'true';
+    setIsClicked(clickedState);
   }, [post]);
 
   const handleLike = () => {
-    const newLikeCount = isClicked ? likeCount - 1 : likeCount + 1;
+    const newLikeCount = isClicked ? likeCount + 1 : likeCount - 1;
     api_update_post_like(post.postid, newLikeCount, (updatedPost) => {
       if (updatedPost) {
         setLikeCount(updatedPost.likeCount);
         setIsClicked(!isClicked);
-        localStorage.setItem(`post_${post.postid}_clicked`, !isClicked);
+        localStorage.setItem(`post_${post.postid}_clicked`, (!isClicked).toString());
       }
     });
   };
@@ -75,7 +75,7 @@ const PostCard = ({ post }) => {
         </Typography>
         <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
           <Tooltip title="Like">
-            <IconButton onClick={handleLike} style={{ color: isClicked ? '#3f51b5' : 'gray' }}>
+            <IconButton onClick={handleLike} style={{ color: isClicked ? 'gray' : '#3f51b5' }}>
               <ThumbUpIcon />
             </IconButton>
           </Tooltip>
