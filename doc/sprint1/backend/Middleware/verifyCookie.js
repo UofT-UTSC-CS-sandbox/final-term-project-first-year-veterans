@@ -12,20 +12,21 @@ const generalErrorMsg = "Failed to authenticate token"
 const verifyToken = (req, res, next) => {
   /*
 
+    Description:
+    
+      - This function will be used when the user has been login and with token is not expired.
+        If the token has been expired, we should logout the user and let the user login again.
+
     How to use:
 
-      Frontend Developer: Should always check if the status code is 302 and redirectToLogin is true. 
-                          If it is true, then redirect the user to the login page using navigation hook.
+      - Frontend Developer: Should always check if the status code is 302 and redirectToLogin is true. 
+                            If it is true, then redirect the user to the login page using navigation hook.
                       
-      Backend Developer: Use this middleware in the routes where you want to check if the user is authenticated or not.
-                        For example, in the calendar_api.js, I have used this middleware to check if the user is authenticated or not to get the events
-                        by calling this function inside router. i.e:router.get('/api/events',verifyToken , function(req, res) {some code here});
+      - Backend Developer:  Use this middleware in the routes where you want to check if the user is authenticated or not.
+                            For example, in the calendar_api.js, I have used this middleware to check if the user is authenticated or not to get the events
+                            by calling this function inside router. i.e:router.get('/api/events',verifyToken , function(req, res) {some code here});
                         
-                        Warning: If the exist token is not exist or expired or any other error, the remaining code inside the router will not be executed.
-
-    Description:
-      This function will be used when the user has been login and with token is not expired.
-      If the token has been expired, we should logout the user and let the user login again.
+                            Warning: If the exist token is not exist or expired or any other error, the remaining code inside the router will not be executed.
 
   */
 
