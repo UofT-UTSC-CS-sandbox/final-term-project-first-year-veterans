@@ -3,7 +3,6 @@
 */
 const { verify } = require('jsonwebtoken');
 const { SECRET_KEY } = require('./seceretKey');
-const { TokenExpiredError } = require('jsonwebtoken');
 
 
 const generalErrorMsg = "Failed to authenticate token"
