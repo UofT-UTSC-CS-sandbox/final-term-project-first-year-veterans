@@ -18,7 +18,7 @@ function PostsPage() {
   useEffect(() => {
     api_fetch_posts(data => {
       setPosts(data);
-      setLoading(false);z
+      setLoading(false);
     });
   }, []);
 
