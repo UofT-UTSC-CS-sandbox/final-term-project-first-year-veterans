@@ -1,3 +1,7 @@
+/*
+  Reference: I have used CHATGPT, Github Copilot  and my own knowledge to code the following file.
+*/
+
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const automaticallyLoginCheck = require('../Middleware/automaticallyLoginCheck');
@@ -6,21 +10,23 @@ const xss = require('xss');
 
 const router = express.Router();
 
+// The following is temporay database.
 const DB = [
   { email: 'email', password: 'password', username: 'username1' },
   { email: 'email2', password: 'password2', username: 'username2' },
 ];
 
 router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
+  
   console.log('Server received: POST /api/signin');
   console.log(req.body);
   console.log(req.cookies);
   console.log(req.cookies.auth)
 
+  // The following code will sanatize the user's input to avoid xss attack.
   const email = xss(req.body.email);
   const password = xss(req.body.password);
-  console.log(email);
-    console.log(password);
+
   
   // Find user in the mock database
   const user = DB.find(u => u.email === email && u.password === password);
