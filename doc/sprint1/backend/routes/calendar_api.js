@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const verifyToken = require('../Middleware/verifyCookie');
 
 const today = new Date();
 let id = 2;
@@ -23,7 +23,8 @@ let DB = [
     },
 ];
 
-router.get('/api/events', function(req, res) {
+router.get('/api/events',verifyToken , function(req, res) {
+    console.log(req.userId);
     res.send(DB);
 });
 

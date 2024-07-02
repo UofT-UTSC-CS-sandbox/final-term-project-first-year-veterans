@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Asset/Css/App.css';
 import { usePage } from './PageContext';
 import EventNotification from './EventNotification.jsx';
+import Logout from './Logout.jsx';
 
 function TopBar(props) {
   const { currentPage, handlePageChange } = usePage();
@@ -30,6 +31,8 @@ function TopBar(props) {
             <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
             <li><EventNotification NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon}/></li>
+            <li><Logout /></li>
+            
           </ul>
         </header>
       </div>

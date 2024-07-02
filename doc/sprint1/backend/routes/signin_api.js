@@ -1,53 +1,44 @@
 const express = require('express');
+const jwt = require('jsonwebtoken');
+const automaticallyLoginCheck = require('../Middleware/automaticallyLoginCheck');
+const { SECRET_KEY } = require('../Middleware/seceretKey');
+
 const router = express.Router();
-const { getSession } = require('../neo4j');
-const { checkAuth } = require('../helper_functions/auth');
 
-router.post('/api/signin', async function (req, res) {
-    console.log('Server received: POST /api/signin');
+const DB = [
+  { email: 'email', password: 'password', username: 'username1' },
+  { email: 'email2', password: 'password2', username: 'username2' },
+];
 
-    // An example of matching email and password
-    const email = 'email';
-    const password = 'password';
+router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
+  console.log('Server received: POST /api/signin');
+  console.log(req.body);
+  console.log(req.cookies);
+  console.log(req.cookies.auth)
 
-    if (checkAuth(req)) {
-        res.status(200);
-        res.json({ signinCorrect: true });
-        return;
-    }
+  const { email, password } = req.body;
 
-    // const session = getSession();
-    // const { email, password } = req.body;
-    // const query = 'MATCH (u:User {email: $email, password: $password}) RETURN u';
-    // const params = { email, password };
+  // Find user in the mock database
+  const user = DB.find(u => u.email === email && u.password === password);
 
-    // try{
-    //     const result = await session.run(query, params);
-    //     if (result.records.length === 0) {
-    //         res.status(401);
-    //         res.json({ signinCorrect: false });
-    //     }
-    //     else {
-    //         res.cookie('cookie_name', 'cookie_value', { maxAge: 60 * 1000, httpOnly: true, secure: true });
-    //         res.status(200);
-    //         res.json({ signinCorrect: true });
-    //     }
-    // } catch (error) {
-    //     console.log(error);
-    //     res.status(500);
-    //     res.json({ signinCorrect: false });
-    // } finally {
-    //     session.close();
-    // }
+  if (user) {
+    // Generate token
+    const token = jwt.sign({ id: user.username }, SECRET_KEY, {
+      expiresIn: 86400, // 24 hours
+    });
 
-    if (req.body.email === email && req.body.password === password) {
-        res.cookie('cookie_name', 'cookie_value', { maxAge: 60 * 1000, httpOnly: true, secure: true });
-        res.status(200);
-        res.json({ signinCorrect: true});
-    } else {
-        res.status(401);
-        res.json({ signinCorrect: false});
-    }
+    // Set cookie
+    res.cookie('auth', token, { maxAge: 60 * 60 * 1000, httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.status(200).json({ signinCorrect: true });
+  } else {
+    res.status(401).json({ signinCorrect: false });
+  }
+});
+
+router.post('/api/logout', (req, res) => {
+    res.clearCookie('auth', { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.status(200).json({ logoutStatus: true });
+
 });
 
 module.exports = router;

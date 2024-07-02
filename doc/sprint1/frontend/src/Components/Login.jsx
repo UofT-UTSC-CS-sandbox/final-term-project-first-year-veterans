@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   Box,
@@ -11,10 +11,20 @@ import { useNavigate } from 'react-router-dom';
 import { api_signin } from './api';
 
 
-function Login({ onLogin }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const signIn_data = { email, password };
+
+    api_signin(signIn_data,(data) => {
+      if (data.signinCorrect) {
+        navigate('/main');
+      }
+    });
+  }, []);
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -27,7 +37,6 @@ function Login({ onLogin }) {
         console.log("sign in failed");
       } else {
         console.log("sign in successful");
-        onLogin(true);
         navigate('/main'); // Navigate to the main page after login
       }
     });
