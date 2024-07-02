@@ -31,7 +31,7 @@ function PostsPage() {
 
   const handleSubmitPost = (event) => {
     event.preventDefault();
-    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage };
+    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage, likeCount: 0, comments:[]};
     console.log(post_data);
     api_create_post(post_data, (data) => {
       setPosts([...posts, data]);
