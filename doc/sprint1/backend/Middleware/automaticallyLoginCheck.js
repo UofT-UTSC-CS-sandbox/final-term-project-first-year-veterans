@@ -1,4 +1,4 @@
-const { verify } = require('jsonwebtoken');
+const { verify, TokenExpiredError } = require('jsonwebtoken');
 const { SECRET_KEY } = require('./seceretKey');
 
 const automaticallyLoginCheck = (req, res, next) => {
@@ -7,13 +7,19 @@ const automaticallyLoginCheck = (req, res, next) => {
   if (token) {
     verify(token, SECRET_KEY, (err, decoded) => {
       if (err) {
-        return res.status(401).send('Failed to authenticate token');
+        if (err instanceof TokenExpiredError) {
+          console.log("Token expired");
+          next(); // Token expired, proceed to the next middleware or route handler
+        } else {
+          return res.status(401).send('Failed to authenticate token'); // Other error, send 401 and stop
+        }
+      } else {
+        req.userId = decoded.id; // No error, set userId
+        next(); // Proceed to the next middleware or route handler
       }
-      req.userId = decoded.id;
-      return res.status(200).json({ signinCorrect: true, redirect: true });
     });
   } else {
-    next();
+    next(); // No token, proceed to the next middleware or route handler
   }
 };
 

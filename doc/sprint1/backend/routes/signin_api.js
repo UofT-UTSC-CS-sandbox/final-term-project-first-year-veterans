@@ -28,7 +28,7 @@ router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
   if (user) {
     // Generate token
     const token = jwt.sign({ id: user.username }, SECRET_KEY, {
-      expiresIn: 86400, // 24 hours
+      expiresIn: 10, // 24 hours
     });
 
     // Set cookie
