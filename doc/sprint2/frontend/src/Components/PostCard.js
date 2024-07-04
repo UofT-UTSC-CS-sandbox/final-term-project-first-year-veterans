@@ -68,7 +68,7 @@ const PostCard = ({ post }) => {
   };
 
   const handleExpandPost = () => {
-    api_handle_expand_post(post.postid);
+    //api_handle_expand_post(post.postid);
   };
 
   return (

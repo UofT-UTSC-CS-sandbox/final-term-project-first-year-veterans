@@ -258,7 +258,6 @@ function api_fetch_comments(postId, cb) {
     });
 }
 
-// Need to fix
 function api_handle_expand_post(postId, cb) {
     let url = `/api/expandedposts/${postId}/`;
     fetch(url, {
@@ -278,10 +277,10 @@ function api_handle_expand_post(postId, cb) {
         }
         return response.json();
     })
-    .then(data => cb(data))
+    .then(data => cb && cb(data)) // Ensure cb is called if it's a function
     .catch(error => {
-        console.error('Error fetching comments:', error);
-        cb([]); // Handle error by passing an empty array or appropriate default value
+        console.error('Error fetching expanded post:', error);
+        cb && cb(null); // Handle error by passing null or appropriate default value
     });
 }
 
