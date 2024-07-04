@@ -204,8 +204,8 @@ function api_update_post_like(postId, newLikeCount, cb) {
     });
 }
 
-function api_add_new_comment(postId, newComment, cb) {
-    let url = `/api/posts/add_new_comment/${postId}`;
+function api_add_new_comment(commentData, cb) {
+    let url = `/api/posts/add_new_comment/${commentData.postIdentification}`;
     fetch(url, {
         method: "POST",
         mode: "same-origin",
@@ -216,7 +216,7 @@ function api_add_new_comment(postId, newComment, cb) {
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
-        body: JSON.stringify({ comment: newComment })
+        body: JSON.stringify(commentData) // Directly send commentData
     })
     .then(response => {
         if (!response.ok) {
@@ -230,6 +230,7 @@ function api_add_new_comment(postId, newComment, cb) {
         cb(null);
     });
 }
+
 
 function api_fetch_comments(postId, cb) {
     let url = `/api/posts/${postId}/comments`;

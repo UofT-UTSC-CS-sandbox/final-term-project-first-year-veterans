@@ -13,16 +13,14 @@ import { api_update_post_like, api_add_new_comment, api_fetch_comments, api_hand
 
 const PostCard = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likeCount);
-  const [isClicked, setIsClicked] = useState(localStorage.getItem(`post_${post.postid}_clicked`) === 'true');
+  const [isClicked, setIsClicked] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
-  
+
   useEffect(() => {
-    if (isClicked) {
-      setLikeCount(likeCount);
-    }
-  }, [post, isClicked, likeCount]);
+    setIsClicked(false);
+  }, [post.postid]);
 
   const handleLike = (event) => {
     event.stopPropagation();
@@ -31,7 +29,6 @@ const PostCard = ({ post }) => {
       if (updatedPost) {
         setLikeCount(updatedPost.likeCount);
         setIsClicked(!isClicked);
-        localStorage.setItem(`post_${post.postid}_clicked`, (!isClicked).toString());
       }
     });
   };
@@ -51,18 +48,27 @@ const PostCard = ({ post }) => {
 
   const handleSubmitComment = () => {
     if (newComment.trim() !== '') {
-      api_add_new_comment(post.postid, newComment, (updatedPost) => {
-        if (updatedPost) {
-          setComments(updatedPost.comments);
+      const commentData = {
+        userId: "current_user_id", // Replace with actual user ID
+        comment: newComment,
+        postIdentification: post.postid
+      };
+
+      api_add_new_comment(commentData, (error, updatedPost) => {
+        if (error) {
+          console.error('Error adding comment:', error);
+        } else {
+          api_fetch_comments(post.postid, (fetchedComments) => {
+            setComments(fetchedComments);
+            setNewComment(''); // Clear the input field
+          });
         }
       });
-      setNewComment('');
     }
   };
 
-  // Need to fix callback bug
   const handleExpandPost = () => {
-    //api_handle_expand_post(post.id);
+    api_handle_expand_post(post.postid);
   };
 
   return (
@@ -97,7 +103,7 @@ const PostCard = ({ post }) => {
         <CardContent>
           {comments.map((comment, index) => (
             <Typography key={index} variant="body2" color="text.secondary">
-              {comment}
+              {comment.comment} - {comment.userId}
             </Typography>
           ))}
           <div style={{ display: 'flex', marginTop: '10px' }}>
