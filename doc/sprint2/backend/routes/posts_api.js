@@ -78,4 +78,16 @@ router.get('/api/posts/:postId/comments', (req, res) => {
   res.status(200).send(post.comments);
 });
 
+// Need to fix
+router.get('/api/expandedposts/:postId', (req, res) => {
+  const postId = parseInt(req.params.postId, 10);
+  const post = DB.find(p => p.postid === postId);
+
+  if (!post) {
+    return res.status(404).send({ message: "Post not found" });
+  }
+
+  res.status(200).send(post);
+});
+
 module.exports = router;

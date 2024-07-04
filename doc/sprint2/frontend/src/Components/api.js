@@ -204,7 +204,6 @@ function api_update_post_like(postId, newLikeCount, cb) {
     });
 }
 
-// Add the API endpoint to add a new comment
 function api_add_new_comment(postId, newComment, cb) {
     let url = `/api/posts/add_new_comment/${postId}`;
     fetch(url, {
@@ -232,9 +231,35 @@ function api_add_new_comment(postId, newComment, cb) {
     });
 }
 
-// Add the API endpoint to fetch comments
 function api_fetch_comments(postId, cb) {
     let url = `/api/posts/${postId}/comments`;
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb(data))
+    .catch(error => {
+        console.error('Error fetching comments:', error);
+        cb([]); // Handle error by passing an empty array or appropriate default value
+    });
+}
+
+// Need to fix
+function api_handle_expand_post(postId, cb) {
+    let url = `/api/expandedposts/${postId}/`;
     fetch(url, {
         method: "GET",
         mode: "same-origin",
@@ -337,4 +362,6 @@ function api_delete_event(eventId, cb) {
     .catch(error => console.log(error));
 }
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post, api_fetch_posts, api_fetch_newest_post, api_update_post_like, api_add_new_comment, api_fetch_comments, api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
+export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, 
+        api_create_post, api_fetch_posts, api_fetch_newest_post, api_update_post_like, api_add_new_comment, api_fetch_comments, api_handle_expand_post, 
+        api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
