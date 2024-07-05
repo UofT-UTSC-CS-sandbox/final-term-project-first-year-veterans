@@ -1,3 +1,7 @@
+/*
+  Reference: I have used CHATGPT, Github Copilot  and my own knowledge to code the following file.
+*/
+
 module.exports = {
     SECRET_KEY: `e2d4c59273322da5dea8cee266f5a4d10b9d0c77365870cdf4fac60583997077
     4597a5d7819d92414470d8f36275f35454d30a4a5b367754181e0e5eb1547197
