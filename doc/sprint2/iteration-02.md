@@ -9,7 +9,7 @@
 
 ### Quick Introduction to the Process
 
-In this iteration, we aim to refine our workflows, improve communication, and enhance our productivity by implementing several new strategies.
+In this iteration, we aim to refine our workflows, improve communication, and enhance our productivity by implementing new strategies.
 
 ### Changes from Previous Iteration
 
@@ -78,3 +78,6 @@ Artifacts to present the project idea:
 * **User Stories**: Detailed user stories to ensure the product meets user needs.
 * **Documentation**: Adding documentation to the code to ensure clarity in new code.
 * **Purpose**: Clearly defined user stories help align development with user needs and ensure that each feature delivers value.
+* **Calendar Pages**: Build a calendar page to allow users to keep track of events
+* **Friends List**: Updated the profile/freinds list page
+* **Posts Page** Build a posts page to allow users to create new posts, view new/all posts, comment and like posts.
