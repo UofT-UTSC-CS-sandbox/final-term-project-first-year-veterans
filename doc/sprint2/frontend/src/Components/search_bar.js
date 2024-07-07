@@ -27,7 +27,7 @@ function SearchBar() {
     const [typeOptions, setTypeOptions] = useState(categoryOptions);
     const [type, setType] = useState('Filters');
 
-    const handleSubmit = (event) => {
+    const handleAddEvent = (event) => {
         event.preventDefault();
         const search_data = {"query": query, "type": type, "selectedOptions":selectedOptions}
         const callback = (data) => {
@@ -59,7 +59,7 @@ function SearchBar() {
 
     return (
         <div>
-            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit={handleSubmit}>
+            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit={handleAddEvent}>
                 <input 
                     type="text" 
                     name="query"

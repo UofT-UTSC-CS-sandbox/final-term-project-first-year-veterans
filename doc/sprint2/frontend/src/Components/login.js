@@ -59,7 +59,7 @@ function Login({onLogin}) {
                     </label>
                 </div>
                 <button className="btn btn-primary w-100 py-2" type="submit" onClick={handleClick}>Sign in</button>
-                <p className="mt-5 mb-3 text-body-secondary">© 2017–2024</p>
+                <p className="mt-5 mb-3 text-body-secondary">© {(new Date()).getFullYear()}</p>
             </form>
         </main>
       </div>

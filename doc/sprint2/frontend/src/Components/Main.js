@@ -3,24 +3,27 @@ import React from 'react';
 import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
-import FriendList from './FriendList';
-import UserPage from './UserPage';
+import CalendarPage from './Calendar/CalendarPage';
 import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
+import FriendList from './FriendList';
+import UserPage from './UserPage';
 
 
 function Main() {
+  const [NotificationIcon, setNotificationIcon] = useState(false);
+
   return (
     <PageProvider>
       <div className="Main">
-          <TopBar />
-          <PageContent />
+          <TopBar NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
+          <PageContent NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
       </div>
   </PageProvider>
   );
 }
 
-const PageContent = () => {
+const PageContent = (props) => {
   const { currentPage } = usePage();
   const [userpageInfo, setUserpageInfo] = useState('');
 
@@ -28,6 +31,8 @@ const PageContent = () => {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
+  } else if (currentPage === 'Calendar') {
+      return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else if (currentPage === 'Friends') {
       return <FriendList setUserpageInfo={setUserpageInfo}/>;
   } else if (currentPage === 'User') {
