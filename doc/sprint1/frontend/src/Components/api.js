@@ -103,10 +103,14 @@ function api_profile_update(profile_data, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 // POST API'S
 
 function api_create_post(post_data, cb){
     let url="/api/posts/create/";
+=======
+function api_friend_fetch(friendList_data, cb){
+	let url="/api/friend/fetch";
 	fetch(url, {
 		method: "POST", 
 		mode: "same-origin", // no-cors, *cors, same-origin
@@ -115,7 +119,7 @@ function api_create_post(post_data, cb){
 		headers: {
 			'Content-Type': 'application/json',
 		},
-        body: JSON.stringify(post_data),
+		body: JSON.stringify(friendList_data),
 		redirect: "follow", // manual, *follow, error
 		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 		// body: JSON.stringify(), // body data type must match "Content-Type" header
@@ -125,6 +129,32 @@ function api_create_post(post_data, cb){
 	.catch(error=>console.log(error));
 }
 
+function api_friend_remove(friendList_data, cb){
+	let url="/api/friend/remove";
+>>>>>>> DEV-2-Friendship/Group_System
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+<<<<<<< HEAD
+        body: JSON.stringify(post_data),
+=======
+		body: JSON.stringify(friendList_data),
+>>>>>>> DEV-2-Friendship/Group_System
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+<<<<<<< HEAD
 function api_fetch_posts(cb) {
     let url = "/api/posts/fetch";
     fetch(url, {
@@ -165,6 +195,10 @@ function api_calendar_fetch(cb){
 
 function api_create_event(eventInfo, cb){
 	let url="/api/AddEvents";
+=======
+function api_follow_fetch(followList_data, cb){
+	let url="/api/follow/fetch";
+>>>>>>> DEV-2-Friendship/Group_System
 	fetch(url, {
 		method: "POST", 
 		mode: "same-origin", // no-cors, *cors, same-origin
@@ -173,7 +207,11 @@ function api_create_event(eventInfo, cb){
 		headers: {
 			'Content-Type': 'application/json',
 		},
+<<<<<<< HEAD
 		body: JSON.stringify(eventInfo),
+=======
+		body: JSON.stringify(followList_data),
+>>>>>>> DEV-2-Friendship/Group_System
 		redirect: "follow", // manual, *follow, error
 		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 		// body: JSON.stringify(), // body data type must match "Content-Type" header
@@ -183,6 +221,7 @@ function api_create_event(eventInfo, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 function api_update_event(eventId, eventInfo, cb) {
     let url = `/api/UpdateEvent/${eventId}`;
     fetch(url, {
@@ -221,3 +260,163 @@ function api_delete_event(eventId, cb) {
 }
 
 export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post, api_fetch_posts, api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
+=======
+function api_user_unfollow(friendList_data, cb){
+	let url="/api/user/unfollow";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_follower_fetch(followerList_data, cb){
+	let url="/api/follower/fetch";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(followerList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_user_followback(friendList_data, cb){
+	let url="/api/user/followback";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendRequests_fetch(friendList_data, cb){
+	let url="/api/friendRequests/fetch";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendRequests_accept(friendList_data, cb){
+	let url="/api/friendRequests/accept";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendRequests_reject(friendList_data, cb){
+	let url="/api/friendRequests/reject";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendList_search(friendList_data, cb){
+	let url="/api/friendList/search";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+
+export {
+	api_search, 
+	api_signin, 
+	api_checkAuth, 
+	api_profile_fetch, 
+	api_profile_update, 
+	api_friend_fetch, 
+	api_friend_remove, 
+	api_follow_fetch, 
+	api_user_unfollow, 
+	api_follower_fetch, 
+	api_user_followback, 
+	api_friendRequests_fetch,
+	api_friendRequests_accept,
+	api_friendRequests_reject,
+	api_friendList_search,
+};
+>>>>>>> DEV-2-Friendship/Group_System
