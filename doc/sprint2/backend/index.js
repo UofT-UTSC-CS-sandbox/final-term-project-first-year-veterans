@@ -34,11 +34,6 @@ app.use('', cookie_api);
 app.use('', signin_api);
 app.use('', search_api);
 app.use('', profile_fetch_api);
-<<<<<<< HEAD
-app.use('', api_profile_update);
-app.use('', calenda_api);
-app.use('', posts_api);
-=======
 app.use('', profile_update_api);
 app.use('', friend_fetch_api);
 app.use('', friend_remove_api);
@@ -50,7 +45,6 @@ app.use('', friendRequests_fetch_api);
 app.use('', friendRequests_accept_api);
 app.use('', friendRequests_reject_api);
 app.use('', friendList_search_api);
->>>>>>> DEV-2-Friendship/Group_System
 
 wss.on('connection', function connection(ws) {
     console.log('New client connected');
