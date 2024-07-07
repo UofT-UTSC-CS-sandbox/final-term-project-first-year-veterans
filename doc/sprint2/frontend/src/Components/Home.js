@@ -1,4 +1,3 @@
-// src/HomePage.js
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/material';
 import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
