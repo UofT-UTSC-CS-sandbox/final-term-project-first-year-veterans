@@ -373,9 +373,59 @@ function api_friendList_search(friendList_data, cb){
 	.catch(error=>console.log(error));
 }
 
+function api_fetch_posts(cb) {
+    let url = "/api/posts";
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin", // no-cors, *cors, same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow", // manual, *follow, error
+        referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    })
+    .then(response => response.json())
+    .then(data => cb(data)) // cb is a callback function run after the fetch is completed
+    .catch(error => console.log(error));
+}
+
+function api_create_post(post_data, cb){
+    let url="/api/post";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+        body: JSON.stringify(post_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
 
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_calendar_fetch, api_create_event, api_update_event, api_delete_event,  api_friend_fetch, 
+
+
+
+export {
+	api_search, 
+	api_signin, 
+	api_checkAuth, 
+	api_profile_fetch, 
+	api_profile_update, 
+	api_calendar_fetch, 
+	api_create_event, 
+	api_update_event, 
+	api_delete_event,  
+	api_friend_fetch, 
 	api_friend_remove, 
 	api_follow_fetch, 
 	api_user_unfollow, 
@@ -384,4 +434,6 @@ export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_up
 	api_friendRequests_fetch,
 	api_friendRequests_accept,
 	api_friendRequests_reject,
-	api_friendList_search,};
+	api_friendList_search,
+	api_fetch_posts,
+	api_create_post,};

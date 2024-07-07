@@ -9,7 +9,6 @@ import { useState } from 'react';
 import FriendList from './FriendList';
 import UserPage from './UserPage';
 import PostsPage from './PostsPage';
-import { PageProvider, usePage } from './PageContext';
 
 
 function Main() {
