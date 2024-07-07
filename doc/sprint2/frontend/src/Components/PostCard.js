@@ -49,7 +49,7 @@ const PostCard = ({ post }) => {
   const handleSubmitComment = () => {
     if (newComment.trim() !== '') {
       const commentData = {
-        userId: "Richie_Hsieh", // Replace with actual user ID
+        userId: "current_user_id", // Replace with actual user ID
         comment: newComment,
         postIdentification: post.postid
       };
