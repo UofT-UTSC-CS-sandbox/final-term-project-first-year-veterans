@@ -412,6 +412,142 @@ function api_create_post(post_data, cb){
 }
 
 
+function api_fetch_newest_post(cb) {
+    let url = "/api/posts/fetch_newest";
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb(data))
+    .catch(error => {
+        console.error('Error fetching posts:', error);
+        cb([]); // Handle error by passing an empty array or appropriate default value
+    });
+}
+
+function api_update_post_like(postData, cb) {
+    let url = `/api/posts/update_like`;
+    fetch(url, {
+        method: "POST",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify(postData) // Send the new like count in the request body
+    })
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_add_new_comment(commentData, cb) {
+	let url = `/api/posts/add_new_comment/${commentData.postidentification}`;
+	console.log("API URL:", url);
+	console.log("Comment Data:", commentData);
+	
+	fetch(url, {
+		method: "POST",
+		mode: "same-origin",
+		cache: "no-cache",
+		credentials: "same-origin",
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		redirect: "follow",
+		referrerPolicy: "no-referrer",
+		body: JSON.stringify(commentData) // Directly send commentData
+	})
+	.then(response => {
+		console.log("Response status:", response.status);
+		if (!response.ok) {
+			return response.json().then(errorData => {
+				console.error('Error response data:', errorData);
+				throw new Error('Network response was not ok');
+			});
+		}
+		return response.json();
+	})
+	.then(data => {
+		console.log("API response data:", data);
+		cb(null, data);
+	})
+	.catch(error => {
+		console.error('Error adding new comment:', error);
+		cb(error);
+	});
+  }
+  
+
+
+function api_fetch_comments(postId, cb) {
+    let url = `/api/posts/${postId}/comments`;
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb(data))
+    .catch(error => {
+        console.error('Error fetching comments:', error);
+        cb([]); // Handle error by passing an empty array or appropriate default value
+    });
+}
+
+function api_handle_expand_post(postId, cb) {
+    let url = `/api/expandedposts/${postId}/`;
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb && cb(data)) // Ensure cb is called if it's a function
+    .catch(error => {
+        console.error('Error fetching expanded post:', error);
+        cb && cb(null); // Handle error by passing null or appropriate default value
+    });
+}
+
 
 
 
@@ -436,4 +572,12 @@ export {
 	api_friendRequests_reject,
 	api_friendList_search,
 	api_fetch_posts,
-	api_create_post,};
+	api_create_post,
+	api_fetch_newest_post,
+	api_update_post_like,
+	api_add_new_comment,
+	api_fetch_comments,
+	api_handle_expand_post
+
+
+};

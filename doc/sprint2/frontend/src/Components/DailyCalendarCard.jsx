@@ -45,11 +45,7 @@ const DailyPlanCard = () => {
     };
 
     return (
-<<<<<<< HEAD
         <Card sx={{ backgroundColor: '#D4D3F3', borderRadius: 10, maxWidth: '20vw' }}>
-=======
-        <Card sx={{ backgroundColor: '#D4D3F3', borderRadius: 10, maxWidth: '20vw'}}>
->>>>>>> DEV-2-HomePage
             <CardContent>
                 <Typography variant="h5" component="div" align="center" sx={{fontWeight:'bold'}}>
                     DAILY PLAN
@@ -68,11 +64,7 @@ const DailyPlanCard = () => {
                     </IconButton>
                 </Box>
                 
-<<<<<<< HEAD
-                <Box mt={2} sx={{ background: 'white', borderRadius: 2, p: 2, overflow: 'auto', maxHeight: '10vh', textAlign: 'center', 
-=======
                 <Box mt={2} sx={{ width: "15rem", background: 'white', borderRadius: 2, p: 2, overflow: 'auto', maxHeight: '10vh', textAlign: 'center', 
->>>>>>> DEV-2-HomePage
                 '&::-webkit-scrollbar': {
                     width: '10px',
                 },
@@ -87,11 +79,7 @@ const DailyPlanCard = () => {
                     backgroundColor: '#555',
                 }
         ,}}>
-<<<<<<< HEAD
-                    <ol className='d-flex flex-column align-items-center justify-content-center'>
-=======
                     <ol className='d-flex flex-column align-items-start justify-content-center'>
->>>>>>> DEV-2-HomePage
                     
                         {events.map((event, index) => (
                             <li>

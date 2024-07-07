@@ -8,9 +8,8 @@ import FriendList from './FriendList';
 import UserPage from './UserPage';
 import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
-import FriendList from './FriendList';
-import UserPage from './UserPage';
 import PostsPage from './PostsPage';
+import HomePage from './Home';
 
 
 function Main() {
@@ -34,7 +33,11 @@ const PageContent = (props) => {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
-  } else if (currentPage === 'Calendar') {
+  }else if (currentPage === 'Home') {
+      return <HomePage />;
+  } else if(currentPage==='PostPage'){
+    return <PostsPage/>
+  }else if (currentPage === 'Calendar') {
       return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else if (currentPage === 'Friends') {
       return <FriendList setUserpageInfo={setUserpageInfo}/>;
