@@ -68,7 +68,7 @@ router.get('/api/posts/fetch', async function (req, res) {
           RETURN u AS node
           `, {results: postsList[i].postid, results2: commentList[j].comment});
         let cuid = convertNeo4jTypes(result3.records[0].get('node').properties);
-        commentList[j]["userId"] = cuid.uid;
+        commentList[j]["userId"] = cuid.uid; // Error here
       }
       postsList[i]["comments"] = commentList;//attach the comments into the post object
     }
@@ -185,34 +185,52 @@ router.post('/api/posts/create', async function (req, res) {
   }
 });
 
-router.post('/api/posts/update_like/:postId', async function (req, res) {
-  const postId = parseInt(req.params.postId, 10);
-  const newLikeCount = req.body.likeCount;
+router.post('/api/posts/update_like', async function (req, res) {
+  const pid = req.body.pid;
+  const uid = req.body.uid;
+
+  console.log(`Updating likes on post ${pid}`)
 
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
 
   try {
-    let query1 = `MATCH (n:POST {pid: $pid})
+    let query1 = `MATCH (n:Post {pid: $pid})<-[:LIKED]-(u:User {uid: $uid})
                   RETURN n AS node`;
-    const params1 = {pid: postId}; // Use params to plog in search_data.query to prevent SQL injection
+    const params1 = { uid: uid, pid: pid }; // Use params to plog in search_data.query to prevent SQL injection
     let post = await tx.run(query1, params1);
-    if (!post) {
-      return res.status(404).send({ message: "Post not found" });
-    }
 
-    let query2 = `MATCH (p:Post {pid: $pid})
-                  SET p.likes = $newLikeCount
-                  RETURN p as node
-                  `;
-    let params2 = {newLikeCount: newLikeCount, pid: postId};
+    console.log('length: ', post.records.length);
+
+    let query2;
+    let nowlike;
+
+    if (post.records.length === 0) {
+      nowlike = true;
+      query2 = `MATCH (p:Post {pid: $pid}), (u:User {uid: $uid})
+                CREATE (u)-[:LIKED]->(p)
+                SET p.likes = p.likes + 1
+                RETURN p as node`;
+    } else {
+      nowlike = false;
+      query2 = `MATCH (p:Post {pid: $pid})<-[r:LIKED]-(u:User {uid: $uid})
+                DELETE r
+                WITH p
+                SET p.likes = p.likes - 1
+                RETURN p as node`;
+    }
+    console.log('nowlike:', nowlike);
+    let params2 = {uid: uid, pid: pid};
     let result = await tx.run(query2, params2);
+
     let updated_post = convertNeo4jTypes(result.records[0].get('node').properties);
+    console.log(updated_post);
+
     await tx.commit();
-    console.log(`Updating likes on post ${postId}`);
+    console.log(`successfully updated post ${pid}`);
     res.status(200);
-    res.json(updated_post); //return the updated post
+    res.json({updated_post: updated_post, nowlike: nowlike}); //return the updated post
   }
   catch (error) {
     await tx.rollback();

@@ -177,8 +177,8 @@ function api_fetch_newest_post(cb) {
     });
 }
 
-function api_update_post_like(postId, newLikeCount, cb) {
-    let url = `/api/posts/update_like/${postId}`;
+function api_update_post_like(postData, cb) {
+    let url = `/api/posts/update_like`;
     fetch(url, {
         method: "POST",
         mode: "same-origin",
@@ -189,19 +189,11 @@ function api_update_post_like(postId, newLikeCount, cb) {
         },
         redirect: "follow",
         referrerPolicy: "no-referrer",
-        body: JSON.stringify({ likeCount: newLikeCount }) // Send the new like count in the request body
+        body: JSON.stringify(postData) // Send the new like count in the request body
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => cb(data))
-    .catch(error => {
-        console.error('Error updating post like count:', error);
-        cb(null); // Handle error by passing null or appropriate default value
-    });
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
 }
 
 function api_add_new_comment(commentData, cb) {
@@ -362,6 +354,230 @@ function api_delete_event(eventId, cb) {
     .catch(error => console.log(error));
 }
 
-export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, 
-        api_create_post, api_fetch_posts, api_fetch_newest_post, api_update_post_like, api_add_new_comment, api_fetch_comments, api_handle_expand_post, 
-        api_calendar_fetch, api_create_event, api_update_event, api_delete_event};
+function api_friend_fetch(friendList_data, cb){
+	let url="/api/friend/fetch";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friend_remove(friendList_data, cb){
+	let url="/api/friend/remove";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_follow_fetch(followList_data, cb){
+	let url="/api/follow/fetch";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(followList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_user_unfollow(friendList_data, cb){
+	let url="/api/user/unfollow";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_follower_fetch(followerList_data, cb){
+	let url="/api/follower/fetch";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(followerList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_user_followback(friendList_data, cb){
+	let url="/api/user/followback";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendRequests_fetch(friendList_data, cb){
+	let url="/api/friendRequests/fetch";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendRequests_accept(friendList_data, cb){
+	let url="/api/friendRequests/accept";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendRequests_reject(friendList_data, cb){
+	let url="/api/friendRequests/reject";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+function api_friendList_search(friendList_data, cb){
+	let url="/api/friendList/search";
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(friendList_data),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+		// body: JSON.stringify(), // body data type must match "Content-Type" header
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
+
+export {api_search, 
+        api_signin, 
+        api_checkAuth, 
+        api_profile_fetch, 
+        api_profile_update, 
+        api_create_post, 
+        api_fetch_posts, 
+        api_fetch_newest_post, 
+        api_update_post_like, 
+        api_add_new_comment, 
+        api_fetch_comments, 
+        api_handle_expand_post, 
+        api_calendar_fetch, 
+        api_create_event, 
+        api_update_event, 
+        api_delete_event,
+        api_friend_fetch, 
+        api_friend_remove, 
+        api_follow_fetch, 
+        api_user_unfollow, 
+        api_follower_fetch, 
+        api_user_followback, 
+        api_friendRequests_fetch,
+        api_friendRequests_accept,
+        api_friendRequests_reject,
+        api_friendList_search,
+    };

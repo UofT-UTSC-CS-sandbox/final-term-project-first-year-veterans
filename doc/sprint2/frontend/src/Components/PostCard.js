@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { api_update_post_like, api_add_new_comment, api_fetch_comments, api_handle_expand_post } from './api';
 
+const uid = 'Richie_Hsieh'; // Replace with actual user ID
+
 const PostCard = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likeCount);
   const [isClicked, setIsClicked] = useState(false);
@@ -24,12 +26,11 @@ const PostCard = ({ post }) => {
 
   const handleLike = (event) => {
     event.stopPropagation();
-    const newLikeCount = isClicked ? likeCount - 1 : likeCount + 1;
-    api_update_post_like(post.postid, newLikeCount, (updatedPost) => {
-      if (updatedPost) {
-        setLikeCount(updatedPost.likeCount);
-        setIsClicked(!isClicked);
-      }
+    api_update_post_like({pid: post.postid, uid: uid}, (data) => {
+      console.log('data: ', data);
+      console.log('updatedPost: ', data.updated_post);
+      setLikeCount(data.updated_post.likes);
+      setIsClicked(data.nowlike);
     });
   };
 
