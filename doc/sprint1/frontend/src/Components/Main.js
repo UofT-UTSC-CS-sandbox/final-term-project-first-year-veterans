@@ -4,6 +4,7 @@ import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import CalendarPage from './Calendar/CalendarPage';
+import PostsPage from './PostsPage';
 import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
 import FriendList from './FriendList';
@@ -38,8 +39,10 @@ const PageContent = (props) => {
   } else if (currentPage === 'User') {
       console.log("userInfo: ", userpageInfo);
       return <UserPage userpageInfo={userpageInfo}/>;
+  } else if (currentPage === 'Posts') {
+    return <PostsPage/>;
   } else {
-      return null;
+    return null;
   }
 };
 

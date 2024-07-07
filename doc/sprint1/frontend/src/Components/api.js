@@ -1,3 +1,5 @@
+
+// SEARCH API'S
 function api_search(search_data, cb){
     let url="/api/search";
 	fetch(url, {
@@ -17,6 +19,8 @@ function api_search(search_data, cb){
 	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
 	.catch(error=>console.log(error));
 }
+
+// SIGN_IN AND AUTHENTICATION API'S
 
 function api_signin(signin_data, cb){
 	let url="/api/signin";
@@ -56,6 +60,8 @@ function api_checkAuth(cb){
 	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
 	.catch(error=>console.log(error));
 }
+
+// PROFILE API'S
 
 function api_profile_fetch(profile_data, cb){
 	let url="/api/profile/fetch";
@@ -97,6 +103,7 @@ function api_profile_update(profile_data, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 function api_calendar_fetch(cb){
 	let url="/api/events";
 	fetch(url, {
@@ -118,6 +125,12 @@ function api_calendar_fetch(cb){
 
 function api_create_event(eventInfo, cb){
 	let url="/api/AddEvents";
+=======
+// POST API'S
+
+function api_create_post(post_data, cb){
+    let url="/api/post/create/";
+>>>>>>> origin/DEV-2-PostPage
 	fetch(url, {
 		method: "POST", 
 		mode: "same-origin", // no-cors, *cors, same-origin
@@ -126,7 +139,11 @@ function api_create_event(eventInfo, cb){
 		headers: {
 			'Content-Type': 'application/json',
 		},
+<<<<<<< HEAD
 		body: JSON.stringify(eventInfo),
+=======
+        body: JSON.stringify(post_data),
+>>>>>>> origin/DEV-2-PostPage
 		redirect: "follow", // manual, *follow, error
 		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
 		// body: JSON.stringify(), // body data type must match "Content-Type" header
@@ -136,6 +153,7 @@ function api_create_event(eventInfo, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 function api_update_event(eventId, eventInfo, cb) {
     let url = `/api/UpdateEvent/${eventId}`;
     fetch(url, {
@@ -385,3 +403,6 @@ export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_up
 	api_friendRequests_accept,
 	api_friendRequests_reject,
 	api_friendList_search,};
+=======
+export {api_search, api_signin, api_checkAuth, api_profile_fetch, api_profile_update, api_create_post};
+>>>>>>> origin/DEV-2-PostPage

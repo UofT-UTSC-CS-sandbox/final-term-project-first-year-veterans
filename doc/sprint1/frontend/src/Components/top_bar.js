@@ -26,7 +26,14 @@ function TopBar(props) {
 
           <ul className="nav nav-pills">
             <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Home</a></li>
+<<<<<<< HEAD
             <li className="nav-item"><a href="#" className={currentPage === 'Calendar' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Calendar')}>Calendar</a></li>
+=======
+            <li className="nav-item"><a href="#" className={currentPage === 'Users' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Users')}>Users</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Projects' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Projects')}>Projects</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Posts' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Posts')}>Posts</a></li>
+            <li className="nav-item"><a href="#" className="nav-link">Features</a></li>
+>>>>>>> origin/DEV-2-PostPage
             <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
             <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>

@@ -19,7 +19,6 @@ const categoryOptions = [
     'Mathematics',
     'Statistics'
 ];
-
 function SearchBar() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -27,7 +26,7 @@ function SearchBar() {
     const [typeOptions, setTypeOptions] = useState(categoryOptions);
     const [type, setType] = useState('Filters');
 
-    const handleAddEvent = (event) => {
+    const handleSubmit = (event) => {
         event.preventDefault();
         const search_data = {"query": query, "type": type, "selectedOptions":selectedOptions}
         const callback = (data) => {
@@ -59,7 +58,7 @@ function SearchBar() {
 
     return (
         <div>
-            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit={handleAddEvent}>
+            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit={handleSubmit}>
                 <input 
                     type="text" 
                     name="query"

@@ -19,7 +19,6 @@ const categoryOptions = [
     'Mathematics',
     'Statistics'
 ];
-
 function SearchBar() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);

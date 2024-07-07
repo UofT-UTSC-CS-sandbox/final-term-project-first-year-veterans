@@ -8,6 +8,8 @@ import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
 import FriendList from './FriendList';
 import UserPage from './UserPage';
+import PostsPage from './PostsPage';
+import { PageProvider, usePage } from './PageContext';
 
 
 function Main() {
@@ -38,7 +40,9 @@ const PageContent = (props) => {
   } else if (currentPage === 'User') {
       console.log("userInfo: ", userpageInfo);
       return <UserPage userpageInfo={userpageInfo}/>;
-  } else {
+    } else if (currentPage === 'Posts') {
+      return <PostsPage/>;
+    } else {
       return null;
   }
 };
