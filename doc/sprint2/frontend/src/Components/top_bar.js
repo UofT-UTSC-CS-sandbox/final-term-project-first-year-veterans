@@ -29,9 +29,6 @@ function TopBar(props) {
             <li className="nav-item"><a href="#" className={currentPage === 'Home' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Home')}>Home</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'PostPage' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'PostPage')}>Post Page</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Calendar' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Calendar')}>Calendar</a></li>
-            <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
-            <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
-            <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
             <li><EventNotification NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon}/></li>
             <li className="nav-item"><UserTools handleClick={handleClick}/></li>
           </ul>

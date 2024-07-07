@@ -96,9 +96,6 @@ const PostCard = ({ post }) => {
               <CommentIcon />
             </IconButton>
           </Tooltip>
-          <Button onClick={handleExpandPost} variant="outlined" style={{ marginLeft: 'auto' }}>
-            Expand
-          </Button>
         </div>
       </CardContent>
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
