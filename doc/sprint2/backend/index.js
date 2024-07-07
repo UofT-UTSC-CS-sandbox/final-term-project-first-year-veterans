@@ -10,11 +10,6 @@ const cookie_api = require('./routes/cookie_api');
 const signin_api = require('./routes/signin_api');
 const search_api = require('./routes/search_api');
 const profile_fetch_api = require('./routes/profile_fetch_api');
-<<<<<<< HEAD
-const api_profile_update = require('./routes/profile_update_api');
-const calenda_api = require('./routes/calendar_api');
-const posts_api = require('./routes/posts_api');
-=======
 const profile_update_api = require('./routes/profile_update_api');
 const friend_fetch_api = require('./routes/friendListApi/friend_fetch_api'); 
 const friend_remove_api = require('./routes/friendListApi/friend_remove_api');
@@ -26,7 +21,6 @@ const friendRequests_fetch_api = require('./routes/friendListApi/friendRequests_
 const friendRequests_accept_api = require('./routes/friendListApi/friendRequests_accept_api');
 const friendRequests_reject_api = require('./routes/friendListApi/friendRequests_reject_api');
 const friendList_search_api = require('./routes/friendListApi/friendList_search_api');
->>>>>>> DEV-2-Friendship/Group_System
 
 const port = 3000;
 const app = express();
