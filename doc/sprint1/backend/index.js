@@ -11,10 +11,16 @@ const signin_api = require('./routes/signin_api');
 const search_api = require('./routes/search_api');
 const profile_fetch_api = require('./routes/profile_fetch_api');
 const profile_update_api = require('./routes/profile_update_api');
-const friend_fetch_api = require('./routes/friend_fetch_api'); 
-const friend_remove_api = require('./routes/friend_remove_api');
-const follow_fetch_api = require('./routes/follow_fetch_api');
-const follower_fetch_api = require('./routes/follower_fetch_api');
+const friend_fetch_api = require('./routes/friendListApi/friend_fetch_api'); 
+const friend_remove_api = require('./routes/friendListApi/friend_remove_api');
+const follow_fetch_api = require('./routes/friendListApi/follow_fetch_api');
+const user_unfollow_api = require('./routes/friendListApi/user_unfollow_api');
+const follower_fetch_api = require('./routes/friendListApi/follower_fetch_api');
+const user_followback_api = require('./routes/friendListApi/user_followback_api');
+const friendRequests_fetch_api = require('./routes/friendListApi/friendRequests_fetch_api');
+const friendRequests_accept_api = require('./routes/friendListApi/friendRequests_accept_api');
+const friendRequests_reject_api = require('./routes/friendListApi/friendRequests_reject_api');
+const friendList_search_api = require('./routes/friendListApi/friendList_search_api');
 
 const port = 3000;
 const app = express();
@@ -32,7 +38,13 @@ app.use('', profile_update_api);
 app.use('', friend_fetch_api);
 app.use('', friend_remove_api);
 app.use('', follow_fetch_api);
+app.use('', user_unfollow_api);
 app.use('', follower_fetch_api);
+app.use('', user_followback_api);
+app.use('', friendRequests_fetch_api);
+app.use('', friendRequests_accept_api);
+app.use('', friendRequests_reject_api);
+app.use('', friendList_search_api);
 
 wss.on('connection', function connection(ws) {
     console.log('New client connected');

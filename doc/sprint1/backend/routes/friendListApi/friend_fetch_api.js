@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes');
+const { convertNeo4jTypes } = require('../../helper_functions/neo4jTypes');
 
-const { getSession } = require('../neo4j');
+const { getSession } = require('../../neo4j');
 router.use(express.json());
 
 router.post('/api/friend/fetch', (req, res) => {
@@ -26,7 +26,7 @@ router.post('/api/friend/fetch', (req, res) => {
             let property1 = node.properties;
             property1 = convertNeo4jTypes(property1);
             let property2 = profile.properties;
-            properties.push([property1.uid, property2.last_name, property2.first_name]);  // uid, last_name, first_name
+            properties.push({uid: property1.uid, last_name: property2.last_name, first_name: property2.first_name});  // uid, last_name, first_name
         });
 
         console.log(properties);

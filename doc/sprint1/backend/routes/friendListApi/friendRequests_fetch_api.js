@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes');
+const { convertNeo4jTypes } = require('../../helper_functions/neo4jTypes');
 
-const { getSession } = require('../neo4j');
+const { getSession } = require('../../neo4j');
 router.use(express.json());
 
-router.post('/api/follower/fetch', (req, res) => {
+router.post('/api/friendRequests/fetch', (req, res) => {
     // Access data from the request body
-    console.log("Server received: POST /api/follower/fetch");
+    console.log("Server received: POST /api/firendRequests/fetch");
     let uid = req.body.uid;
     const session = getSession();
     // Run the Neo4j query
 
     session.run(`
-        MATCH (u:User {uid: $uid})<-[:FOLLOWS]-(f:User)-[:HAS_PROFILE]->(p:User_profile)
+        MATCH (u:User {uid: $uid})<-[:REQUESTS_FRIENDSHIP]-(f:User)-[:HAS_PROFILE]->(p:User_profile)
         RETURN f AS node, p AS profile 
     `, { uid: uid })
     .then(result => {
@@ -26,14 +26,14 @@ router.post('/api/follower/fetch', (req, res) => {
             let property1 = node.properties;
             property1 = convertNeo4jTypes(property1);
             let property2 = profile.properties;
-            properties.push([property1.uid, property2.last_name, property2.first_name]);  // uid, last_name, first_name
+            properties.push({uid: property1.uid, last_name: property2.last_name, first_name: property2.first_name});  // uid, last_name, first_name
         });
 
         console.log(properties);
-        res.status(200).json({ followers: properties });
+        res.status(200).json({ requests: properties });
     })
     .catch(error => {
-        console.error('Error querying Neo4j', error);
+        console.error('Error fetching friendship requests', error);
         res.status(500).json({ message: 'Internal server error' });
     })
     .finally(() => {

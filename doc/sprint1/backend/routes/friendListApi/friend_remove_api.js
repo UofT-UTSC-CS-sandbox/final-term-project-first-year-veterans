@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getSession } = require('../neo4j');
+const { getSession } = require('../../neo4j');
 
 // Middleware to parse JSON bodies
 router.use(express.json());

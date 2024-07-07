@@ -21,7 +21,8 @@ const ActionButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 
-export default function UserPage({userpageInfo}) { // [uid, last_name, first_name]
+// userpageInfo: {uid, last_name, first_name}, label: 'follower' | 'friend' | 'follow' | 'request'
+export default function UserPage({userpageInfo, label}) { 
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6}>
@@ -32,10 +33,10 @@ export default function UserPage({userpageInfo}) { // [uid, last_name, first_nam
             sx={{ width: 100, height: 100 }}
           />
           <Typography variant="h5" component="h1" gutterBottom>
-            {userpageInfo[2] + " " + userpageInfo[1]} 
+            {userpageInfo.first_name + " " + userpageInfo.last_name} 
           </Typography>
           <Typography variant="h5" component="h1" gutterBottom>
-            {userpageInfo[0]}
+            {userpageInfo.uid}
           </Typography>
           <Typography variant="body1">
             University of Toronto Mississauga Student
@@ -65,7 +66,13 @@ export default function UserPage({userpageInfo}) { // [uid, last_name, first_nam
             >
                 <GitHubIcon />
             </IconButton>
-            <ActionButton variant="outlined">FOLLOW</ActionButton>
+            <ActionButton variant="outlined"> 
+            {label === 'follow' 
+                ? 'FOLLOWING' 
+                : (label === 'follower' && userpageInfo.state === 'mutual' 
+                  ? 'FOLLOWING' 
+                  : 'FOLLOW')}
+            </ActionButton>
           </Box>
           <Paper variant="outlined" sx={{ padding: 2, marginTop: 2, width: '100%' }}>
             <Typography variant="body2">
