@@ -23,6 +23,7 @@ const friendRequests_fetch_api = require('./routes/friendListApi/friendRequests_
 const friendRequests_accept_api = require('./routes/friendListApi/friendRequests_accept_api');
 const friendRequests_reject_api = require('./routes/friendListApi/friendRequests_reject_api');
 const friendList_search_api = require('./routes/friendListApi/friendList_search_api');
+const posts_api = require('./routes/posts_api');
 
 const port = 3000;
 const app = express();
@@ -49,6 +50,7 @@ app.use('', friendRequests_fetch_api);
 app.use('', friendRequests_accept_api);
 app.use('', friendRequests_reject_api);
 app.use('', friendList_search_api);
+app.use('',posts_api);
 
 wss.on('connection', function connection(ws) {
     console.log('New client connected');
