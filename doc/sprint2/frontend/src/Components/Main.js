@@ -4,6 +4,8 @@ import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import CalendarPage from './Calendar/CalendarPage';
+import FriendList from './FriendList';
+import UserPage from './UserPage';
 import { PageProvider, usePage } from './PageContext';
 import { useState } from 'react';
 import FriendList from './FriendList';

@@ -25,13 +25,27 @@ function TopBar(props) {
           </Navbar.Brand>
 
           <ul className="nav nav-pills">
+<<<<<<< HEAD
             <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Home</a></li>
+=======
+            <li className="nav-item"><a href="#" className={currentPage === 'Home' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Home')}>Home</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Users' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Users')}>Users</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Projects' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Projects')}>Projects</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Posts' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Posts')}>Posts</a></li>
+>>>>>>> DEV-2-HomePage
             <li className="nav-item"><a href="#" className={currentPage === 'Calendar' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Calendar')}>Calendar</a></li>
             <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
             <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
+<<<<<<< HEAD
             <li><EventNotification NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon}/></li>
             <li className="nav-item"><UserTools handleClick={handleClick}/></li>
+=======
+            <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Search</a></li>
+            <li><EventNotification NotificationIcon={props.NotificationIcon}/></li>
+            <li className="nav-item"><UserTools handleClick={handleClick}/></li>
+
+>>>>>>> DEV-2-HomePage
           </ul>
         </header>
       </div>
