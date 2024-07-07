@@ -29,7 +29,7 @@ let DB = [
     },
 ];
 
-router.get('/api/events',z , function(req, res) {
+router.get('/api/events' , function(req, res) {
    
     res.send(DB.filter(event => event.userId===req.userId));
 });
