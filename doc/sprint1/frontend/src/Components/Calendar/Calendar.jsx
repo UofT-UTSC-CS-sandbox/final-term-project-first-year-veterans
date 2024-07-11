@@ -1,3 +1,7 @@
+/*
+  Reference: I have used CHATGPT, Github Copilot  and my own knowledge to code the following file.
+*/
+
 // App.js
 import React from 'react';
 import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calendar';

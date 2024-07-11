@@ -1,3 +1,7 @@
+/*
+  Reference: I have used CHATGPT, Github Copilot  and my own knowledge to code the following file.
+*/
+
 import React, { useEffect, useState } from 'react';
 import { IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
