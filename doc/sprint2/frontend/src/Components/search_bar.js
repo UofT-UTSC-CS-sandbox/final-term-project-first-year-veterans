@@ -1,16 +1,39 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { api_search } from './api'; 
 import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../Asset/Css/App.css';
 import PostCard from './PostCard';
+=======
+import React from 'react';
+import { useState } from 'react';
+import {api_search} from './api'; 
+import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
+import Dropdown from 'react-bootstrap/Dropdown';
+import '../Asset/Css/App.css';
+>>>>>>> origin/DEV-2-Friendship/Group_System
 
 // These options are going to be fetched from the database
 // Later on we need to add an api require for these options
 // For now, we just hard code them
+<<<<<<< HEAD
 const majorOptions = ['Computer Science', 'Mathematics', 'Statistics'];
 
 const categoryOptions = ['Computer Science', 'Mathematics', 'Statistics'];
+=======
+const majorOptions = [
+    'Computer Science',
+    'Mathematics',
+    'Statistics'
+];
+
+const categoryOptions = [
+    'Computer Science',
+    'Mathematics',
+    'Statistics'
+];
+>>>>>>> origin/DEV-2-Friendship/Group_System
 
 function SearchBar() {
     const [query, setQuery] = useState('');
@@ -19,9 +42,19 @@ function SearchBar() {
     const [typeOptions, setTypeOptions] = useState(categoryOptions);
     const [type, setType] = useState('Filters');
 
+<<<<<<< HEAD
     const handleAddEvent = (event) => {
         event.preventDefault();
         const search_data = { "query": query, "type": type, "selectedOptions": selectedOptions };
+=======
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const search_data = {"query": query, "type": type, "selectedOptions":selectedOptions}
+        const callback = (data) => {
+            setResults(data);
+        };
+
+>>>>>>> origin/DEV-2-Friendship/Group_System
         api_search(search_data, callback);
     };
 
@@ -31,6 +64,7 @@ function SearchBar() {
 
     const handleType = (event, newtype) => {
         event.preventDefault();
+<<<<<<< HEAD
         const search_data = { "query": query, "type": newtype, "selectedOptions": selectedOptions };
         api_search(search_data, callback);
         setType(newtype);
@@ -41,10 +75,23 @@ function SearchBar() {
     const handleSelections = (event) => {
         event.preventDefault();
         const search_data = { "query": query, "type": type, "selectedOptions": event.target.value };
+=======
+        const search_data = {"query": query, "type": newtype, "selectedOptions":selectedOptions}
+        api_search(search_data, callback);
+        setType(newtype);
+        newtype === "User" ? setTypeOptions(majorOptions) : setTypeOptions(categoryOptions);
+    }
+    
+    // General handle filter function
+    const handleSelections = (event) => {
+        event.preventDefault();
+        const search_data = {"query": query, "type": type, "selectedOptions":event.target.value}
+>>>>>>> origin/DEV-2-Friendship/Group_System
         api_search(search_data, callback);
         setSelectedOptions(event.target.value); // This is an async function, so the value is not updated immediately, need to use event.target.value
     };
 
+<<<<<<< HEAD
     const renderResults = () => {
         return (
             <ul>
@@ -90,6 +137,23 @@ function SearchBar() {
                 <button className="submitbutton" type="submit">Search</button>
             </form>
             <div className="dropdown-container">
+=======
+    return (
+        <div>
+            <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit={handleSubmit}>
+                <input 
+                    type="text" 
+                    name="query"
+                    className="search_input form-control" 
+                    placeholder="Search..." 
+                    aria-label="Search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                ></input>
+                <button className = "submitbutton" type="submit">Search</button>
+            </form>
+            <div className = "dropdown-container">
+>>>>>>> origin/DEV-2-Friendship/Group_System
                 <Dropdown style={{ alignContent: 'center' }}>
                     <Dropdown.Toggle className="dropbtn" variant="success" id="dropdown-basic">
                         {type}
@@ -125,10 +189,24 @@ function SearchBar() {
             </div>
             <div>
                 <h2>Search Results:</h2>
+<<<<<<< HEAD
                 {renderResults()}
+=======
+                <ul>
+                    {results.map((result, index) => (
+                        Object.keys(result).map((key, index2) => ( 
+                            <li key={index2}>{key}: {result[key]}</li>
+                        ))
+                    ))}
+                </ul>
+>>>>>>> origin/DEV-2-Friendship/Group_System
             </div>
         </div>
     );
 }
 
+<<<<<<< HEAD
 export default SearchBar;
+=======
+export default SearchBar;
+>>>>>>> origin/DEV-2-Friendship/Group_System

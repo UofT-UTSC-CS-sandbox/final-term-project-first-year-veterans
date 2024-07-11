@@ -21,7 +21,11 @@ router.use(express.json());
 
 router.post('/api/profile/fetch', (req, res) => {
     // Access data from the request body
+<<<<<<< HEAD
     console.log("Server received: GET /api/profile/fetch");
+=======
+    console.log("Server received: POST /api/profile/fetch");
+>>>>>>> origin/DEV-2-Friendship/Group_System
     let uid = req.body.uid;
     const session = getSession();
     // Run the Neo4j query

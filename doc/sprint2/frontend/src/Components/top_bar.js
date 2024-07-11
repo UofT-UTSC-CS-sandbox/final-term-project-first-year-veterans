@@ -3,9 +3,15 @@ import { Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Asset/Css/App.css';
 import { usePage } from './PageContext';
+<<<<<<< HEAD
 import EventNotification from './EventNotification.jsx';
 
 function TopBar(props) {
+=======
+import UserTools from './UserTools';
+
+function TopBar() {
+>>>>>>> origin/DEV-2-Friendship/Group_System
   const { currentPage, handlePageChange } = usePage();
 
   const handleClick = (e, page) => {
@@ -18,6 +24,7 @@ function TopBar(props) {
       <div className="container">
         <header className="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
           <Navbar.Brand href="/" className="d-flex align-items-center me-md-auto link-body-emphasis"> 
+<<<<<<< HEAD
             
             <span className="webName fs-4">EDU PRODIGI</span>
             
@@ -34,6 +41,17 @@ function TopBar(props) {
             <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Search</a></li>
             <li><EventNotification NotificationIcon={props.NotificationIcon}/></li>
+=======
+            <span className="webName fs-4">EDU PRODIGI</span>
+          </Navbar.Brand>
+
+          <ul className="nav nav-pills">
+            <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Home</a></li>
+            <li className="nav-item"><a href="#" className="nav-link">Features</a></li>
+            <li className="nav-item"><a href="#" className="nav-link">Pricing</a></li>
+            <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
+            <li className="nav-item"><UserTools handleClick={handleClick}/></li>
+>>>>>>> origin/DEV-2-Friendship/Group_System
           </ul>
         </header>
       </div>

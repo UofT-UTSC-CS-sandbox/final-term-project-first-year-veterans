@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 
 // SEARCH API'S
+=======
+>>>>>>> origin/DEV-2-Friendship/Group_System
 function api_search(search_data, cb){
     let url="/api/search";
 	fetch(url, {
@@ -20,8 +23,11 @@ function api_search(search_data, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 // SIGN_IN AND AUTHENTICATION API'S
 
+=======
+>>>>>>> origin/DEV-2-Friendship/Group_System
 function api_signin(signin_data, cb){
 	let url="/api/signin";
 	fetch(url, {
@@ -61,8 +67,11 @@ function api_checkAuth(cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 // PROFILE API'S
 
+=======
+>>>>>>> origin/DEV-2-Friendship/Group_System
 function api_profile_fetch(profile_data, cb){
 	let url="/api/profile/fetch";
 	fetch(url, {
@@ -103,6 +112,7 @@ function api_profile_update(profile_data, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 // POST API'S
 
 function api_create_post(post_data, cb){
@@ -354,6 +364,8 @@ function api_delete_event(eventId, cb) {
     .catch(error => console.log(error));
 }
 
+=======
+>>>>>>> origin/DEV-2-Friendship/Group_System
 function api_friend_fetch(friendList_data, cb){
 	let url="/api/friend/fetch";
 	fetch(url, {
@@ -554,6 +566,7 @@ function api_friendList_search(friendList_data, cb){
 	.catch(error=>console.log(error));
 }
 
+<<<<<<< HEAD
 export {api_search, 
         api_signin, 
         api_checkAuth, 
@@ -581,3 +594,23 @@ export {api_search,
         api_friendRequests_reject,
         api_friendList_search,
     };
+=======
+
+export {
+	api_search, 
+	api_signin, 
+	api_checkAuth, 
+	api_profile_fetch, 
+	api_profile_update, 
+	api_friend_fetch, 
+	api_friend_remove, 
+	api_follow_fetch, 
+	api_user_unfollow, 
+	api_follower_fetch, 
+	api_user_followback, 
+	api_friendRequests_fetch,
+	api_friendRequests_accept,
+	api_friendRequests_reject,
+	api_friendList_search,
+};
+>>>>>>> origin/DEV-2-Friendship/Group_System

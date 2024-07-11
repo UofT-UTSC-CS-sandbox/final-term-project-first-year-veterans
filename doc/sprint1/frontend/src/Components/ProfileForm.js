@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../Asset/Css/profilePicture.css";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -8,10 +8,8 @@ import Select from '@mui/material/Select';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
-import { useEffect } from 'react';
 
-import { api_profile_fetch } from './api';
-import { api_profile_update } from './api';
+import { api_profile_fetch, api_profile_update } from './api';
 
 const uid = "Richie_Hsieh";
 
@@ -31,7 +29,7 @@ function ProfileForm() {
     });
 
     const callback = (data) => {
-      setProfiles(data.profiles);
+      setProfiles(data.profiles || profiles); // Ensure profiles is populated
     };
 
     // Preload the data
@@ -54,7 +52,6 @@ function ProfileForm() {
       'Canada',
       'Japan'
     ];
-
 
     const ITEM_HEIGHT = 48;
     const ITEM_PADDING_TOP = 8;
@@ -84,7 +81,12 @@ function ProfileForm() {
         [name]: value
       }));
     };
-    
+
+    // Ensure profiles is defined before accessing properties
+    if (!profiles) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <div className="container">
         
