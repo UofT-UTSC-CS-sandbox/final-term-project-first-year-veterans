@@ -30,11 +30,10 @@ function TopBar(props) {
         </Navbar.Brand>
 
           <ul className="nav nav-pills">
-            <li className="nav-item"><a href="#" className={currentPage === 'Home' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Home')}>Home</a></li>
-            <li className="nav-item"><a href="#" className={currentPage === 'Posts' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Posts')}>Posts</a></li>
-            <li className="nav-item"><a href="#" className={currentPage === 'Calendar' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Calendar')}>Calendar</a></li>
-            <li className="nav-item"><a href="#" className={currentPage === 'Profile' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Profile')}>Profile</a></li>
             <li className="nav-item"><a href="#" className={currentPage === 'Search' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Search')}>Search</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Home' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Home')}>Home</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'PostPage' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'PostPage')}>Post Page</a></li>
+            <li className="nav-item"><a href="#" className={currentPage === 'Calendar' ? "nav-link active" : "nav-link"} aria-current="page" onClick={(e) => handleClick(e, 'Calendar')}>Calendar</a></li>
             <li><EventNotification NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon}/></li>
             <li className="nav-item"><UserTools handleClick={handleClick}/></li>
             <li><Logout /></li>

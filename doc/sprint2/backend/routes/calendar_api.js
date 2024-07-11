@@ -4,54 +4,85 @@
 
 const express = require('express');
 const router = express.Router();
-const verifyToken = require('../Middleware/verifyCookie');
+const { getSession } = require('../neo4j');
+const {convertNeo4jTypes} = require('../helper_functions/neo4jTypes');
 
-const today = new Date();
-let id = 2;
-let DB = [
-
-    {
-        id: 1,
-        title: 'Today’s Event',
-        start: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 10, 0), // Today at 10:00 AM
-        end: new Date(today.getFullYear(), today.getMonth(), today.getDate(), 11, 0), // Today at 11:00 AM
-        notificationTime: null,
-        userId: 'username'
-    
-    },
-    {
-        id: 2,
-        title: 'Tommorow’s Event',
-        start: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 10, 0), // Today at 10:00 AM
-        end: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 11, 0), // Today at 11:00 AM
-        notificationTime: new Date(today.getFullYear(), today.getMonth(), today.getDate()+1, 9, 0), // Today at 9
-        userId: 'username1'
-    },
-];
-
-router.get('/api/events' , function(req, res) {
-   
-    res.send(DB.filter(event => event.userId===req.userId));
+router.get('/api/events', function(req, res) {
+    const session = getSession();
+    session.run(`
+        MATCH (c: Calendar{cid: $cid})-[:INCLUDES]->(e:Entry)
+        return e
+    `, { cid: "Richie_Hsieh"})
+    .then(result => {
+        let entries = [];
+        result.records.forEach(record => {
+            let n = record.get('e').properties;
+            n = convertNeo4jTypes(n);
+            if (n.notify_time == "null") {
+                n.notify_time = null;
+            }
+            let reordered_properties = {id: parseInt(n.id, 10) , title: n.title, start: n.start, end: n.end, notificationTime: n.notify_time};
+            entries.push(reordered_properties); 
+        });
+        res.json(entries);
+    })
+    .catch(error => {
+        console.error('Error querying Neo4j', error);
+        res.status(500).json({ message: 'Internal server error' });
+    })
+    .finally(() => {
+        session.close();
+    });
 });
 
-router.post('/api/AddEvents', function(req, res) {
-    req.body.id = ++id;
-    console.log(req.body);
-    DB.push(req.body);
-    res.send(DB);
-    }   
-);
-
-router.put('/api/UpdateEvent/:eventId', (req, res) => {
-    const eventId = parseInt(req.params.eventId);
-    const eventIndex = DB.findIndex(event => event.id === eventId);
-    DB[eventIndex].id = eventId;
-    DB[eventIndex].title = req.body.title || DB[eventIndex].title;
-    DB[eventIndex].start = req.body.start || DB[eventIndex].start;
-    DB[eventIndex].end = req.body.end || DB[eventIndex].end;    
-    DB[eventIndex].notificationTime = req.body.notificationTime;
-    res.send(DB);
-    console.log(DB);
+let entry_with_highest_ID = 0;
+router.post('/api/AddEvents', async (req, res) => {
+    const session = getSession();
+    try {
+        const result1 = await session.run(
+        `
+        MATCH (e:Entry)
+        RETURN e
+        ORDER BY toInteger(e.id) DESC
+        LIMIT 1
+        `);
+        let first_record = result1.records[0];
+        if (first_record) {
+            entry_with_highest_ID = first_record.get('e').properties.id;
+            entry_with_highest_ID = parseInt(entry_with_highest_ID,10) + 1;
+        }
+        if (req.body.notificationTime == null) {
+            req.body.notificationTime = "null";
+        }
+        await session.run(
+        `
+        MATCH (c: Calendar{cid: $cid})
+        CREATE (e: Entry {title: $title, start: $start, end: $end, notify_time: $notify_time, id: $id})
+        CREATE (c)-[:INCLUDES]->(e)
+        `, { cid: "Richie_Hsieh", title: req.body.title, start: req.body.start, end: req.body.end, notify_time: req.body.notificationTime, id: String(entry_with_highest_ID)});
+        
+        const result3 = await session.run(
+        `
+        MATCH (c: Calendar{cid: $cid})-[:INCLUDES]->(e:Entry)
+        return e
+        `, { cid: "Richie_Hsieh"});
+        let entries = [];
+        result3.records.forEach(record => {
+            let n = record.get('e').properties;
+            n = convertNeo4jTypes(n);
+            if (n.notify_time == "null") {
+                n.notify_time = null;
+            }
+            let reordered_properties = {id: parseInt(n.id, 10) , title: n.title, start: n.start, end: n.end, notificationTime: n.notify_time};
+            entries.push(reordered_properties); 
+        });
+        console.log(entries);
+        res.json(entries)
+    } catch (error) {
+        console.error('Error processing queries:', error);
+    } finally {
+        session.close();
+    }
 });
 
 router.put('/api/UpdateEvent/:eventId', async (req, res) => {

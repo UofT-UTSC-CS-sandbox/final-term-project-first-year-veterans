@@ -304,7 +304,7 @@ export default function FriendList({setUserpageInfo}) {
                           </DialogContent>
                           <DialogActions>
                             <Button onClick={handleClose}>Cancel</Button>
-                            <Button onClick={(e) => handleClick(e, 'unfriend_confirm', friend)} autoFocus>
+                            <Button onClick={(e) => handleClick(e, 'unfriend_confirm', friend, index)} autoFocus>
                               Confirm
                             </Button>
                           </DialogActions>

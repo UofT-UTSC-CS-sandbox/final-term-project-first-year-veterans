@@ -1,43 +1,49 @@
-// src/HomePage.js
-import React from 'react';
-import { Container, Typography, Card, CardContent, Grid } from '@mui/material';
-import DailyPlanCard from './DailyCalendarCard';
-const newsItems = [
-  { id: 1, title: 'New Feature Released', description: 'We have released a new feature that allows you to...' },
-  { id: 2, title: 'Update on Privacy Policy', description: 'Our privacy policy has been updated to reflect...' },
-  { id: 3, title: 'Upcoming Maintenance', description: 'Scheduled maintenance will occur on...' },
-];
+import React, { useState, useEffect } from 'react';
+import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/material';
+import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
+import { api_fetch_newest_post } from './api';
+import PostCard from './PostCard';
 
 const HomePage = () => {
+  // Modify your frontend to handle a single post object instead of an array
+  const [post, setPost] = useState(null); // State to hold the newest post
+
+  useEffect(() => {
+    api_fetch_newest_post(data => {
+      setPost(data); // Set the single post object received from the backend
+    });
+  }, []);
+
   return (
-    <Container style={{ textAlign: 'center', marginTop: '50px' }}>
-      <Typography variant="h2" component="h1" gutterBottom>
-        Welcome to the Home Page!
-      </Typography>
+    <Container style={{ textAlign: 'center', marginTop: '20px', maxWidth: '100%' }}>
+      <Grid container spacing={2}>
+        <Grid item xs={2}>
+          <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
+            <Typography variant="h6">Following</Typography>
+            <Box bgcolor="blue" padding="10px" borderRadius="10px" marginBottom="20px" >Person 1</Box>
+            <Box bgcolor="blue" padding="10px" borderRadius="10px" marginBottom="20px" >Person 2</Box>
+          </Box>
+        </Grid>
 
-      <Typography variant="h4" component="h2" gutterBottom style={{ marginTop: '30px' }}>
-        What's New
-      </Typography>
+        <Grid item xs={7}>
+          {post ? (
+            <PostCard key={post.id} post={post} /> // Render the single post object
+          ) : (
+            <Typography variant="h6">No posts available</Typography>
+          )}
+        </Grid>
 
-      <Grid container spacing={3} justifyContent="center">
-        {newsItems.map(item => (
-          <Grid item xs={12} sm={6} md={4} key={item.id}>
-            <Card style={{ height: '100%' }}>
-              <CardContent>
-                <Typography variant="h5" component="h2" gutterBottom>
-                  {item.title}
-                </Typography>
-                <Typography variant="body2" component="p">
-                  {item.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+        <Grid item xs={3}>
+          <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
+            <Typography variant="h6">People You May Be Interested In</Typography>
+            {/* Add carousel or list of people here */}
+          </Box>
+          <DailyPlanCard />
+        </Grid>
       </Grid>
-      <DailyPlanCard/>
     </Container>
   );
+
 };
 
 export default HomePage;

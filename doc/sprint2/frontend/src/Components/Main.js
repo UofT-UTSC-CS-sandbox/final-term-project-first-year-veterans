@@ -34,19 +34,21 @@ const PageContent = (props) => {
       return <SearchBar />;
   } else if (currentPage === 'Profile') {
       return <ProfileForm />;
-  } else if (currentPage === 'Posts') {
-    return <PostsPage/>;
-  } else if (currentPage === 'Home') {
-    return <HomePage/>;
-  } else if (currentPage === 'Calendar') {
+  }else if (currentPage === 'Home') {
+      return <HomePage />;
+  } else if(currentPage==='PostPage'){
+    return <PostsPage/>
+  }else if (currentPage === 'Calendar') {
       return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else if (currentPage === 'Friends') {
       return <FriendList setUserpageInfo={setUserpageInfo}/>;
   } else if (currentPage === 'User') {
       console.log("userInfo: ", userpageInfo);
       return <UserPage userpageInfo={userpageInfo}/>;
-  } else {
-    return null;
+    } else if (currentPage === 'Posts') {
+      return <PostsPage/>;
+    } else {
+      return null;
   }
 };
 
