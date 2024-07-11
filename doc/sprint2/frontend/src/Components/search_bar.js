@@ -1,24 +1,17 @@
-import React from 'react';
-import { useState } from 'react';
-import {api_search} from './api'; 
+import React, { useState } from 'react';
+import { api_search } from './api'; 
 import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../Asset/Css/App.css';
+import PostCard from './PostCard';
 
 // These options are going to be fetched from the database
 // Later on we need to add an api require for these options
 // For now, we just hard code them
-const majorOptions = [
-    'Computer Science',
-    'Mathematics',
-    'Statistics'
-];
+const majorOptions = ['Computer Science', 'Mathematics', 'Statistics'];
 
-const categoryOptions = [
-    'Computer Science',
-    'Mathematics',
-    'Statistics'
-];
+const categoryOptions = ['Computer Science', 'Mathematics', 'Statistics'];
+
 function SearchBar() {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
@@ -28,11 +21,7 @@ function SearchBar() {
 
     const handleAddEvent = (event) => {
         event.preventDefault();
-        const search_data = {"query": query, "type": type, "selectedOptions":selectedOptions}
-        const callback = (data) => {
-            setResults(data);
-        };
-
+        const search_data = { "query": query, "type": type, "selectedOptions": selectedOptions };
         api_search(search_data, callback);
     };
 
@@ -42,35 +31,65 @@ function SearchBar() {
 
     const handleType = (event, newtype) => {
         event.preventDefault();
-        const search_data = {"query": query, "type": newtype, "selectedOptions":selectedOptions}
+        const search_data = { "query": query, "type": newtype, "selectedOptions": selectedOptions };
         api_search(search_data, callback);
         setType(newtype);
         newtype === "User" ? setTypeOptions(majorOptions) : setTypeOptions(categoryOptions);
-    }
-    
+    };
+
     // General handle filter function
     const handleSelections = (event) => {
         event.preventDefault();
-        const search_data = {"query": query, "type": type, "selectedOptions":event.target.value}
+        const search_data = { "query": query, "type": type, "selectedOptions": event.target.value };
         api_search(search_data, callback);
         setSelectedOptions(event.target.value); // This is an async function, so the value is not updated immediately, need to use event.target.value
+    };
+
+    const renderResults = () => {
+        return (
+            <ul>
+                {results.map((result, index) => (
+                    <li key={index}>
+                        {type === 'User' && (
+                            <div>
+                                <h3>Profile:</h3>
+                                <p>Username: {result.username}</p>
+                                <p>Email: {result.email}</p>
+                                {/* Add other profile fields as needed */}
+                            </div>
+                        )}
+                        {type === 'Post' && (
+                            <PostCard key={result.postid} post={result}/>
+                        )}
+                        {type === 'Project' && (
+                            <div>
+                                <h3>Project:</h3>
+                                <p>Name: {result.name}</p>
+                                <p>Description: {result.description}</p>
+                                {/* Add other project fields as needed */}
+                            </div>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        );
     };
 
     return (
         <div>
             <form className="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" onSubmit={handleAddEvent}>
-                <input 
-                    type="text" 
+                <input
+                    type="text"
                     name="query"
-                    className="search_input form-control" 
-                    placeholder="Search..." 
+                    className="search_input form-control"
+                    placeholder="Search..."
                     aria-label="Search"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                ></input>
-                <button className = "submitbutton" type="submit">Search</button>
+                />
+                <button className="submitbutton" type="submit">Search</button>
             </form>
-            <div className = "dropdown-container">
+            <div className="dropdown-container">
                 <Dropdown style={{ alignContent: 'center' }}>
                     <Dropdown.Toggle className="dropbtn" variant="success" id="dropdown-basic">
                         {type}
@@ -106,13 +125,7 @@ function SearchBar() {
             </div>
             <div>
                 <h2>Search Results:</h2>
-                <ul>
-                    {results.map((result, index) => (
-                        Object.keys(result).map((key, index2) => ( 
-                            <li key={index2}>{key}: {result[key]}</li>
-                        ))
-                    ))}
-                </ul>
+                {renderResults()}
             </div>
         </div>
     );
