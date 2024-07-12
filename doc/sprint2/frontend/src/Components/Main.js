@@ -38,7 +38,7 @@ const PageContent = (props) => {
   } else if(currentPage==='PostPage'){
     return <PostsPage/>
   }else if (currentPage === 'Calendar') {
-      return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
+    return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
   } else if (currentPage === 'Friends') {
       return <FriendList setUserpageInfo={setUserpageInfo}/>;
   } else if (currentPage === 'User') {
