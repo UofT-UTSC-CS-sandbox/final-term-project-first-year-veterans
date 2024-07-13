@@ -8,7 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-import { api_update_event, api_delete_event } from '../api';
+import { api_update_event, api_delete_event } from '../../API/CalendarAPI.jsx';
 import CloseIcon from '@mui/icons-material/Close';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -40,7 +40,7 @@ export default function UpdateEventForm(props) {
 
     event.preventDefault();
     props.turnOffUpdateEventForm();
-    props.setNotificationIcon();
+    props.setNotificationTrigger(new Date());
   };
 
   const handleDelete = (event) => {
@@ -52,7 +52,7 @@ export default function UpdateEventForm(props) {
 
     event.preventDefault();
     props.turnOffUpdateEventForm();
-    props.setNotificationIcon();
+    props.setNotificationTrigger(new Date());
 
   };
 

@@ -9,7 +9,7 @@ import DailyPlanCard from '../DailyCalendarCard';
 import CreateEventForm from './CreateEventForm';
 import UpdateEventForm from './UpdateEventForm';
 
-function CalendarPage(props) {
+function CalendarPage({notificationTrigger, setNotificationTrigger}) {
     
     // The following hook is used to setup the content onto the calendar form.
     const [EventContent, setEventContent] = useState();
@@ -30,7 +30,7 @@ function CalendarPage(props) {
             
               <div className={(typeOfForm === 0)?"col-md-12":"col-md-7"}>
                   
-                  <Calendar style={{height: "95vh"}} NotificationIcon={props.NotificationIcon} upadteContent={typeOfForm} setEventContent={(props) => setEventContent(props)} setTypeOfForm={(e) => {setTypeOfForm(e)
+                  <Calendar style={{height: "95vh"}} notificationTrigger={notificationTrigger}  setNotificationTrigger={setNotificationTrigger} upadteContent={typeOfForm} setEventContent={(props) => setEventContent(props)} setTypeOfForm={(e) => {setTypeOfForm(e)
                     console.log(typeOfForm)
                   }}
                   
@@ -40,7 +40,7 @@ function CalendarPage(props) {
               {(typeOfForm === 1)&&<div className="col-md-5 d-flex align-items-center justify-content-center">
                  
                   
-                <CreateEventForm start={EventContent.start} end={EventContent.end} setNotificationIcon={() => {props.setNotificationIcon(!(props.NotificationIcon))}} turnOffCreateEventForm={() => {setTypeOfForm(0)}} />
+                <CreateEventForm start={EventContent.start} end={EventContent.end} setNotificationTrigger={setNotificationTrigger} turnOffCreateEventForm={() => {setTypeOfForm(0)}} />
 
                   
                 
@@ -49,7 +49,7 @@ function CalendarPage(props) {
               {(typeOfForm === 2)&&<div className="col-md-5 d-flex align-items-center justify-content-center">
                  
                   
-                 <UpdateEventForm id={EventContent.id}  title={EventContent.title} start={EventContent.start} end={EventContent.end}  notificationTime={EventContent.notificationTime}  setNotificationIcon={() => {props.setNotificationIcon(!(props.NotificationIcon))}} turnOffUpdateEventForm={() => {setTypeOfForm(0)}}/>
+                 <UpdateEventForm id={EventContent.id}  title={EventContent.title} start={EventContent.start} end={EventContent.end}  notificationTime={EventContent.notificationTime}  setNotificationTrigger={setNotificationTrigger} turnOffUpdateEventForm={() => {setTypeOfForm(0)}}/>
  
                    
                  

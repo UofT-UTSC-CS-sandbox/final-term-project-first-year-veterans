@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { api_calendar_fetch } from './api';
+import { api_calendar_fetch } from '../API/CalendarAPI.jsx';
 
 const DailyPlanCard = () => {
     const weekDay = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];

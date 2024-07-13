@@ -105,7 +105,6 @@ export default function FriendList({setUserpageInfo}) {
   const [open, setOpen] = React.useState(false); // Check if dialog is open
   const [searchTerm, setSearchTerm] = useState(''); // Search term for prefix search
 
-  const { currentPage, handlePageChange } = usePage(); // handle page switching for user page
 
   const callback = (data) => { // Fetch friendList data callback
     console.log(data.friends);
@@ -181,7 +180,6 @@ export default function FriendList({setUserpageInfo}) {
     switch (label) {
       case 'Account': // Open user page
         setUserpageInfo(userInfo, label);
-        handlePageChange('User');
         break;
       case 'unfriend': // Open dialog for unfriending
         console.log('Unfriend');

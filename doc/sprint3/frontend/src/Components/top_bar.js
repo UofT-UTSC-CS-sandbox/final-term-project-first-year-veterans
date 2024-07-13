@@ -11,7 +11,7 @@ import UserTools from './UserTools';
 import Logout from './Logout.jsx';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-function TopBar({ NotificationIcon, setNotificationIcon }) {
+function TopBar({ notificationTrigger, setNotificationTrigger }) {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPage = location.pathname.split('/').pop();
@@ -50,7 +50,7 @@ function TopBar({ NotificationIcon, setNotificationIcon }) {
               </li>
             ))}
             <li className="nav-item">
-              <EventNotification NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon} />
+              <EventNotification notificationTrigger={notificationTrigger} setNotificationTrigger={setNotificationTrigger} />
             </li>
             <li className="nav-item">
               <UserTools handleClick={handleClick} />

@@ -1,32 +1,29 @@
 /*
-  Reference: I have used CHATGPT, Github Copilot  and my own knowledge to code the following file.
+  Reference: I have used CHATGPT, Github Copilot and my own knowledge to code the following file.
 */
 
 import React, { useEffect, useState } from 'react';
 import { IconButton, Badge, Popover, List, ListItem, ListItemText } from '@mui/material';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { api_calendar_fetch, api_update_event } from './api';
+import { api_calendar_fetch, api_update_event } from '../API/CalendarAPI.jsx';
 import { Divider } from '@mui/material';
 import { Checkbox } from '@mui/material';
 
-const Notification = (props) => {
+const Notification = ({ notificationTrigger, setNotificationTrigger }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const[notifications, setNotifications] = useState([]);
+  const [notifications, setNotifications] = useState([]);
   const stringMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
   const today = new Date();
 
   useEffect(() => {
-
     api_calendar_fetch((data) => {
       const allNotification = data.filter((event) => {
-
-        if(event.notificationTime === undefined || event.notificationTime === null){
+        if (event.notificationTime === undefined || event.notificationTime === null) {
           return false;
         }
         const notificationTime = new Date(event.notificationTime);
-        return ((notificationTime <= today)
-        );
+        return (notificationTime <= today);
       });
 
       setNotifications(allNotification.map((event, index) => ({
@@ -37,11 +34,8 @@ const Notification = (props) => {
         end: new Date(event.end),
         notificationTime: new Date(event.notificationTime)
       })).sort((a, b) => a.start - b.start));
-
     });
-
-  }, [anchorEl, props.NotificationIcon]);
-
+  }, [today, notificationTrigger]);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -65,66 +59,70 @@ const Notification = (props) => {
       console.log("=== handle Update Event ===");
       console.log(data);
       console.log("=== End of handle Update Event ===");
-    
     });
-    props.setNotificationIcon(!props.NotificationIcon);
-  }
+    setNotificationTrigger(new Date());
+  };
 
   return (
     <div>
       <IconButton color="inherit" onClick={handleClick}>
         <Badge badgeContent={notifications.length} color="error">
-          <NotificationsIcon  color='primary'/>
+          <NotificationsIcon color='primary' />
         </Badge>
       </IconButton>
-      {(notifications.length > 0) ? <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <List sx={{'overflow':'auto', maxHeight: '15rem','&::-webkit-scrollbar': {
-                    width: '10px',
-                },
-                '&::-webkit-scrollbar-track': {
-                    background: '#E0E0E0',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                    backgroundColor: '#888',
-                    borderRadius: '1rem',
-                },
-                '&::-webkit-scrollbar-thumb:hover': {
-                    backgroundColor: '#555',
-                }}}>
-          {notifications.map((notification, index) => (
-            <div>
-
-              <ListItem key={notification.id} >
-                <Checkbox
-                  edge="start"
-                  key={notification.id}
-                  onChange={() => handleOnClick(notification)}
-                />
-                <ListItemText  sx={{paddingLeft:'0.1rem', paddingRight:'0.1rem','& .MuiListItemText-primary': { color: 'red' , fontWeight:'bold'} }} primary={(index + 1) +'. Event:' + ' ' + notification.title} secondary={notification.start.getFullYear() + '/'+stringMonth[notification.start.getMonth()]+ '/'+ notification.start.getDate()+ ' '+String(notification.start.getHours()).padStart(2, '0') + ':' + String(notification.start.getMinutes()).padStart(2, '0')} />
-              </ListItem>
-              {((notifications.length - 1) > index)?<Divider component="li" />: null}
-            </div>
-
-          ))}
-        </List>
-      </Popover>:
-      null
-      
-      
-      }
+      {notifications.length > 0 ? (
+        <Popover
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <List sx={{
+            overflow: 'auto', maxHeight: '15rem', '&::-webkit-scrollbar': {
+              width: '10px',
+            },
+            '&::-webkit-scrollbar-track': {
+              background: '#E0E0E0',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              backgroundColor: '#888',
+              borderRadius: '1rem',
+            },
+            '&::-webkit-scrollbar-thumb:hover': {
+              backgroundColor: '#555',
+            }
+          }}>
+            {notifications.map((notification, index) => (
+              <div key={notification.id}>
+                <ListItem>
+                  <Checkbox
+                    edge="start"
+                    onChange={() => handleOnClick(notification)}
+                  />
+                  <ListItemText
+                    sx={{
+                      paddingLeft: '0.1rem',
+                      paddingRight: '0.1rem',
+                      '& .MuiListItemText-primary': { color: 'red', fontWeight: 'bold' }
+                    }}
+                    primary={`${index + 1}. Event: ${notification.title}`}
+                    secondary={`${notification.start.getFullYear()}/${stringMonth[notification.start.getMonth()]}/${notification.start.getDate()} ${String(notification.start.getHours()).padStart(2, '0')}:${String(notification.start.getMinutes()).padStart(2, '0')}`}
+                  />
+                </ListItem>
+                {(notifications.length - 1) > index && <Divider component="li" />}
+              </div>
+            ))}
+          </List>
+        </Popover>
+      ) : null}
     </div>
   );
 };

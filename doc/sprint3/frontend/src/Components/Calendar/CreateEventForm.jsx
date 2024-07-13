@@ -8,8 +8,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
-import { api_create_event,  api_update_event} from '../api';
-import { api_delete_event } from '../api';
+import { api_create_event  } from '../../API/CalendarAPI.jsx';
 import CloseIcon from '@mui/icons-material/Close';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
@@ -68,7 +67,7 @@ export default function CreateEventForm( props) {
 
     event.preventDefault();
     props.turnOffCreateEventForm();
-    props.setNotificationIcon();
+    props.setNotificationTrigger(new Date());
 
     //props.setToggleUpdateNotification(!(props.NotificationIcon));
 

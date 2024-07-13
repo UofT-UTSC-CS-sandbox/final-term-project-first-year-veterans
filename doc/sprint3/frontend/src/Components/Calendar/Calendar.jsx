@@ -7,7 +7,7 @@ import React from 'react';
 import { Calendar as BigCalendar, momentLocalizer, Views } from 'react-big-calendar';
 import moment, { updateLocale } from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { api_calendar_fetch } from '../api';
+import { api_calendar_fetch } from '../../API/CalendarAPI.jsx';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
@@ -55,7 +55,7 @@ export default function Calendar(props) {
         }
       );
   
-  }, [props.upadteContent, props.NotificationIcon]);
+  }, [props.upadteContent, props.notificationTrigger]);
 
   
   return (
@@ -74,6 +74,7 @@ export default function Calendar(props) {
 
       onSelectSlot={(e) => {
         console.log("Inisde onSelectSlot");
+        props.setNotificationTrigger(new Date());
         console.log(e);
         props.setEventContent({start:e.start, end:e.end});
         props.setTypeOfForm(1);
@@ -82,6 +83,7 @@ export default function Calendar(props) {
       // If user double click an exist event, it will show the form to let user update the event.
       onDoubleClickEvent={(e) => {
         console.log("Inisde onDoubleClickEvent");
+        props.setNotificationTrigger(new Date());
         console.log(e);
         props.setEventContent({id: e.id, title: e.title, start: e.start, end: e.end, notificationTime: e.notificationTime});
         props.setTypeOfForm(2);

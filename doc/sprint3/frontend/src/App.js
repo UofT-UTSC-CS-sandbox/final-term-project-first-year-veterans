@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import SignupForm from './Components/SignUpForm.jsx';
 import Login from './Components/Login.jsx';
-import Main from './Components/Main';
+import Main from './Components/Main.jsx';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
