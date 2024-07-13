@@ -1,16 +1,14 @@
-import logo from '../logo.svg';
-import React from 'react';
+import React, { useState } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import CalendarPage from './Calendar/CalendarPage';
 import FriendList from './FriendList';
 import UserPage from './UserPage';
-import { PageProvider, usePage } from './PageContext';
-import { useState } from 'react';
+import { PageProvider } from './PageContext';
 import PostsPage from './PostsPage';
 import HomePage from './Home';
-
 
 function Main() {
   const [NotificationIcon, setNotificationIcon] = useState(false);
@@ -18,37 +16,21 @@ function Main() {
   return (
     <PageProvider>
       <div className="Main">
-          <TopBar NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
-          <PageContent NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon}/>
+        <TopBar NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon} />
+        <Routes>
+          <Route path="/" element={<Navigate to="home" />} />
+          <Route path="search" element={<SearchBar />} />
+          <Route path="profile" element={<ProfileForm />} />
+          <Route path="home" element={<HomePage />} />
+          <Route path="postpage" element={<PostsPage />} />
+          <Route path="calendar" element={<CalendarPage NotificationIcon={NotificationIcon} setNotificationIcon={setNotificationIcon} />} />
+          <Route path="friends" element={<FriendList />} />
+          <Route path="user" element={<UserPage />} />
+          <Route path="posts" element={<PostsPage />} />
+        </Routes>
       </div>
-  </PageProvider>
+    </PageProvider>
   );
 }
-
-const PageContent = (props) => {
-  const { currentPage } = usePage();
-  const [userpageInfo, setUserpageInfo] = useState('');
-
-  if (currentPage === 'Search') {
-      return <SearchBar />;
-  } else if (currentPage === 'Profile') {
-      return <ProfileForm />;
-  }else if (currentPage === 'Home') {
-      return <HomePage />;
-  } else if(currentPage==='PostPage'){
-    return <PostsPage/>
-  }else if (currentPage === 'Calendar') {
-    return <CalendarPage  NotificationIcon={props.NotificationIcon} setNotificationIcon={props.setNotificationIcon} />;
-  } else if (currentPage === 'Friends') {
-      return <FriendList setUserpageInfo={setUserpageInfo}/>;
-  } else if (currentPage === 'User') {
-      console.log("userInfo: ", userpageInfo);
-      return <UserPage userpageInfo={userpageInfo}/>;
-    } else if (currentPage === 'Posts') {
-      return <PostsPage/>;
-    } else {
-      return null;
-  }
-};
 
 export default Main;
