@@ -42,6 +42,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
+import { useNavigate } from 'react-router-dom';
 
 const uid = 'Richie_Hsieh'; // Hardcoded user id for testing
 
@@ -105,6 +106,7 @@ export default function FriendList({setUserpageInfo}) {
   const [open, setOpen] = React.useState(false); // Check if dialog is open
   const [searchTerm, setSearchTerm] = useState(''); // Search term for prefix search
 
+  const nav = useNavigate();
 
   const callback = (data) => { // Fetch friendList data callback
     console.log(data.friends);
@@ -180,6 +182,7 @@ export default function FriendList({setUserpageInfo}) {
     switch (label) {
       case 'Account': // Open user page
         setUserpageInfo(userInfo, label);
+        nav('/userpage');
         break;
       case 'unfriend': // Open dialog for unfriending
         console.log('Unfriend');

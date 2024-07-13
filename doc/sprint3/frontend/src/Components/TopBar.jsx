@@ -7,7 +7,7 @@ import { Navbar } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../Asset/Css/App.css';
 import EventNotification from './EventNotification.jsx';
-import UserTools from './UserTools';
+import UserTools from './UserTools.js';
 import Logout from './Logout.jsx';
 import { useNavigate, useLocation } from 'react-router-dom';
 
@@ -54,9 +54,6 @@ function TopBar({ notificationTrigger, setNotificationTrigger }) {
             </li>
             <li className="nav-item">
               <UserTools handleClick={handleClick} />
-            </li>
-            <li className="nav-item">
-              <Logout />
             </li>
           </ul>
         </header>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import TopBar from './top_bar';
+import TopBar from './TopBar.jsx';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
 import CalendarPage from './Calendar/CalendarPage.jsx';
@@ -8,6 +8,7 @@ import FriendList from './FriendList';
 import UserPage from './UserPage';
 import PostsPage from './PostsPage';
 import HomePage from './Home';
+import Logout from './Logout.jsx';
 
 function Main() {
   const [notificationTrigger, setNotificationTrigger] = useState(new Date());
@@ -23,8 +24,9 @@ function Main() {
         <Route path="postpage" element={<PostsPage />} />
         <Route path="calendar" element={<CalendarPage notificationTrigger={notificationTrigger} setNotificationTrigger={setNotificationTrigger} />} />
         <Route path="friends" element={<FriendList />} />
-        <Route path="user" element={<UserPage />} />
+        <Route path="userpage" element={<UserPage />} />
         <Route path="posts" element={<PostsPage />} />
+        <Route path="logout" element={<Logout/>} />
       </Routes>
     </div>
   );

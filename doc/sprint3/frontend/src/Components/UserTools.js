@@ -17,11 +17,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import People from '@mui/icons-material/People';
 import Avatar from '@mui/material/Avatar';
 import { useState, useEffect, useRef } from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router-dom';
+import { api_logout } from './api';
 
+// Data array now includes Logout
 const data = [
     { icon: <AccountCircleIcon />, label: 'Profile' },
     { icon: <People />, label: 'Friends' },
     { icon: <SettingsIcon />, label: 'Settings' },
+    { icon: <LogoutIcon />, label: 'Logout' },
 ];
 
 const FireNav = styled(List)({
@@ -40,6 +45,18 @@ const FireNav = styled(List)({
 
 export default function UserTools({handleClick}) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+      const logout = {};
+      api_logout(logout, (data) => {
+          if (data.logoutStatus) {
+              navigate('/login');
+          }
+      });
+  };
+
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'flex-end', height: "40px" }}>
@@ -105,7 +122,12 @@ export default function UserTools({handleClick}) {
                   <ListItemButton
                     key={item.label}
                     onClick={(e) => {
-                        handleClick(e, item.label); // Where the handleClick function change the pageContent
+                        if (item.label === 'Logout') {
+                            handleLogout();
+                        } else {
+
+                          handleClick(e, item.label); // Where the handleClick function change the pageContent
+                        }
                         setOpen(false);
                     }}
                     sx={{ 
