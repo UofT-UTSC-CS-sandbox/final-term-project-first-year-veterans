@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import TopBar from './top_bar';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
-import CalendarPage from './Calendar/CalendarPage';
+import CalendarPage from './Calendar/CalendarPage.jsx';
 import FriendList from './FriendList';
 import UserPage from './UserPage';
 import PostsPage from './PostsPage';
