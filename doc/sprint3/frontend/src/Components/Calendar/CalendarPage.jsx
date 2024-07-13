@@ -40,7 +40,7 @@ function CalendarPage({notificationTrigger, setNotificationTrigger}) {
               {(typeOfForm === 1)&&<div className="col-md-5 d-flex align-items-center justify-content-center">
                  
                   
-                <CreateEventForm start={EventContent.start} end={EventContent.end} setNotificationTrigger={setNotificationTrigger} turnOffCreateEventForm={() => {setTypeOfForm(0)}} />
+                <CreateEventForm start={EventContent.start} end={EventContent.end}  notificationTrigger={notificationTrigger} setNotificationTrigger={setNotificationTrigger} turnOffCreateEventForm={() => {setTypeOfForm(0)}} />
 
                   
                 
@@ -49,7 +49,7 @@ function CalendarPage({notificationTrigger, setNotificationTrigger}) {
               {(typeOfForm === 2)&&<div className="col-md-5 d-flex align-items-center justify-content-center">
                  
                   
-                 <UpdateEventForm id={EventContent.id}  title={EventContent.title} start={EventContent.start} end={EventContent.end}  notificationTime={EventContent.notificationTime}  setNotificationTrigger={setNotificationTrigger} turnOffUpdateEventForm={() => {setTypeOfForm(0)}}/>
+                 <UpdateEventForm id={EventContent.id}  title={EventContent.title} start={EventContent.start} end={EventContent.end}  notificationTime={EventContent.notificationTime}   notificationTrigger={notificationTrigger} setNotificationTrigger={setNotificationTrigger} turnOffUpdateEventForm={() => {setTypeOfForm(0)}}/>
  
                    
                  

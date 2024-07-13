@@ -11,7 +11,7 @@ import HomePage from './Home';
 import Logout from './Logout.jsx';
 
 function Main() {
-  const [notificationTrigger, setNotificationTrigger] = useState(new Date());
+  const [notificationTrigger, setNotificationTrigger] = useState(true);
 
   return (
     <div className="Main">

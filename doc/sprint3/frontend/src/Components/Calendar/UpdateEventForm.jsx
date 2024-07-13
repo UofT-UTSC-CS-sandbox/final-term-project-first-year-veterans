@@ -40,7 +40,7 @@ export default function UpdateEventForm(props) {
 
     event.preventDefault();
     props.turnOffUpdateEventForm();
-    props.setNotificationTrigger(new Date());
+    props.setNotificationTrigger(!(props.notificationTrigger));
   };
 
   const handleDelete = (event) => {
@@ -52,7 +52,7 @@ export default function UpdateEventForm(props) {
 
     event.preventDefault();
     props.turnOffUpdateEventForm();
-    props.setNotificationTrigger(new Date());
+    props.setNotificationTrigger(!(props.notificationTrigger));
 
   };
 

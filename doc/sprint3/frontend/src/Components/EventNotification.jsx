@@ -60,7 +60,7 @@ const Notification = ({ notificationTrigger, setNotificationTrigger }) => {
       console.log(data);
       console.log("=== End of handle Update Event ===");
     });
-    setNotificationTrigger(new Date());
+    setNotificationTrigger(!notificationTrigger);
   };
 
   return (
