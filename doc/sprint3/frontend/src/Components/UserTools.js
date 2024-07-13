@@ -59,7 +59,7 @@ export default function UserTools({handleClick}) {
 
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'flex-end', height: "40px" }}>
+    <Box sx={{ marginLeft: '1rem', display: 'flex', justifyContent: 'flex-end', height: "40px" }}>
       <ThemeProvider
         theme={createTheme({
           components: {
