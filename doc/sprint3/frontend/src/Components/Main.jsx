@@ -27,6 +27,7 @@ function Main() {
         <Route path="userpage" element={<UserPage />} />
         <Route path="posts" element={<PostsPage />} />
         <Route path="logout" element={<Logout/>} />
+        <Route path="userpage" element={<UserPage />} />
       </Routes>
     </div>
   );

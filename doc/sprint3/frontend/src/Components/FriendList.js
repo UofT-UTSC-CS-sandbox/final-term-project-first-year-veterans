@@ -1,16 +1,17 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react'; 
+import { useNavigate, useLocation } from 'react-router-dom';
 import { usePage } from './PageContext';
-import { api_friend_fetch } from './api';
-import { api_follow_fetch } from './api';
-import { api_follower_fetch } from './api';
-import { api_friend_remove } from './api';
-import { api_user_unfollow } from './api';
-import { api_user_followback } from './api';
-import { api_friendRequests_fetch } from './api';
-import { api_friendRequests_accept } from './api';
-import { api_friendRequests_reject } from './api';
-import { api_friendList_search } from './api';
+import { api_friend_fetch } from '../API/FriendlistAPI';
+import { api_follow_fetch } from '../API/FriendlistAPI';
+import { api_follower_fetch } from '../API/FriendlistAPI';
+import { api_friend_remove } from '../API/FriendlistAPI';
+import { api_user_unfollow } from '../API/FriendlistAPI';
+import { api_user_followback } from '../API/FriendlistAPI';
+import { api_friendRequests_fetch } from '../API/FriendlistAPI';
+import { api_friendRequests_accept } from '../API/FriendlistAPI';
+import { api_friendRequests_reject } from '../API/FriendlistAPI';
+import { api_friendList_search } from '../API/FriendlistAPI';
 
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -42,7 +43,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonOffIcon from '@mui/icons-material/PersonOff';
-import { useNavigate } from 'react-router-dom';
 
 const uid = 'Richie_Hsieh'; // Hardcoded user id for testing
 
@@ -105,8 +105,7 @@ export default function FriendList({setUserpageInfo}) {
   const [requests, setRequests] = React.useState([]); // List of requests for friendship
   const [open, setOpen] = React.useState(false); // Check if dialog is open
   const [searchTerm, setSearchTerm] = useState(''); // Search term for prefix search
-
-  const nav = useNavigate();
+  const navigate = useNavigate();
 
   const callback = (data) => { // Fetch friendList data callback
     console.log(data.friends);
@@ -181,8 +180,8 @@ export default function FriendList({setUserpageInfo}) {
     e.preventDefault();
     switch (label) {
       case 'Account': // Open user page
-        setUserpageInfo(userInfo, label);
-        nav('/userpage');
+        // setUserpageInfo(userInfo, label);
+        navigate('/main/userpage', { state: { userpageInfo: userInfo, label: label } })
         break;
       case 'unfriend': // Open dialog for unfriending
         console.log('Unfriend');
