@@ -23,7 +23,7 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 // userpageInfo: {uid, last_name, first_name}, label: 'follower' | 'friend' | 'follow' | 'request'
-export default function UserPage({userpageInfo, label}) { 
+export default function UserPage() { 
   const location = useLocation();
   const userpageInfo = location.state.userpageInfo;
   const label = location.state.label;
