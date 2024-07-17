@@ -20,7 +20,8 @@ function TopBar({ notificationTrigger, setNotificationTrigger }) {
     { name: 'Home', path: '/main/home' },
     { name: 'Post Page', path: '/main/postpage' },
     { name: 'Calendar', path: '/main/calendar' },
-    { name: 'Search', path: '/main/search' }
+    { name: 'Search', path: '/main/search' },
+    { name: 'Chat', path: '/main/chat' },
   ];
 
   const handleClick = (e, path) => {
