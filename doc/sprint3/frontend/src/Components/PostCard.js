@@ -15,11 +15,12 @@ const uid = 'Richie_Hsieh'; // Replace with actual user ID
 
 const PostCard = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likeCount);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(post.isLikedByMe);
   const [isExpanded, setIsExpanded] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
+  
   useEffect(() => {
     setIsClicked(false);
   }, [post.postid]);

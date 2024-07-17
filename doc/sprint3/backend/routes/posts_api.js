@@ -17,7 +17,7 @@ let DB = [
   { postid: 2, userId: "Andy", postTitle: "Introduction 2", postMessage: "My name is Andy! This is my first post", likeCount: 0, comments: [{userId: "Richie_Hsieh", comment: "Love it!", postidentification: 2}] }
 ];
 
-router.get('/api/posts/fetch', async function (req, res) {
+router.get('/api/posts/fetch/:uid', async function (req, res) {
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
@@ -83,7 +83,7 @@ router.get('/api/posts/fetch', async function (req, res) {
   }
 });
 
-router.get('/api/posts/fetch_newest', async function (req, res) {
+router.get('/api/posts/fetch_newest/:uid', async function (req, res) {
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
