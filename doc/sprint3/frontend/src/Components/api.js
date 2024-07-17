@@ -137,8 +137,8 @@ function api_create_post(post_data, cb){
 	.catch(error=>console.log(error));
 }
 
-function api_fetch_posts(cb) {
-    let url = "/api/posts/fetch";
+function api_fetch_posts(uid,cb) {
+    let url = `/api/posts/fetch/${uid}`;
     fetch(url, {
         method: "GET",
         mode: "same-origin",
@@ -164,8 +164,8 @@ function api_fetch_posts(cb) {
 }
 
 
-function api_fetch_newest_post(cb) {
-    let url = "/api/posts/fetch_newest";
+function api_fetch_newest_post(uid,cb) {
+    let url = `/api/posts/fetch_newest/${uid}`;
     fetch(url, {
         method: "GET",
         mode: "same-origin",

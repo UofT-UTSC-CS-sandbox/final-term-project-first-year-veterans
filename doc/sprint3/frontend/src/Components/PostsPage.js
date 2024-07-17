@@ -15,9 +15,10 @@ function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   let postid = 0;
+  let uid = "Andy_Chang"
 
   useEffect(() => {
-    api_fetch_posts(data => {
+    api_fetch_posts(uid, (data) => {
       setPosts(data);
       setLoading(false);
     });
@@ -31,7 +32,7 @@ function PostsPage() {
 
   const handleSubmitPost = (event) => {
     event.preventDefault();
-    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage, likeCount: 0, comments:[]};
+    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage, likeCount: 0, isLikedByMe: 0, comments:[]};
     console.log(post_data);
     api_create_post(post_data, (data) => {
       setPosts([...posts, data]);
