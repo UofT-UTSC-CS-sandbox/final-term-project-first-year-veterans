@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Avatar, Typography, Button, Link, Paper, Box } from '@mui/material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { styled } from '@mui/system';
 
 import ChatIcon from '@mui/icons-material/Chat';
@@ -22,7 +23,10 @@ const ActionButton = styled(Button)(({ theme }) => ({
 }));
 
 // userpageInfo: {uid, last_name, first_name}, label: 'follower' | 'friend' | 'follow' | 'request'
-export default function UserPage({userpageInfo, label}) { 
+export default function UserPage() { 
+  const location = useLocation();
+  const userpageInfo = location.state.userpageInfo;
+  const label = location.state.label;
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={8} md={6}>

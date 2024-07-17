@@ -2,67 +2,58 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// new socket server
-var WebSocketServer = require('ws').Server
-	,wss = new WebSocketServer({ port: 8000 });
-
-const cookie_api = require('./routes/cookie_api');
-const signin_api = require('./routes/signin_api');
-const search_api = require('./routes/search_api');
-const profile_fetch_api = require('./routes/profile_fetch_api');
-const api_profile_update = require('./routes/profile_update_api');
-const calenda_api = require('./routes/calendar_api');
-const profile_update_api = require('./routes/profile_update_api');
-const friend_fetch_api = require('./routes/friendListApi/friend_fetch_api'); 
-const friend_remove_api = require('./routes/friendListApi/friend_remove_api');
-const follow_fetch_api = require('./routes/friendListApi/follow_fetch_api');
-const user_unfollow_api = require('./routes/friendListApi/user_unfollow_api');
-const follower_fetch_api = require('./routes/friendListApi/follower_fetch_api');
-const user_followback_api = require('./routes/friendListApi/user_followback_api');
-const friendRequests_fetch_api = require('./routes/friendListApi/friendRequests_fetch_api');
-const friendRequests_accept_api = require('./routes/friendListApi/friendRequests_accept_api');
-const friendRequests_reject_api = require('./routes/friendListApi/friendRequests_reject_api');
-const friendList_search_api = require('./routes/friendListApi/friendList_search_api');
-const posts_api = require('./routes/posts_api');
+const routes = require('./routes');
 
 const port = 3000;
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: '*',  // accept requests from all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser());
 
 // Use the api router
-app.use('', cookie_api);
-app.use('', signin_api);
-app.use('', search_api);
-app.use('', profile_fetch_api);
-app.use('', api_profile_update);
-app.use('', calenda_api);
-app.use('', profile_update_api);
-app.use('', friend_fetch_api);
-app.use('', friend_remove_api);
-app.use('', follow_fetch_api);
-app.use('', user_unfollow_api);
-app.use('', follower_fetch_api);
-app.use('', user_followback_api);
-app.use('', friendRequests_fetch_api);
-app.use('', friendRequests_accept_api);
-app.use('', friendRequests_reject_api);
-app.use('', friendList_search_api);
-app.use('',posts_api);
+routes(app);
 
-wss.on('connection', function connection(ws) {
-    console.log('New client connected');
+const http = require('http');
+const fs = require('fs');
+const { Server } = require("socket.io");
+const eiows = require("eiows");
 
-    ws.on('message', function incoming(message) {
-        const buffer = Buffer.from(message);
-        counsole.log(buffer.toString());
-        console.log('received: %s', message);
-        ws.send('${message}');
+const server = http.createServer(app);
+
+const io = new Server(server, {
+    wsEngine: eiows.Server,  // Use the eiows server, not the default ws server
+    cors: {
+        origin: '*',  // accept requests from all origins
+        methods: ['GET', 'POST'],
+        credentials: true
+    }
+});
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+
+    socket.on('join', (uid) => {
+        console.log('create a room for user: ', uid);
+        socket.join(uid);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+    });
+
+    socket.on('chat message', (msg) => {
+        console.log(msg.sender, ' sent a message to ', msg.receiver);
+        io.to(msg.receiver).emit('chat message', msg);
+        io.to(msg.sender).emit('chat message', msg);
     });
 });
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+server.listen(port, () => {
+    console.log(`Server is listening on port ${port}`);
 });

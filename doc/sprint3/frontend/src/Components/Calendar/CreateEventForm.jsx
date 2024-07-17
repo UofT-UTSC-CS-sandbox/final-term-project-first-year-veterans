@@ -67,7 +67,7 @@ export default function CreateEventForm( props) {
 
     event.preventDefault();
     props.turnOffCreateEventForm();
-    props.setNotificationTrigger(new Date());
+    props.setNotificationTrigger(!(props.notificationTrigger));
 
     //props.setToggleUpdateNotification(!(props.NotificationIcon));
 
