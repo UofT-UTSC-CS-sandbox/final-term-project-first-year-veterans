@@ -6,7 +6,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import PostCard from './PostCard';
-import { api_create_post, api_fetch_posts } from '../api';
+import { api_create_post, api_fetch_posts } from '../../API/PostsApi.js';
 
 function PostsPage() {
   const [showCreatePost, setShowCreatePost] = useState(false);
