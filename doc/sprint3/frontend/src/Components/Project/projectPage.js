@@ -16,7 +16,7 @@ function ProjectPage() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedProjectId, setExpandedProjectId] = useState(null);
-
+  
   useEffect(() => {
     api_fetch_all_projects((data) => {
       setProjects(data);
@@ -54,14 +54,18 @@ function ProjectPage() {
   const handleProjectClick = (projectId) => {
     setExpandedProjectId(projectId === expandedProjectId ? null : projectId);
     setShowCreateProject(false);
+    api_fetch_all_projects((data) => {
+      setProjects(data);
+      setLoading(false);
+    });
   };
-
+  
   return (
-    <div className="projectcontainer">
+    <div className="projectcontainer" >
       <button className="createprojectbutton" onClick={handleCreateProjectClick}>
         {showCreateProject ? 'Cancel' : 'Create Project'}
       </button>
-      <div className="sidebar">
+      <div className="sidebar" style = {{ maxHeight: '725px', overflow: 'scroll' }}>
         {loading ? (
           <CircularProgress />
         ) : (

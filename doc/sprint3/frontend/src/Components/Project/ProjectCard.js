@@ -48,7 +48,8 @@ const ProjectCard = ({ project, isExpanded, onToggleExpand }) => {
     api_edit_project(formData, (data) => {
       if (data.success) {
         setIsEditing(false);
-        // Optionally, update the project data with the new values.
+        project.projectTitle = editTitle;
+        project.projectDescription = editDescription;
       }
     });
   };
