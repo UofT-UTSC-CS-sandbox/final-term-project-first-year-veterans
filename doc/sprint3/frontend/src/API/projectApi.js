@@ -45,7 +45,7 @@ function api_create_project(formData, cb) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({ userId, projectId }),
       redirect: "follow",
       referrerPolicy: "no-referrer",
     })

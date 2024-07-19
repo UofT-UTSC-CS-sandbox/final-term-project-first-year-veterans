@@ -33,7 +33,6 @@ router.post('/api/project/create', upload.single('file'), async function (req, r
 });
 
 router.post('/api/project/join', async function (req, res) {
-  console.log("ERE");
   const { projectId, uid } = req.body;
   const project = DB.find(p => p.projectId === projectId);
   if (project) {
