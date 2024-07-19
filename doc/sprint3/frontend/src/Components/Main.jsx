@@ -6,7 +6,7 @@ import ProfileForm from './ProfileForm';
 import CalendarPage from './Calendar/CalendarPage.jsx';
 import FriendList from './FriendList';
 import UserPage from './UserPage';
-import PostsPage from './PostsPage';
+import PostsPage from './Posts/PostsPage.js';
 import HomePage from './Home';
 import Logout from './Logout.jsx';
 import Chat from './chat';

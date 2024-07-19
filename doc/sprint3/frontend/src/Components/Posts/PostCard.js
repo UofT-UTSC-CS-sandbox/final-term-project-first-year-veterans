@@ -9,17 +9,18 @@ import Tooltip from '@mui/material/Tooltip';
 import Collapse from '@mui/material/Collapse';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { api_update_post_like, api_add_new_comment, api_fetch_comments, api_handle_expand_post } from './api';
+import { api_update_post_like, api_add_new_comment, api_fetch_comments, api_handle_expand_post } from '../../API/PostsApi';
 
 const uid = 'Richie_Hsieh'; // Replace with actual user ID
 
 const PostCard = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likeCount);
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(post.isLikedByMe);
   const [isExpanded, setIsExpanded] = useState(false);
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
+  
   useEffect(() => {
     setIsClicked(false);
   }, [post.postid]);
