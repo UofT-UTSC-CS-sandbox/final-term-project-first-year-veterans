@@ -15,7 +15,7 @@ function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   let postid = 0;
-  let uid = "Andy_Chang"
+  let uid = "Richie_Hsieh"
 
   useEffect(() => {
     api_fetch_posts(uid, (data) => {
