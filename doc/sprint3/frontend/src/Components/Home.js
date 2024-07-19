@@ -7,7 +7,8 @@ import PostCard from './PostCard';
 const HomePage = () => {
   // Modify your frontend to handle a single post object instead of an array
   const [post, setPost] = useState(null); // State to hold the newest post
-  let uid = "Andy_Chang";
+
+  let uid = "Richie_Hsieh";
 
   useEffect(() => {
     api_fetch_newest_post(uid,(data) => {

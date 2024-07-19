@@ -23,6 +23,7 @@ router.get('/api/posts/fetch', async function (req, res) {
   const tx = session.beginTransaction();
 
   console.log("Fetching Post Data");
+  const searcher_uid = parseInt(req.params.value, 10);
 
   try {
     let result = await tx.run(
@@ -71,6 +72,20 @@ router.get('/api/posts/fetch', async function (req, res) {
         commentList[j]["userId"] = cuid.uid; // Error here
       }
       postsList[i]["comments"] = commentList;//attach the comments into the post object
+
+      //time to check for liked or not
+      let result4 = await tx.run(`
+        MATCH (u:User)-[c:LIKED]->(p:Post)
+        WHERE u.uid = $uid AND p.pid = $pid
+        RETURN count(c) AS number
+        `, {uid: searcher_uid, pid: postsList[i].postid});
+      let liked = convertNeo4jTypes(result4.records[0].get('number').low);
+      if (parseInt(liked) > 0) {
+        postsList[i]["isLikedByMe"] = 1;
+      }
+      else {
+        postsList[i]["isLikedByMe"] = 0;
+      }
     }
     console.log(postsList);
     res.status(200).json(postsList); //return the posts
@@ -89,6 +104,8 @@ router.get('/api/posts/fetch_newest', async function (req, res) {
   const tx = session.beginTransaction();
 
   console.log("Fetching Newest");
+  
+  const searcher_uid = parseInt(req.params.value, 10);
 
   try {
     let result = await tx.run(
@@ -128,7 +145,19 @@ router.get('/api/posts/fetch_newest', async function (req, res) {
       let cuid = convertNeo4jTypes(result3.records[0].get('node').properties);
       commentList[j]["userId"] = cuid.uid;
     }
-    const parsedPost = {postid: latestPost.pid, postTitle: latestPost.title, postMessage: latestPost.content, likeCount: latestPost.likes, userId: uid.uid, comments: commentList};
+    
+    //time to check for liked or not
+    let result4 = await tx.run(`
+      MATCH (u:User)-[c:LIKED]->(p:Post)
+      WHERE u.uid = $uid AND p.pid = $pid
+      RETURN count(c) AS number
+      `, {uid: searcher_uid, pid: latestPost.pid});
+    let liked = convertNeo4jTypes(result4.records[0].get('number').low);
+    let likedByMe = 0;
+    if (parseInt(liked) > 0) {
+      likedByMe = 1;
+    }
+    const parsedPost = {postid: latestPost.pid, postTitle: latestPost.title, postMessage: latestPost.content, likeCount: latestPost.likes, userId: uid.uid, comments: commentList, isLikedByMe: likedByMe};
     console.log(parsedPost);
     res.status(200).json(parsedPost); //return the post
 } catch (error) {
