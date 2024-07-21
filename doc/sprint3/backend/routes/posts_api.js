@@ -204,7 +204,7 @@ router.post('/api/posts/create', async function (req, res) {
       CREATE (u)-[:POSTED]->(p)
       `,{uid: userId, pid: post.pid});
     await tx.commit();
-    res.status(200).json({postid: post.pid, postTitle: post.title, postMessage: post.content, likeCount: 0, userId: userId, comments: []}); //return the post created
+    res.status(200).json({postid: post.pid, postTitle: post.title, postMessage: post.content, likeCount: 0, userId: userId, comments: [], isLikedByMe: 0}); //return the post created
   } catch (error) {
       await tx.rollback();
       console.error('Error creating post: ', error);
