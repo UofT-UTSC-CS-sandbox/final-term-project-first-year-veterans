@@ -10,6 +10,7 @@ import PostsPage from './PostsPage';
 import HomePage from './Home';
 import Logout from './Logout.jsx';
 import Chat from './chat';
+import GroupPage from './GroupPage';
 import socket from './socket'; // Import the socket object, the socket is created while importing
 
 const uid = 'Richie_Hsieh';
@@ -51,6 +52,7 @@ function Main() {
         <Route path="logout" element={<Logout/>} />
         <Route path="userpage" element={<UserPage />} />
         <Route path="chat" element={<Chat newMessage={newMessage} sendMessage={sendMessage} />} />
+        <Route path="grouppage" element={<GroupPage />} />
       </Routes>
     </div>
   );
