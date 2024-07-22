@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; 
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 
 import { styled, alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
@@ -27,6 +27,8 @@ import StudyIcon from '@mui/icons-material/MenuBook';
 import ChatIcon from '@mui/icons-material/Chat';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import TextField from '@mui/material/TextField';
+import {api_new_group_submit} from "./api.js"
 
 const uid = 'Richie_Hsieh';
 
@@ -42,7 +44,6 @@ const groupList = [
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-  
     backgroundColor: alpha(theme.palette.grey[700], 0.15),
     '&:hover': {
       backgroundColor: alpha(theme.palette.grey[800], 0.25),
@@ -56,7 +57,7 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
   
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -64,9 +65,9 @@ const Search = styled('div')(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  }));
+}));
   
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     width: '100%',
     '& .MuiInputBase-input': {
@@ -79,7 +80,7 @@ const Search = styled('div')(({ theme }) => ({
         width: '100%',
       },
     },
-  }));
+}));
 
 function AddOrCreateDialog({ open, handleClose, handleOpenCreate, handleOpenJoin }) {
     return (
@@ -87,13 +88,13 @@ function AddOrCreateDialog({ open, handleClose, handleOpenCreate, handleOpenJoin
             <DialogTitle>Add or Create Your Server</DialogTitle>
             <DialogContent>
                 <List>
-                    <ListItemButton onClick={(e) => handleOpenCreate(e)}>
+                    <ListItemButton onClick={handleOpenCreate}>
                         <ListItemIcon>
                             <CreateIcon />
                         </ListItemIcon>
                         <ListItemText primary="Create My Own" />
                     </ListItemButton>
-                    <ListItemButton onClick={(e) => handleOpenJoin(e)}>
+                    <ListItemButton onClick={handleOpenJoin}>
                         <ListItemIcon>
                             <AddIcon />
                         </ListItemIcon>
@@ -102,8 +103,8 @@ function AddOrCreateDialog({ open, handleClose, handleOpenCreate, handleOpenJoin
                 </List>
             </DialogContent>
             <DialogActions>
-                <Button onClick={(e) => handleClose(e)}>Close</Button>
-          </DialogActions>
+                <Button onClick={handleClose}>Close</Button>
+            </DialogActions>
         </Dialog>
     );
 }
@@ -125,25 +126,27 @@ function AddGroupDialog({ open, handleClose, handleBack }) {
                         <StyledInputBase
                             placeholder="Search…"
                             inputProps={{ 'aria-label': 'search' }}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                     </Search>
                 </List>
             </DialogContent>
             <DialogActions>
-                <Button onClick={(e) => handleBack(e)}>Back</Button>
-                <Button onClick={(e) => handleClose(e)}>Close</Button>
-          </DialogActions>
+                <Button onClick={handleBack}>Back</Button>
+                <Button onClick={handleClose}>Close</Button>
+            </DialogActions>
         </Dialog>
     );
 }
 
-function CreateServerDialog({ open, handleClose, handleBack }) {
+function CreateServerDialog({ open, handleClose, handleBack, handleOpenSecondCreate }) {
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle>Create Your Server</DialogTitle>
             <DialogContent>
             <List>
-                <ListItemButton>
+                <ListItemButton onClick={handleOpenSecondCreate}>
                     <ListItemIcon>
                         <CreateIcon />
                     </ListItemIcon>
@@ -173,17 +176,80 @@ function CreateServerDialog({ open, handleClose, handleBack }) {
             </List>
             </DialogContent>
             <DialogActions>
-                <Button onClick={(e) => handleBack(e)}>Back</Button>
-                <Button onClick={(e) => handleClose(e)}>Close</Button>
+                <Button onClick={handleBack}>Back</Button>
+                <Button onClick={handleClose}>Close</Button>
             </DialogActions>
         </Dialog>
     );
-  }
+}
+
+function SecondCreateDialog({ open, handleClose, handleBack }) {
+    const [groupName, setGroupName] = useState('');
+    const [maxUsers, setMaxUsers] = useState('');
+    const [groupDescription, setGroupDescription] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        api_new_group_submit({groupName, maxUsers, groupDescription, uid});
+        console.log('Group Name:', groupName);
+        console.log('Max Users:', maxUsers);
+        console.log('Group Description:', groupDescription);
+        handleClose();
+        setGroupDescription('');
+        setGroupName('');
+        setMaxUsers('');
+    };
+
+    return (
+        <Dialog open={open} onClose={handleClose}>
+            <DialogTitle>Create a new Group!</DialogTitle>
+            <DialogContent>
+                <form onSubmit={handleSubmit}>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Group Name"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={groupName}
+                        onChange={(e) => setGroupName(e.target.value)}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Max Number of Users"
+                        type="number"
+                        fullWidth
+                        variant="outlined"
+                        value={maxUsers}
+                        onChange={(e) => setMaxUsers(e.target.value)}
+                    />
+                    <TextField
+                        margin="dense"
+                        label="Group Description"
+                        type="text"
+                        fullWidth
+                        variant="outlined"
+                        value={groupDescription}
+                        onChange={(e) => setGroupDescription(e.target.value)}
+                    />
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={handleBack}>Back</Button>
+                <Button onClick={handleClose}>Close</Button>
+                <Button onClick={handleSubmit} type="submit">Submit</Button>
+            </DialogActions>
+        </Dialog>
+    );
+}
+
 
 export default function GroupBar() {
     const [open, setOpen] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
     const [openJoin, setOpenJoin] = useState(false);
+    const [openSecondCreate, setOpenSecondCreate] = useState(false);
 
     const navigate = useNavigate();
     const handleGroupClick = (e) => {
@@ -200,20 +266,31 @@ export default function GroupBar() {
         setOpen(false);
     };
 
-    const handleBack = (e) => {
+    const handleOpenSecondCreate = () => {
+        setOpenSecondCreate(true);
         setOpenCreate(false);
-        setOpenJoin(false);
-        setOpen(true);
+    };
+
+    const handleBack = () => {
+        if (openSecondCreate) {
+            setOpenCreate(true);
+            setOpenSecondCreate(false);
+        } else if (openCreate || openJoin) {
+            setOpen(true);
+            setOpenCreate(false);
+            setOpenJoin(false);
+        }
     };
 
     const handleClickOpen = () => {
         setOpen(true);
     };
   
-    const handleClose = (e) => {
+    const handleClose = () => {
         setOpen(false);
         setOpenCreate(false);
         setOpenJoin(false);
+        setOpenSecondCreate(false);
     };
 
     return (
@@ -224,8 +301,8 @@ export default function GroupBar() {
             marginLeft: 'auto',
             marginRight: 'auto',
         }}>
-            {groupList.map((group, index) => ( //{state, uid, last_name, first_name}
-                <div>
+            {groupList.map((group, index) => (
+                <div key={index}>
                     <ListItemButton alignItems="flex-start" onClick={handleGroupClick}>
                         <ListItemAvatar style={{marginTop: 'auto', marginBottom: 'auto'}}>
                             <Avatar alt={group.name} />
@@ -237,7 +314,7 @@ export default function GroupBar() {
                         <Tooltip title="Chat" style={{marginTop: 'auto', marginBottom: 'auto'}}>
                             <IconButton 
                             edge="end" 
-                            aria-label="delete" 
+                            aria-label="chat" 
                             sx={{ marginRight: "10px", marginLeft: 'auto'}}
                             >
                             <ChatIcon />
@@ -251,8 +328,9 @@ export default function GroupBar() {
                 <AddIcon sx={{ marginRight: "auto", marginLeft: 'auto', marginTop: '5px', marginBottom: '5px'}}/>
             </ListItemButton>
             <AddOrCreateDialog open={open} handleClose={handleClose} handleOpenCreate={handleOpenCreate} handleOpenJoin={handleOpenJoin} />
-            <CreateServerDialog open={openCreate} handleClose={handleClose} handleBack={handleBack} />
+            <CreateServerDialog open={openCreate} handleClose={handleClose} handleBack={handleBack} handleOpenSecondCreate={handleOpenSecondCreate} />
             <AddGroupDialog open={openJoin} handleClose={handleClose} handleBack={handleBack} />
+            <SecondCreateDialog open={openSecondCreate} handleClose={handleClose} handleBack={handleBack} />
         </List>
     )
 }

@@ -314,7 +314,25 @@ function api_handle_expand_post(postId, cb) {
     });
 }
 
-
+function api_new_group_submit(groupData, cb){
+    let url="/api/group/create";
+	console.log(groupData);
+	fetch(url, {
+		method: "POST", 
+		mode: "same-origin", // no-cors, *cors, same-origin
+		cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+		credentials: "same-origin", // include, *same-origin, omit
+		headers: {
+			'Content-Type': 'application/json',
+		},
+        body: JSON.stringify(groupData),
+		redirect: "follow", // manual, *follow, error
+		referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+	})
+	.then(response=>response.json())
+	.then(data=>cb(data)) // cb is a callback function run after the fetch is completed
+	.catch(error=>console.log(error));
+}
 
 
 export {
@@ -330,7 +348,8 @@ export {
 	api_add_new_comment,
 	api_fetch_comments,
 	api_handle_expand_post,
-	api_logout
+	api_logout,
+	api_new_group_submit
 
 
 };
