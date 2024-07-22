@@ -23,6 +23,8 @@ router.post('/api/message/send', async (req, res) => {
             WITH m
             MATCH (c:Chat {chat_id: $chat_id}), (u:User {uid: $sender})
             CREATE (u)-[:SENT]->(m)<-[:HAS_MESSAGE]-(c)
+            WITH c
+            SET c.last_message_time = datetime()
         `, { sender: sender, chat_id: chat_id, content: content });
 
         await tx.commit();

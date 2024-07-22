@@ -40,7 +40,7 @@ const uid='Richie_Hsieh'; // Hardcoded user id
 function formatDateTime(dateTimeString) {
     const date = new Date(dateTimeString);
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以需要+1
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed, so we add 1
     const day = String(date.getDate()).padStart(2, '0');
     const hours = String(date.getHours()).padStart(2, '0');
     const minutes = String(date.getMinutes()).padStart(2, '0');
@@ -163,7 +163,7 @@ function Chat({ newMessage, sendMessage }) {
                             id="outlined-basic-email"
                             label="Type Something"
                             fullWidth
-                            inputRef={inputRef} // 使用ref获取输入框值
+                            inputRef={inputRef}
                         />
                         </Grid>
                         <Grid item xs={1.5} align="right">

@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 
 import { styled, alpha } from '@mui/material/styles';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
@@ -28,17 +29,22 @@ import ChatIcon from '@mui/icons-material/Chat';
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
-import {api_new_group_submit} from "./api.js"
+
+import { api_group_create } from "../API/GroupAPI"
+import { api_group_fetch } from '../API/GroupAPI';
 
 const uid = 'Richie_Hsieh';
 
-const groupList = [
-    {name: 'Group 1'},
-    {name: 'Group 2'},
-    {name: 'Group 3'},
-    {name: 'Group 4'},
-    {name: 'Group 5'},
-];
+function formatDateTime(dateTimeString) {
+    const date = new Date(dateTimeString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed, so we add 1
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
 
 // Styling for the search bar
 const Search = styled('div')(({ theme }) => ({
@@ -183,14 +189,17 @@ function CreateServerDialog({ open, handleClose, handleBack, handleOpenSecondCre
     );
 }
 
-function SecondCreateDialog({ open, handleClose, handleBack }) {
+function SecondCreateDialog({ open, handleClose, handleBack, setGroupList }) {
     const [groupName, setGroupName] = useState('');
     const [maxUsers, setMaxUsers] = useState('');
     const [groupDescription, setGroupDescription] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        api_new_group_submit({groupName, maxUsers, groupDescription, uid});
+        api_group_create({name: groupName, max: maxUsers, description: groupDescription, creator: uid}, (data) => {
+            console.log(data);
+            setGroupList((prevGroupList) => [...prevGroupList, data.newGroup]);
+        });
         console.log('Group Name:', groupName);
         console.log('Max Users:', maxUsers);
         console.log('Group Description:', groupDescription);
@@ -250,6 +259,19 @@ export default function GroupBar() {
     const [openCreate, setOpenCreate] = useState(false);
     const [openJoin, setOpenJoin] = useState(false);
     const [openSecondCreate, setOpenSecondCreate] = useState(false);
+    const [groupList, setGroupList] = useState([]);
+
+    useEffect(() => {
+        // Fetch group list from the backend
+        api_group_fetch({uid: uid}, data => {
+            console.log(data);
+            setGroupList(data.groups);
+        });
+    }, []);
+
+    useEffect(() => {
+        console.log('update group list:', groupList);
+    }, [groupList]);
 
     const navigate = useNavigate();
     const handleGroupClick = (e) => {
@@ -309,7 +331,17 @@ export default function GroupBar() {
                         </ListItemAvatar>
                         <ListItemText
                             primary={group.name}
-                            secondary="Group Description"
+                            secondary={
+                                <React.Fragment>
+                                    <Typography component="span" variant="body2" color="textPrimary">
+                                        last update:
+                                    </Typography>
+                                    <br />
+                                    <Typography component="span" variant="body2" color="textSecondary">
+                                        {formatDateTime(group.lastUpdateAt)}
+                                    </Typography>
+                              </React.Fragment>
+                            }
                         />
                         <Tooltip title="Chat" style={{marginTop: 'auto', marginBottom: 'auto'}}>
                             <IconButton 
@@ -330,7 +362,7 @@ export default function GroupBar() {
             <AddOrCreateDialog open={open} handleClose={handleClose} handleOpenCreate={handleOpenCreate} handleOpenJoin={handleOpenJoin} />
             <CreateServerDialog open={openCreate} handleClose={handleClose} handleBack={handleBack} handleOpenSecondCreate={handleOpenSecondCreate} />
             <AddGroupDialog open={openJoin} handleClose={handleClose} handleBack={handleBack} />
-            <SecondCreateDialog open={openSecondCreate} handleClose={handleClose} handleBack={handleBack} />
+            <SecondCreateDialog open={openSecondCreate} handleClose={handleClose} handleBack={handleBack} setGroupList={setGroupList}/>
         </List>
     )
 }

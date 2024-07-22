@@ -19,7 +19,8 @@ const posts_api = require('./routes/posts_api');
 const chat_fetch_api = require('./routes/chatApi/chat_fetch_api');
 const message_fetch_api = require('./routes/chatApi/message_fetch_api');
 const message_send_api = require('./routes/chatApi/message_send_api');
-const group_api = require('./routes/group_api');
+const group_fetch_api = require('./routes/groupApi/group_fetch_api');
+const group_create_api = require('./routes/groupApi/group_create_api');
 
 module.exports = (app) => {
     app.use('', cookie_api);
@@ -43,5 +44,6 @@ module.exports = (app) => {
     app.use('', chat_fetch_api);
     app.use('', message_fetch_api);
     app.use('', message_send_api);
-    app.use('', group_api);
+    app.use('', group_fetch_api);
+    app.use('', group_create_api);
 };
