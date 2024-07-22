@@ -7,7 +7,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import Tooltip from '@mui/material/Tooltip';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { api_join_project, api_edit_project } from '../../API/ProjectApi';
+import { api_join_project, api_edit_project } from '../../API/projectApi';
 
 const uid = 'Richie_Hsieh'; // Replace with actual user ID
 

@@ -6,7 +6,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import ProjectCard from './ProjectCard';
-import { api_create_project, api_fetch_all_projects } from '../../API/ProjectApi.js';
+import { api_create_project, api_fetch_all_projects } from '../../API/projectApi.js';
 
 let uid = "Richie_Hsieh";
 
