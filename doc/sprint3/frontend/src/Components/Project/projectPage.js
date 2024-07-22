@@ -8,6 +8,8 @@ import Container from '@mui/material/Container';
 import ProjectCard from './ProjectCard';
 import { api_create_project, api_fetch_all_projects } from '../../API/ProjectApi.js';
 
+let uid = "Richie_Hsieh";
+
 function ProjectPage() {
   const [showCreateProject, setShowCreateProject] = useState(false);
   const [projectTitle, setProjectTitle] = useState('');
@@ -18,7 +20,7 @@ function ProjectPage() {
   const [expandedProjectId, setExpandedProjectId] = useState(null);
   
   useEffect(() => {
-    api_fetch_all_projects((data) => {
+    api_fetch_all_projects(uid, (data) => {
       setProjects(data);
       setLoading(false);
     });
@@ -54,7 +56,7 @@ function ProjectPage() {
   const handleProjectClick = (projectId) => {
     setExpandedProjectId(projectId === expandedProjectId ? null : projectId);
     setShowCreateProject(false);
-    api_fetch_all_projects((data) => {
+    api_fetch_all_projects(uid,(data) => {
       setProjects(data);
       setLoading(false);
     });

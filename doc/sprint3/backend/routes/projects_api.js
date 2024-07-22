@@ -13,14 +13,15 @@ let DB = [
   { projectId: 2, userId: "Richie_Hsieh", projectTitle: "My First Project as well!", projectDescription: "This is a new project about a chess game in python", joinedCount: 5, isJoinedByMe: 1 }
 ];
 
-router.get('/api/project/fetchall', async function (req, res) {
+router.post('/api/project/fetchall', async function (req, res) {
   console.log("Fetching all projects");
+  console.log(req.body);
 
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
 
-  const searcher_uid = req.body.uid; //uid of the person performing the search
+  const searcher_uid = req.body; //uid of the person performing the search
 
   let projectsList = [];
 

@@ -17,16 +17,17 @@ function api_create_project(formData, cb) {
     .catch(error => console.log(error));
   }  
   
-  function api_fetch_all_projects(cb) {
+  function api_fetch_all_projects(uid,cb) {
     let url = "/api/project/fetchall";
     fetch(url, {
-      method: "GET",
+      method: "POST",
       mode: "same-origin",
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify({uid}),
       redirect: "follow",
       referrerPolicy: "no-referrer",
     })
