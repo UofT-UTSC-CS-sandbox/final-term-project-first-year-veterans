@@ -19,6 +19,7 @@ function TopBar({ notificationTrigger, setNotificationTrigger }) {
   const navItems = [
     { name: 'Home', path: '/main/home' },
     { name: 'Post Page', path: '/main/postpage' },
+    { name: 'Project Page', path: '/main/projects' },
     { name: 'Calendar', path: '/main/calendar' },
     { name: 'Search', path: '/main/search' },
     { name: 'Chat', path: '/main/chat' },

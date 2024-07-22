@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/material';
 import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
-import { api_fetch_newest_post } from './api';
-import PostCard from './PostCard';
+import { api_fetch_newest_post } from '../API/PostsApi.js';
+import PostCard from './Posts/PostCard';
 
 const HomePage = () => {
   // Modify your frontend to handle a single post object instead of an array
   const [post, setPost] = useState(null); // State to hold the newest post
 
+  let uid = "Richie_Hsieh";
+
   useEffect(() => {
-    api_fetch_newest_post(data => {
+    api_fetch_newest_post(uid,(data) => {
       setPost(data); // Set the single post object received from the backend
+      console.log(data);
     });
   }, []);
 

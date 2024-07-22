@@ -22,12 +22,12 @@ routes(app);
 const http = require('http');
 const fs = require('fs');
 const { Server } = require("socket.io");
-const eiows = require("eiows");
+//const eiows = require("eiows");
 
 const server = http.createServer(app);
 
 const io = new Server(server, {
-    wsEngine: eiows.Server,  // Use the eiows server, not the default ws server
+    //wsEngine: eiows.Server,  // Use the eiows server, not the default ws server
     cors: {
         origin: '*',  // accept requests from all origins
         methods: ['GET', 'POST'],

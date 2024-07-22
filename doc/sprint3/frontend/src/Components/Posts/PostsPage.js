@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import "../Asset/Css/Posts.css";
+import "../../Asset/Css/Posts.css";
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
 import PostCard from './PostCard';
-import { api_create_post, api_fetch_posts } from './api';
+import { api_create_post, api_fetch_posts } from '../../API/PostsApi.js';
 
 function PostsPage() {
   const [showCreatePost, setShowCreatePost] = useState(false);
@@ -15,10 +15,12 @@ function PostsPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   let postid = 0;
+  let uid = "Richie_Hsieh"
 
   useEffect(() => {
-    api_fetch_posts(data => {
+    api_fetch_posts(uid, (data) => {
       setPosts(data);
+      console.log(posts);
       setLoading(false);
     });
   }, []);
@@ -31,7 +33,7 @@ function PostsPage() {
 
   const handleSubmitPost = (event) => {
     event.preventDefault();
-    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage, likeCount: 0, comments:[]};
+    const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage, likeCount: 0, isLikedByMe: 0, comments:[]};
     console.log(post_data);
     api_create_post(post_data, (data) => {
       setPosts([...posts, data]);
