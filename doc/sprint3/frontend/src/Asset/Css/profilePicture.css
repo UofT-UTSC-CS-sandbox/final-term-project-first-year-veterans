@@ -1,17 +1,16 @@
-.avatar{
+.avatar {
     width: 200px;
     height: 200px;
 }
 
-.card{
-
-    background-color: #FFC96F;
+.card {
+    background-color: #ADD8E6; /* Soft blue background color */
 }
 
-.titleForPersonalInfo{
-    color: #ED5959;
+.titleForPersonalInfo {
+    color: #5DADE2; /* Soft blue text color */
 }
 
-label{
+label {
     font-weight: bold;
 }

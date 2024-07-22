@@ -21,10 +21,10 @@ const HomePage = () => {
     <Container style={{ textAlign: 'center', marginTop: '20px', maxWidth: '100%' }}>
       <Grid container spacing={2}>
         <Grid item xs={2}>
-          <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
+          <Box bgcolor="#ADD8E6" padding="10px" borderRadius="10px" marginBottom="20px">
             <Typography variant="h6">Following</Typography>
-            <Box bgcolor="blue" padding="10px" borderRadius="10px" marginBottom="20px" >Person 1</Box>
-            <Box bgcolor="blue" padding="10px" borderRadius="10px" marginBottom="20px" >Person 2</Box>
+            <Box bgcolor="#5DADE2" padding="10px" borderRadius="10px" marginBottom="20px" >Person 1</Box>
+            <Box bgcolor="#5DADE2" padding="10px" borderRadius="10px" marginBottom="20px" >Person 2</Box>
           </Box>
         </Grid>
 
