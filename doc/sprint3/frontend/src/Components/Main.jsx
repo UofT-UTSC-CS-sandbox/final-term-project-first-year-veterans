@@ -12,6 +12,7 @@ import HomePage from './Home';
 import Logout from './Logout.jsx';
 import Chat from './chat';
 import socket from './socket'; // Import the socket object, the socket is created while importing
+import Mentorship from './MentorshipPage.js';
 
 const uid = 'Richie_Hsieh';
 
@@ -52,6 +53,7 @@ function Main() {
         <Route path="projects" element={<ProjectPage />} />
         <Route path="logout" element={<Logout/>} />
         <Route path="userpage" element={<UserPage />} />
+        <Route path="mentorship" element={<Mentorship />} />
         <Route path="chat" element={<Chat newMessage={newMessage} sendMessage={sendMessage} />} />
       </Routes>
     </div>
