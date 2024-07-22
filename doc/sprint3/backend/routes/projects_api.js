@@ -15,13 +15,13 @@ let DB = [
 
 router.post('/api/project/fetchall', async function (req, res) {
   console.log("Fetching all projects");
-  console.log(req.body);
+  console.log(req.body.uid);
 
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
 
-  const searcher_uid = req.body; //uid of the person performing the search
+  const searcher_uid = req.body.uid; //uid of the person performing the search
 
   let projectsList = [];
 
@@ -53,7 +53,7 @@ router.post('/api/project/fetchall', async function (req, res) {
         MATCH (u:User)-[c:JOINED]->(p:Project)
         WHERE u.uid = $uid AND p.pid = $pid
         RETURN count(c) AS number
-        `, {uid: searcher_uid, pid: projectsList[i].porjectId});
+        `, {uid: searcher_uid, pid: projectsList[i].projectId});
       let joined = convertNeo4jTypes(result4.records[0].get('number').low);
       if (parseInt(joined) > 0) {
         projectsList[i]["isJoinedByMe"] = 1;
@@ -144,7 +144,8 @@ router.post('/api/project/create', upload.single('file'), async function (req, r
     console.log(project);
     await tx.run(
       `
-      CREATE (u:User {uid: $uid})-[:CREATED_PROJECT]->(p:Project {pid: $pid})
+      MATCH (u:User {uid: $uid}), (p:Project {pid: $pid})
+      CREATE (u)-[:CREATED_PROJECT]->(p)
       `,{uid: userId, pid: project.pid});
     if (file) { //handle file path storage as needed
       await tx.run(
@@ -166,7 +167,9 @@ router.post('/api/project/create', upload.single('file'), async function (req, r
 });
 
 router.post('/api/project/join', async function (req, res) {
-  const { projectId, uid } = req.body;
+  const { projectId, userId } = req.body;
+
+  console.log(req.body);
 
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
@@ -177,29 +180,30 @@ router.post('/api/project/join', async function (req, res) {
       `
       MATCH (u:User {uid: $uid})-[j:JOINED]->(p:Project {pid: $projectId})
       RETURN count(j) AS count
-      `, { uid: uid, pid: projectId});
+      `, { uid: userId, projectId: parseInt(projectId)});
+    console.log(result);
     let joined = convertNeo4jTypes(result.records[0].get('count').low);
     if (joined == 0) {
       await tx.run(
         `
-        CREATE (u:User)-[:JOINED]->(p:Project)
-        WHERE u.uid = $uid AND p.pid = $projectId
+        MATCH (u:User {uid: $uid}), (p:Project {pid: $projectId})
+        CREATE (u)-[:JOINED]->(p)
         `
-      , {uid: uid, projectId: projectId});
+      , {uid: userId, projectId: parseInt(projectId)});
       let result2 = await tx.run(
         `
         MATCH (p:Project {pid: $projectId})
         SET p.joinedCount = p.joinedCount + 1
         RETURN p AS node
         `
-      , {projectId: projectId});
+      , {projectId: parseInt(projectId)});
       let project = convertNeo4jTypes(result2.records[0].get('node').properties);
       let result3 = await tx.run(
         `
         MATCH (u:User)-[:CREATED_PROJECT]->(p:Project {pid: $projectId})
         RETURN u AS node
         `
-      );
+      , {projectId: parseInt(projectId)});
       let user = convertNeo4jTypes(result3.records[0].get('node').properties);
       await tx.commit();
       res.status(200).json({ projectId: project.pid, userId: user.uid, projectTitle: project.title, projectDescription: project.description, joinedCount: project.joinedCount, isJoinedByMe: 1 }); //return the project
@@ -207,25 +211,24 @@ router.post('/api/project/join', async function (req, res) {
     else {
       await tx.run(
         `
-        MATCH (u:User)-[j:JOINED]->(p:Project)
-        WHERE u.uid = $uid AND p.pid = $projectId
+        MATCH (u:User {uid: $uid})-[j:JOINED]->(p:Project {pid: $projectId})
         DELETE j
         `
-      , {uid: uid, projectId: projectId});
+      , {uid: userId, projectId: parseInt(projectId)});
       let result2 = await tx.run(
         `
         MATCH (p:Project {pid: $projectId})
         SET p.joinedCount = p.joinedCount - 1
         RETURN p AS node
         `
-      , {projectId: projectId});
+      , {projectId: parseInt(projectId)});
       let project = convertNeo4jTypes(result2.records[0].get('node').properties);
       let result3 = await tx.run(
         `
         MATCH (u:User)-[:CREATED_PROJECT]->(p:Project {pid: $projectId})
         RETURN u AS node
         `
-      );
+      , {projectId: parseInt(projectId)});
       let user = convertNeo4jTypes(result3.records[0].get('node').properties);
       await tx.commit();
       res.status(200).json({ projectId: project.pid, userId: user.uid, projectTitle: project.title, projectDescription: project.description, joinedCount: project.joinedCount, isJoinedByMe: 0 }); //return the project
@@ -258,27 +261,29 @@ router.post('/api/project/edit', upload.single('file'), async function (req, res
     let exists = await tx.run(
       `
       MATCH (p:Project {pid: $projectId})
-      RETURN count(p) AS count
+      RETURN p AS node
       `
-    , {projectId: projectId});
-    let exists_check = convertNeo4jTypes(exists.records[0].get('count').low);
-    if (exists_check > 0) {
+    , {projectId: parseInt(projectId)});
+    let exists_check = convertNeo4jTypes(exists.records[0].get('node').properties);
+    console.log(exists_check);
+    if (exists.records.length > 0) {
       let result = await tx.run(
         `
         MATCH (p:Project {pid: $projectId})
-        SET p.title = $title, p.description = $content, p.filePath = $path
+        SET p.title = $title, p.description = $content, p.filePath = $filePath
         RETURN p AS node
-        `, { projectId: projectId, title: title, content: description, filePath: path});
-      let project = convertNeo4jTypes(result.records[0].get('node').properties);;
+        `, { projectId: parseInt(projectId), title: title, content: description, filePath: path});
+      console.log(result.records);
+      //let project = convertNeo4jTypes(result.records[0].get('node').properties);;
       let result2 = await tx.run(
         `
         MATCH (u:User)-[:CREATED_PROJECT]->(p:Project {pid: $projectId})
         RETURN u AS node
         `
-        );
+        , {projectId: parseInt(projectId)});
       let user = convertNeo4jTypes(result2.records[0].get('node').properties);
       await tx.commit();
-      res.status(200).json({ projectId: projectId, userId: user.uid, projectTitle: title, projectDescription: description, joinedCount: project.joinedCount, isJoinedByMe: 0 }); //return the project created
+      res.status(200).json({ projectId: parseInt(projectId), userId: user.uid, projectTitle: title, projectDescription: description, joinedCount: exists_check.joinedCount, isJoinedByMe: 0 }); //return the project created
     }
     else {
       res.status(404).json({ error: 'Project not found' });
