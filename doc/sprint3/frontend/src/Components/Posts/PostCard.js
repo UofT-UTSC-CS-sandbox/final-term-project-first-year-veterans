@@ -20,9 +20,9 @@ const PostCard = ({ post }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
-  
+  console.log(post);
   useEffect(() => {
-    setIsClicked(false);
+    setIsClicked(isClicked);
   }, [post.postid]);
 
   const handleLike = (event) => {

@@ -46,7 +46,9 @@ const ProjectCard = ({ project, isExpanded, onToggleExpand }) => {
       formData.append('file', editFile);
     }
     api_edit_project(formData, (data) => {
-      if (data.success) {
+      console.log(data);
+      if (data) {
+        console.log("HERE2!");
         setIsEditing(false);
         project.projectTitle = editTitle;
         project.projectDescription = editDescription;

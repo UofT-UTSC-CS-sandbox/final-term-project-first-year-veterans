@@ -13,6 +13,7 @@ const HomePage = () => {
   useEffect(() => {
     api_fetch_newest_post(uid,(data) => {
       setPost(data); // Set the single post object received from the backend
+      console.log(data);
     });
   }, []);
 

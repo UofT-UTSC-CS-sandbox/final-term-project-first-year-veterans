@@ -20,6 +20,7 @@ function PostsPage() {
   useEffect(() => {
     api_fetch_posts(uid, (data) => {
       setPosts(data);
+      console.log(posts);
       setLoading(false);
     });
   }, []);

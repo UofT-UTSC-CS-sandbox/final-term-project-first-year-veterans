@@ -233,16 +233,16 @@ router.post('/api/posts/update_like', async function (req, res) {
     console.log('length: ', post.records.length);
 
     let query2;
-    let nowlike;
+    let nowlike = 0;
 
     if (post.records.length === 0) {
-      nowlike = true;
+      nowlike = 1;
       query2 = `MATCH (p:Post {pid: $pid}), (u:User {uid: $uid})
                 CREATE (u)-[:LIKED]->(p)
                 SET p.likes = p.likes + 1
                 RETURN p as node`;
     } else {
-      nowlike = false;
+      nowlike = 0;
       query2 = `MATCH (p:Post {pid: $pid})<-[r:LIKED]-(u:User {uid: $uid})
                 DELETE r
                 WITH p
