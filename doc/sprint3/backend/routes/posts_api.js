@@ -23,8 +23,7 @@ router.get('/api/posts/fetch/:uid', async function (req, res) {
   const tx = session.beginTransaction();
 
   console.log("Fetching Post Data");
-  const searcher_uid = parseInt(req.params.value, 10);
-
+  const searcher_uid = req.params.uid;
   try {
     let result = await tx.run(
       `
@@ -80,6 +79,9 @@ router.get('/api/posts/fetch/:uid', async function (req, res) {
         RETURN count(c) AS number
         `, {uid: searcher_uid, pid: postsList[i].postid});
       let liked = convertNeo4jTypes(result4.records[0].get('number').low);
+      console.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYY");
+      console.log(liked);
+      console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXX");
       if (parseInt(liked) > 0) {
         postsList[i]["isLikedByMe"] = 1;
       }
