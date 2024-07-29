@@ -3,6 +3,7 @@ import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/mater
 import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
 import { api_fetch_newest_post } from '../API/PostsApi.js';
 import PostCard from './Posts/PostCard';
+import GroupBar from './GroupBar';
 
 const HomePage = () => {
   // Modify your frontend to handle a single post object instead of an array
@@ -20,15 +21,14 @@ const HomePage = () => {
   return (
     <Container style={{ textAlign: 'center', marginTop: '20px', maxWidth: '100%' }}>
       <Grid container spacing={2}>
-        <Grid item xs={2}>
-          <Box bgcolor="#ADD8E6" padding="10px" borderRadius="10px" marginBottom="20px">
-            <Typography variant="h6">Following</Typography>
-            <Box bgcolor="#5DADE2" padding="10px" borderRadius="10px" marginBottom="20px" >Person 1</Box>
-            <Box bgcolor="#5DADE2" padding="10px" borderRadius="10px" marginBottom="20px" >Person 2</Box>
+        <Grid item xs={3}>
+          <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
+            <Typography variant="h6">Groups</Typography>
+            <GroupBar />
           </Box>
         </Grid>
 
-        <Grid item xs={7}>
+        <Grid item xs={6}>
           {post ? (
             <PostCard key={post.id} post={post} /> // Render the single post object
           ) : (

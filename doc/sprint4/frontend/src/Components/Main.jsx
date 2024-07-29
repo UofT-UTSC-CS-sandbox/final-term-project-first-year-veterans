@@ -11,6 +11,7 @@ import ProjectPage from './Project/projectPage.js';
 import HomePage from './Home';
 import Logout from './Logout.jsx';
 import Chat from './chat';
+import GroupPage from './GroupPage';
 import socket from './socket'; // Import the socket object, the socket is created while importing
 import Mentorship from './MentorshipPage.js';
 
@@ -55,6 +56,7 @@ function Main() {
         <Route path="userpage" element={<UserPage />} />
         <Route path="mentorship" element={<Mentorship />} />
         <Route path="chat" element={<Chat newMessage={newMessage} sendMessage={sendMessage} />} />
+        <Route path="grouppage" element={<GroupPage />} />
       </Routes>
     </div>
   );
