@@ -1,0 +1,70 @@
+.projectcontainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  width: 25%;
+  padding: 10px;
+  background-color: #f4f4f4;
+}
+
+.project-list-item {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.project-list-item:hover, .project-list-item.selected {
+  background-color: #e0e0e0;
+}
+
+.createprojectbutton {
+  background-color: #6c757d; /* Grey button */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  display: flex;
+  max-height: 75px;
+}
+
+.createprojectbutton:hover {
+  background-color: #001affcb; /* Light grey on hover */
+  border-radius: 25px; /* Rounded corners */
+  max-height: 75px;
+}
+
+.submitprojectbutton {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px; /* Rounded corners */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  display: flexbox;
+}
+
+.submitprojectbutton:hover {
+  background-color: #00ff77cb; /* Light Green on hover */
+  border-radius: 25px; /* Rounded corners */
+}
+
+.create-project-template {
+  padding: 15px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}

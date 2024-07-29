@@ -16,10 +16,10 @@ const friendRequests_accept_api = require('./routes/friendListApi/friendRequests
 const friendRequests_reject_api = require('./routes/friendListApi/friendRequests_reject_api');
 const friendList_search_api = require('./routes/friendListApi/friendList_search_api');
 const posts_api = require('./routes/posts_api');
+const projects_api = require('./routes/projects_api');
 const chat_fetch_api = require('./routes/chatApi/chat_fetch_api');
 const message_fetch_api = require('./routes/chatApi/message_fetch_api');
 const message_send_api = require('./routes/chatApi/message_send_api');
-const notes_api = require('./routes/notes');
 
 module.exports = (app) => {
     app.use('', cookie_api);
@@ -40,8 +40,15 @@ module.exports = (app) => {
     app.use('', friendRequests_reject_api);
     app.use('', friendList_search_api);
     app.use('', posts_api);
+<<<<<<< HEAD
     app.use('', chat_fetch_api);
     app.use('', message_fetch_api);
     app.use('', message_send_api);
     app.use('', notes_api);
+=======
+    app.use('', projects_api);
+    app.use('', chat_fetch_api);
+    app.use('', message_fetch_api);
+    app.use('', message_send_api);
+>>>>>>> DEV-4
 };

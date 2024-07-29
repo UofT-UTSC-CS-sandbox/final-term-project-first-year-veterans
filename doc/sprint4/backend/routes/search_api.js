@@ -1,10 +1,10 @@
 const express = require('express');
-const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes.js');
-const user_filter = require('../helper_functions/filter_functions/user_filter.js');
-const post_filter = require('../helper_functions/filter_functions/post_filter.js');
-const project_filter = require('../helper_functions/filter_functions/project_filter.js');
-const user_major_filter = require('../helper_functions/filter_functions/user_major_filter.js');  
-const post_project_category_filter = require('../helper_functions/filter_functions/post_project_category_filter.js');
+const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes');
+const user_filter = require('../helper_functions/filter_functions/user_filter');
+const post_filter = require('../helper_functions/filter_functions/post_filter');
+const project_filter = require('../helper_functions/filter_functions/project_filter');
+const user_major_filter = require('../helper_functions/filter_functions/user_major_filter');  
+const post_project_category_filter = require('../helper_functions/filter_functions/post_project_category_filter');
 const router = express.Router();
 let resultList = [];
 

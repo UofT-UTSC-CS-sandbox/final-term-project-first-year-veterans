@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes.js');
+const { convertNeo4jTypes } = require('../helper_functions/neo4jTypes');
 
 router.use(express.json());
 
@@ -17,13 +17,13 @@ let DB = [
   { postid: 2, userId: "Andy", postTitle: "Introduction 2", postMessage: "My name is Andy! This is my first post", likeCount: 0, comments: [{userId: "Richie_Hsieh", comment: "Love it!", postidentification: 2}] }
 ];
 
-router.get('/api/posts/fetch', async function (req, res) {
+router.get('/api/posts/fetch/:uid', async function (req, res) {
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
 
   console.log("Fetching Post Data");
-
+  const searcher_uid = req.params.uid;
   try {
     let result = await tx.run(
       `
@@ -71,6 +71,20 @@ router.get('/api/posts/fetch', async function (req, res) {
         commentList[j]["userId"] = cuid.uid; // Error here
       }
       postsList[i]["comments"] = commentList;//attach the comments into the post object
+
+      //time to check for liked or not
+      let result4 = await tx.run(`
+        MATCH (u:User)-[c:LIKED]->(p:Post)
+        WHERE u.uid = $uid AND p.pid = $pid
+        RETURN count(c) AS number
+        `, {uid: searcher_uid, pid: postsList[i].postid});
+      let liked = convertNeo4jTypes(result4.records[0].get('number').low);
+      if (parseInt(liked) > 0) {
+        postsList[i]["isLikedByMe"] = 1;
+      }
+      else {
+        postsList[i]["isLikedByMe"] = 0;
+      }
     }
     console.log(postsList);
     res.status(200).json(postsList); //return the posts
@@ -83,12 +97,14 @@ router.get('/api/posts/fetch', async function (req, res) {
   }
 });
 
-router.get('/api/posts/fetch_newest', async function (req, res) {
+router.get('/api/posts/fetch_newest/:uid', async function (req, res) {
   const session = getSession();
   // tx is a transaction object, make sure either complete all the queries or none
   const tx = session.beginTransaction();
 
   console.log("Fetching Newest");
+  
+  const searcher_uid = req.params.uid;
 
   try {
     let result = await tx.run(
@@ -128,7 +144,19 @@ router.get('/api/posts/fetch_newest', async function (req, res) {
       let cuid = convertNeo4jTypes(result3.records[0].get('node').properties);
       commentList[j]["userId"] = cuid.uid;
     }
-    const parsedPost = {postid: latestPost.pid, postTitle: latestPost.title, postMessage: latestPost.content, likeCount: latestPost.likes, userId: uid.uid, comments: commentList};
+    
+    //time to check for liked or not
+    let result4 = await tx.run(`
+      MATCH (u:User)-[c:LIKED]->(p:Post)
+      WHERE u.uid = $uid AND p.pid = $pid
+      RETURN count(c) AS number
+      `, {uid: searcher_uid, pid: latestPost.pid});
+    let liked = convertNeo4jTypes(result4.records[0].get('number').low);
+    let likedByMe = 0;
+    if (parseInt(liked) > 0) {
+      likedByMe = 1;
+    }
+    const parsedPost = {postid: latestPost.pid, postTitle: latestPost.title, postMessage: latestPost.content, likeCount: latestPost.likes, userId: uid.uid, comments: commentList, isLikedByMe: likedByMe};
     console.log(parsedPost);
     res.status(200).json(parsedPost); //return the post
 } catch (error) {
@@ -175,7 +203,7 @@ router.post('/api/posts/create', async function (req, res) {
       CREATE (u)-[:POSTED]->(p)
       `,{uid: userId, pid: post.pid});
     await tx.commit();
-    res.status(200).json({postid: post.pid, postTitle: post.title, postMessage: post.content, likeCount: 0, userId: userId, comments: []}); //return the post created
+    res.status(200).json({postid: post.pid, postTitle: post.title, postMessage: post.content, likeCount: 0, userId: userId, comments: [], isLikedByMe: 0}); //return the post created
   } catch (error) {
       await tx.rollback();
       console.error('Error creating post: ', error);
@@ -204,16 +232,16 @@ router.post('/api/posts/update_like', async function (req, res) {
     console.log('length: ', post.records.length);
 
     let query2;
-    let nowlike;
+    let nowlike = 0;
 
     if (post.records.length === 0) {
-      nowlike = true;
+      nowlike = 1;
       query2 = `MATCH (p:Post {pid: $pid}), (u:User {uid: $uid})
                 CREATE (u)-[:LIKED]->(p)
                 SET p.likes = p.likes + 1
                 RETURN p as node`;
     } else {
-      nowlike = false;
+      nowlike = 0;
       query2 = `MATCH (p:Post {pid: $pid})<-[r:LIKED]-(u:User {uid: $uid})
                 DELETE r
                 WITH p
