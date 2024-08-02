@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { Card, CardContent, Typography, IconButton, Tooltip, Collapse, TextField, Button, Avatar } from '@mui/material';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
-import Tooltip from '@mui/material/Tooltip';
-import Collapse from '@mui/material/Collapse';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { api_update_post_like, api_add_new_comment, api_fetch_comments, api_handle_expand_post } from '../../API/PostsApi';
+import { api_update_post_like, api_add_new_comment, api_fetch_comments } from '../../API/PostsApi';
 
-const uid = 'Richie_Hsieh'; // Replace with actual user ID
+const uid = 'Richie_Hsieh';
 
 const PostCard = ({ post }) => {
   const [likeCount, setLikeCount] = useState(post.likeCount);
@@ -20,16 +13,13 @@ const PostCard = ({ post }) => {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
 
-  console.log(post);
   useEffect(() => {
-    setIsClicked(isClicked);
-  }, [post.postid]);
+    setIsClicked(post.isLikedByMe);
+  }, [post]);
 
   const handleLike = (event) => {
     event.stopPropagation();
-    api_update_post_like({pid: post.postid, uid: uid}, (data) => {
-      console.log('data: ', data);
-      console.log('updatedPost: ', data.updated_post);
+    api_update_post_like({ pid: post.postid, uid }, (data) => {
       setLikeCount(data.updated_post.likes);
       setIsClicked(data.nowlike);
     });
@@ -38,71 +28,71 @@ const PostCard = ({ post }) => {
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
     if (!isExpanded) {
-      api_fetch_comments(post.postid, (fetchedComments) => {
-        setComments(fetchedComments);
-      });
+      api_fetch_comments(post.postid, setComments);
     }
   };
 
-  const handleCommentChange = (event) => {
-    setNewComment(event.target.value);
-  };
+  const handleCommentChange = (event) => setNewComment(event.target.value);
 
   const handleSubmitComment = () => {
     if (newComment.trim() !== '') {
       const commentData = {
-        userId: "Richie_Hsieh", // Replace with actual user ID
+        userId: "Richie_Hsieh",
         comment: newComment,
-        postidentification: post.postid
+        postidentification: post.postid,
       };
-      console.log("Submitting comment data:", commentData);
-      setNewComment(''); // Clear the input field
+      setNewComment('');
       api_add_new_comment(commentData, (error, updatedPost) => {
-        if (error) {
-          console.error('Error adding comment:', error);
-        } else {
-          api_fetch_comments(post.postid, (fetchedComments) => {
-            setComments(fetchedComments);
-          });
+        if (!error) {
+          api_fetch_comments(post.postid, setComments);
         }
       });
     }
   };
-  
-
-  const handleExpandPost = () => {
-    //api_handle_expand_post(post.postid);
-  };
 
   return (
-    <Card style={{ margin: '20px', padding: '10px' }}>
-      <CardContent>
-        <Typography variant="h5" component="div" onClick={toggleExpand} style={{ cursor: 'pointer' }}>
+    <Card className="postCard">
+      <CardContent className="postCardContent">
+        <div className="profileSection">
+          <Avatar src={post.userProfilePic} alt={post.userName} />
+          <div>
+            <Typography className="profileName">
+              {post.userName}
+            </Typography>
+            <Typography className="userId">
+              @{post.userId}
+            </Typography>
+          </div>
+        </div>
+        <Typography className="postHeader" onClick={toggleExpand}>
           {post.postTitle}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography className="postMessage">
           {post.postMessage}
         </Typography>
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-          <Tooltip title="Like">
-            <IconButton onClick={handleLike} style={{ color: isClicked ? '#3f51b5' : 'gray' }}>
-              <ThumbUpIcon />
-            </IconButton>
-          </Tooltip>
-          <Typography variant="body2" color="text.secondary" style={{ marginRight: '16px' }}>
-            {likeCount}
-          </Typography>
+        {post.postImage && (
+          <img src={post.postImage} alt="Post content" className="postImage" />
+        )}
+        <div className="postActions">
+          <div>
+            <Tooltip title="Like">
+              <IconButton className="iconButton" onClick={handleLike} style={{ color: isClicked ? '#1da1f2' : '#657786' }}>
+                <ThumbUpIcon />
+              </IconButton>
+            </Tooltip>
+            <span>{likeCount}</span>
+          </div>
           <Tooltip title="Comment">
-            <IconButton color="primary" onClick={toggleExpand}>
+            <IconButton className="iconButton" onClick={toggleExpand}>
               <CommentIcon />
             </IconButton>
           </Tooltip>
         </div>
       </CardContent>
       <Collapse in={isExpanded} timeout="auto" unmountOnExit>
-        <CardContent>
+        <CardContent className="commentSection">
           {comments.map((comment, index) => (
-            <Typography key={index} variant="body2" color="text.secondary">
+            <Typography key={index} variant="body2">
               {comment.comment} - {comment.userId}
             </Typography>
           ))}
@@ -114,7 +104,7 @@ const PostCard = ({ post }) => {
               value={newComment}
               onChange={handleCommentChange}
             />
-            <Button onClick={handleSubmitComment} color="primary" style={{ marginLeft: '10px' }}>
+            <Button onClick={handleSubmitComment} className="submitpostbutton">
               Submit
             </Button>
           </div>
