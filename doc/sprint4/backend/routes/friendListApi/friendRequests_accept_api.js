@@ -20,7 +20,7 @@ router.post('/api/friendRequests/accept', async (req, res) => {
 
     try {
         await tx.run(`
-            MATCH (u:User {uid: $uid})<-[r:REQUESTS_FRIENDSHIP]->(f:User {uid: $user_uid})
+            MATCH (u:User {uid: $uid})<-[r:REQUESTS_FRIENDSHIP]-(f:User {uid: $user_uid})
             DELETE r;
         `, { uid: uid, user_uid: user_uid });
 
