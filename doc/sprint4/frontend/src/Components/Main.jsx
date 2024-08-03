@@ -31,18 +31,19 @@ function Main({uid, setUid}) {
       else {
         console.log("Authenticated");
         setUid(data.uid);
+
+        socket.emit('join', data.uid);
+
+        socket.on('chat message', (message) => {
+          setNewMessage(message); // The newest message, not all messages
+        });
+
+        return () => {
+          socket.off('chat message');
+        };
       }
     });
 
-    socket.emit('join', uid);
-
-    socket.on('chat message', (message) => {
-      setNewMessage(message); // The newest message, not all messages
-    });
-
-    return () => {
-      socket.off('chat message');
-    };
   }, []);
 
   const sendMessage = (message) => {

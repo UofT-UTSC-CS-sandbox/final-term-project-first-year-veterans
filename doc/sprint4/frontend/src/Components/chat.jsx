@@ -89,12 +89,14 @@ function Chat({ uid, newMessage, sendMessage }) {
 
     // Fetch the contacts when the component mounts
     useEffect(() => {
-        api_chat_fetch({uid: uid}, (data) => {
-            console.log(data);
-            setContacts(data.chats);
-            setChatWith(data.chats[0]);
-        });
-    }, []);
+        if (uid) {
+            api_chat_fetch({uid: uid}, (data) => {
+                console.log(data);
+                setContacts(data.chats);
+                setChatWith(data.chats[0]);
+            });
+        }
+    }, [uid]);
 
     // Update the message list when the chatWith user changes
     useEffect(() => {
