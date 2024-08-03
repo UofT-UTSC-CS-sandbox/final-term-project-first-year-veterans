@@ -168,6 +168,87 @@ router.get('/api/posts/fetch_newest/:uid', async function (req, res) {
 }
 });
 
+router.get('/api/posts/fetch_random/:uid', async function (req, res) {
+  const session = getSession();
+  // tx is a transaction object, make sure either complete all the queries or none
+  const tx = session.beginTransaction();
+
+  console.log("Fetching Post Data");
+  const searcher_uid = req.params.uid;
+  try {
+    let result = await tx.run(
+      `
+      MATCH (p:Post)
+      RETURN p as node, rand() as r
+      ORDER BY r
+      LIMIT 3
+      `, {});
+    postsList = [];
+    result.records.forEach(record => {
+      //store results of query into list
+      let nodeProperties = record.get('node').properties;
+      nodeProperties = convertNeo4jTypes(nodeProperties);
+      postsList.push({postid: nodeProperties.pid, postTitle: nodeProperties.title, postMessage: nodeProperties.content, likeCount: nodeProperties.likes});
+    });
+    //this is the part where we add the comments
+    for (let i = 0; i < postsList.length; i++){
+      let comments = await tx.run(
+      `
+      MATCH (p:Post)-[:HAS_COMMENT]->(c:Comment)
+      WHERE id(p) = $results
+      RETURN c AS node
+      `, {results: postsList[i].postid});
+      let result2 = await tx.run(`
+        MATCH (u:User)-[:POSTED]->(p:Post)
+        WHERE id(p) = $results
+        RETURN u AS node
+        `, {results: postsList[i].postid});
+      let uid = convertNeo4jTypes(result2.records[0].get('node').properties);
+      postsList[i]["userId"] = uid.uid;
+      commentList = [];
+      comments.records.forEach(record => {
+        //store results of query into list
+        let nodeProperties2 = record.get('node').properties;
+        nodeProperties2 = convertNeo4jTypes(nodeProperties2);
+        commentList.push({comment: nodeProperties2.content, postidentification: postsList[i].postid});
+      });//turn the comments into a list
+      //we're gonna need to add uid to comments
+      for (let j = 0; j < commentList.length; j++) {
+        let result3 = await tx.run(`
+          MATCH (u:User)-[:COMMENTED]->(c:Comment)<-[:HAS_COMMENT]-(p:Post)
+          WHERE p.pid = $results AND c.content = $results2
+          RETURN u AS node
+          `, {results: postsList[i].postid, results2: commentList[j].comment});
+        let cuid = convertNeo4jTypes(result3.records[0].get('node').properties);
+        commentList[j]["userId"] = cuid.uid; // Error here
+      }
+      postsList[i]["comments"] = commentList;//attach the comments into the post object
+
+      //time to check for liked or not
+      let result4 = await tx.run(`
+        MATCH (u:User)-[c:LIKED]->(p:Post)
+        WHERE u.uid = $uid AND p.pid = $pid
+        RETURN count(c) AS number
+        `, {uid: searcher_uid, pid: postsList[i].postid});
+      let liked = convertNeo4jTypes(result4.records[0].get('number').low);
+      if (parseInt(liked) > 0) {
+        postsList[i]["isLikedByMe"] = 1;
+      }
+      else {
+        postsList[i]["isLikedByMe"] = 0;
+      }
+    }
+    console.log(postsList);
+    res.status(200).json(postsList); //return the posts
+  } catch (error) {
+    await tx.rollback();
+    console.error('Error fetching posts: ', error);
+    res.status(500).json({ message: 'Internal server error' });
+  } finally {
+    await session.close();
+  }
+});
+
 router.post('/api/posts/create', async function (req, res) {
   console.log('Server received: POST /api/post/create');
   let post_data = req.body;
