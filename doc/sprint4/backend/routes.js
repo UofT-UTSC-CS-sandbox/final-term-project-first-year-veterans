@@ -20,6 +20,7 @@ const projects_api = require('./routes/projects_api');
 const chat_fetch_api = require('./routes/chatApi/chat_fetch_api');
 const message_fetch_api = require('./routes/chatApi/message_fetch_api');
 const message_send_api = require('./routes/chatApi/message_send_api');
+const video_api = require('./routes/video_api');
 
 module.exports = (app) => {
     app.use('', cookie_api);
@@ -40,15 +41,9 @@ module.exports = (app) => {
     app.use('', friendRequests_reject_api);
     app.use('', friendList_search_api);
     app.use('', posts_api);
-<<<<<<< HEAD
-    app.use('', chat_fetch_api);
-    app.use('', message_fetch_api);
-    app.use('', message_send_api);
-    app.use('', notes_api);
-=======
     app.use('', projects_api);
     app.use('', chat_fetch_api);
     app.use('', message_fetch_api);
     app.use('', message_send_api);
->>>>>>> DEV-4
+    app.use('', video_api);
 };
