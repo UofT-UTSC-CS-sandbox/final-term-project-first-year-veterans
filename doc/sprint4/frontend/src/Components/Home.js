@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/material';
 import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
 import { api_fetch_newest_post } from '../API/PostsApi.js';
 import PostCard from './Posts/PostCard';
 import GroupBar from './GroupBar';
+import { navigate } from 'react-big-calendar/lib/utils/constants.js';
 
-const HomePage = () => {
+const HomePage = ({uid, setUid}) => {
   // Modify your frontend to handle a single post object instead of an array
   const [post, setPost] = useState(null); // State to hold the newest post
 
-  let uid = "Richie_Hsieh";
-
   useEffect(() => {
+
     api_fetch_newest_post(uid,(data) => {
       setPost(data); // Set the single post object received from the backend
       console.log(data);

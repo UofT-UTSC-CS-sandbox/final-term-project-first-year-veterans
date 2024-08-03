@@ -35,8 +35,6 @@ const MessageArea = styled(List)({
   overflowY: 'auto',
 });
 
-const uid='Richie_Hsieh'; // Hardcoded user id
-
 function formatDateTime(dateTimeString) {
     const date = new Date(dateTimeString);
     const year = date.getFullYear();
@@ -48,7 +46,7 @@ function formatDateTime(dateTimeString) {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
-function Chat({ newMessage, sendMessage }) {
+function Chat({ uid, newMessage, sendMessage }) {
     const messageEndRef = useRef(null);
     const inputRef = useRef(null);
     const [contacts, setContacts] = React.useState([]);
@@ -110,7 +108,7 @@ function Chat({ newMessage, sendMessage }) {
         <div>
             <Grid container>
                 <Grid item xs={12}>
-                    <Typography variant="h5" className="header-message">Chat</Typography>
+                    <Typography variant="h5" className="header-message">Chat {uid}</Typography>
                 </Grid>
             </Grid>
             <ChatSection style={{height:"100%", marginLeft: "auto", marginRight: "auto"}}>

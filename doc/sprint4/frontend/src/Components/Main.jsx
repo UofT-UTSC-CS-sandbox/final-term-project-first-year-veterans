@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import TopBar from './TopBar.jsx';
 import SearchBar from './search_bar';
 import ProfileForm from './ProfileForm';
@@ -15,14 +15,25 @@ import GroupPage from './GroupPage';
 import socket from './socket'; // Import the socket object, the socket is created while importing
 import Mentorship from './MentorshipPage.js';
 
-const uid = 'Richie_Hsieh';
+import { api_checkAuth } from '../API/authAPI.js';
 
-function Main() {
+function Main({uid, setUid}) {
   const [notificationTrigger, setNotificationTrigger] = useState(true);
-
   const [newMessage, setNewMessage] = useState({ sender: '', time: '', content: '' });
+  const navigate = useNavigate();
 
   useEffect(() => {
+    api_checkAuth((data) => {
+      if (data.redirectToLogin) {
+        console.log("Not authenticated");
+        navigate('/login');
+      }
+      else {
+        console.log("Authenticated");
+        setUid(data.uid);
+      }
+    });
+
     socket.emit('join', uid);
 
     socket.on('chat message', (message) => {
@@ -45,7 +56,7 @@ function Main() {
         <Route path="/" element={<Navigate to="home" />} />
         <Route path="search" element={<SearchBar />} />
         <Route path="profile" element={<ProfileForm />} />
-        <Route path="home" element={<HomePage />} />
+        <Route path="home" element={<HomePage uid={uid} setUid={setUid}/>} />
         <Route path="postpage" element={<PostsPage />} />
         <Route path="calendar" element={<CalendarPage notificationTrigger={notificationTrigger} setNotificationTrigger={setNotificationTrigger} />} />
         <Route path="friends" element={<FriendList />} />
@@ -55,7 +66,7 @@ function Main() {
         <Route path="logout" element={<Logout/>} />
         <Route path="userpage" element={<UserPage />} />
         <Route path="mentorship" element={<Mentorship />} />
-        <Route path="chat" element={<Chat newMessage={newMessage} sendMessage={sendMessage} />} />
+        <Route path="chat" element={<Chat uid={uid} newMessage={newMessage} sendMessage={sendMessage} />} />
         <Route path="grouppage" element={<GroupPage />} />
       </Routes>
     </div>

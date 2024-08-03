@@ -6,6 +6,7 @@ import Main from './Components/Main.jsx';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [uid, setUid] = useState(null);
 
   useEffect(() => {
     setIsLoading(false);
@@ -19,8 +20,8 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/main/*" element={<Main />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/main/*" element={<Main uid={uid} setUid={setUid}/>} />
+        <Route path="/login" element={<Login setUid={setUid}/>} />
         <Route path="/signup" element={<SignupForm />} />
       </Routes>
     </div>

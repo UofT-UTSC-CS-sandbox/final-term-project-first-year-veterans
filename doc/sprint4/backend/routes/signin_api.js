@@ -12,7 +12,7 @@ const router = express.Router();
 const { getSession } = require('../neo4j');
 
 // The following variable is the expiration time of the token.
-const EXPIRATION_TIME = 60; // 24 hours
+const EXPIRATION_TIME = 60*60*24; // 24 hours
 
 router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
   console.log('username: '+req.userId)
@@ -46,7 +46,7 @@ router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
       // This means that a user provided the valid information to login into the system.
       // We should provide the token to the user.
       // Let the infomration inside the token to be the username of the user by setting the id to the username.
-      const token = jwt.sign({ id: user.username }, SECRET_KEY, {
+      const token = jwt.sign({ id: uid }, SECRET_KEY, {
         expiresIn: EXPIRATION_TIME
       });
 
@@ -59,7 +59,6 @@ router.post('/api/signin', automaticallyLoginCheck, async function (req, res) {
     
       });
 
-      res.cookie('auth', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
       // Send the response to the frontend to indicate that the user has been successfully logged in.
       res.status(200).json({ signinCorrect: true, uid: uid });
     } else {

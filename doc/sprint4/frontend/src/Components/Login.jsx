@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { api_signin } from './api';
 
 
-function Login() {
+function Login({setUid}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -20,7 +20,10 @@ function Login() {
     const signIn_data = { email, password };
 
     api_signin(signIn_data,(data) => {
+      console.log("sign in data: ", data);
       if (data.signinCorrect) {
+        console.log("sign in successful: " + data.uid);
+        setUid(data.uid);
         navigate('/main');
       }
     });
@@ -37,6 +40,7 @@ function Login() {
         console.log("sign in failed");
       } else {
         console.log("sign in successful");
+        setUid(data.uid);
         navigate('/main'); // Navigate to the main page after login
       }
     });
