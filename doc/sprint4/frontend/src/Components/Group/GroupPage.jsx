@@ -3,7 +3,6 @@ import { Container, Grid, Paper, Avatar, Typography, Button, Tabs, Tab, TextFiel
 import { Add as AddIcon, Share as ShareIcon, PersonAdd as PersonAddIcon, MoreVert as MoreVertIcon } from '@mui/icons-material';
 import { InputAdornment } from '@mui/material';
 import { AvatarGroup } from '@mui/lab';
-import AnonymousIcon from '@mui/icons-material/PersonOutline';
 import PhotoIcon from '@mui/icons-material/Photo';
 import PollIcon from '@mui/icons-material/Poll';
 

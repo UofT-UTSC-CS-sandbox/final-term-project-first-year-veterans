@@ -4,7 +4,7 @@ import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/mater
 import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
 import { api_fetch_newest_post } from '../API/PostsApi.js';
 import PostCard from './Posts/PostCard';
-import GroupBar from './GroupBar';
+import GroupBar from './Group/GroupBar.jsx';
 import { navigate } from 'react-big-calendar/lib/utils/constants.js';
 
 const HomePage = ({uid, setUid}) => {
@@ -25,7 +25,7 @@ const HomePage = ({uid, setUid}) => {
         <Grid item xs={3}>
           <Box bgcolor="#e0e7ff" padding="10px" borderRadius="10px" marginBottom="20px">
             <Typography variant="h6">Groups</Typography>
-            <GroupBar />
+            <GroupBar uid={uid}/>
           </Box>
         </Grid>
 

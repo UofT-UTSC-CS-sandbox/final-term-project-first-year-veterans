@@ -13,8 +13,8 @@ router.post('/api/group/fetch', (req, res) => {
     // Run the Neo4j query
 
     session.run(`
-        MATCH (u:User {uid: $uid})-[:MEMBER_OF]->(g:Group)
-        RETURN g AS group
+        MATCH (u:User {uid: $uid})-[:MEMBER_OF]->(g:Group)-[:HAS_CHAT]->(c:Chat)
+        RETURN g AS group, c AS chat
         ORDER BY g.lastUpdateAt DESC
     `, { uid: uid })
     .then(result => {
@@ -23,14 +23,18 @@ router.post('/api/group/fetch', (req, res) => {
 
         result.records.forEach(record => {
             let group = record.get('group');
-            let property1 = group.properties;
-            property1 = convertNeo4jTypes(property1);
+            group = group.properties;
+            group = convertNeo4jTypes(group);
+            let chat = record.get('chat');
+            chat = chat.properties;
+            chat = convertNeo4jTypes(chat);
             properties.push({
-                creator: property1.creator,
-                group_id: property1.group_id, 
-                name: property1.name, 
-                description: property1.description,
-                lastUpdateAt: property1.lastUpdateAt,
+                creator: group.creator,
+                group_id: group.group_id, 
+                name: group.name, 
+                description: group.description,
+                lastUpdateAt: group.lastUpdateAt,
+                chat_id: chat.chat_id,
             });  
         });
 
