@@ -3,6 +3,7 @@ import { useState } from 'react';
 import {api_search} from './api'; 
 import { FormControl, InputLabel, Select, MenuItem, Checkbox, ListItemText, OutlinedInput } from '@mui/material';
 import Dropdown from 'react-bootstrap/Dropdown';
+import PostCard from './Posts/PostCard';
 import '../Asset/Css/App.css';
 
 // These options are going to be fetched from the database
@@ -109,7 +110,7 @@ function SearchBar() {
                 <ul>
                     {results.map((result, index) => (
                         Object.keys(result).map((key, index2) => ( 
-                            <li key={index2}>{key}: {result[key]}</li>
+                            <PostCard post={result} /> 
                         ))
                     ))}
                 </ul>
