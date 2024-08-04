@@ -70,6 +70,32 @@ function api_fetch_newest_post(uid,cb) {
     });
 }
 
+function api_fetch_random(uid,cb) {
+    let url = `/api/posts/fetch_random/${uid}`;
+    fetch(url, {
+        method: "GET",
+        mode: "same-origin",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => cb(data))
+    .catch(error => {
+        console.error('Error fetching posts:', error);
+        cb([]); // Handle error by passing an empty array or appropriate default value
+    });
+}
+
 function api_update_post_like(postData, cb) {
     let url = `/api/posts/update_like`;
     fetch(url, {
@@ -205,4 +231,5 @@ export {
 	api_add_new_comment,
 	api_fetch_comments,
 	api_handle_expand_post,
+    api_fetch_random
 };

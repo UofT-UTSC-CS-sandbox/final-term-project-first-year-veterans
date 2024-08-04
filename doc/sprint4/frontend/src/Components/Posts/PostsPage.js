@@ -20,7 +20,6 @@ function PostsPage() {
   useEffect(() => {
     api_fetch_posts(uid, (data) => {
       setPosts(data);
-      console.log(posts);
       setLoading(false);
     });
   }, []);
@@ -34,7 +33,6 @@ function PostsPage() {
   const handleSubmitPost = (event) => {
     event.preventDefault();
     const post_data = { postid: postid++, userId: "Richie_Hsieh", postTitle, postMessage, likeCount: 0, isLikedByMe: 0, comments:[]};
-    console.log(post_data);
     api_create_post(post_data, (data) => {
       setPosts([...posts, data]);
       setShowCreatePost(false);
@@ -42,39 +40,41 @@ function PostsPage() {
   };
 
   return (
-    <div className="container">
-      <button className="createpostbutton" onClick={handleCreatePostClick}>
-        {showCreatePost ? 'Cancel' : 'Create Post'}
-      </button>
-      {showCreatePost && (
-        <div className="create-post-template">
-          <h2>Create a New Post</h2>
-          <form onSubmit={handleSubmitPost}>
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="post-title">Title</InputLabel>
-              <OutlinedInput
-                id="post-title"
-                label="Title"
-                value={postTitle}
-                onChange={(e) => setPostTitle(e.target.value)}
-              />
-            </FormControl>
-            <FormControl fullWidth margin="normal">
-              <InputLabel htmlFor="post-content">Content</InputLabel>
-              <OutlinedInput
-                id="post-content"
-                label="Content"
-                multiline
-                rows={4}
-                value={postMessage}
-                onChange={(e) => setPostMessage(e.target.value)}
-              />
-            </FormControl>
-            <button type="submit" className="submitpostbutton">Submit</button>
-          </form>
-        </div>
-      )}
+    <div className="page-container">
+      <div className="createpostbutton-container">
+        <button className="createpostbutton" onClick={handleCreatePostClick}>
+          {showCreatePost ? 'Cancel' : 'Create Post'}
+        </button>
+      </div>
       <Container>
+        {showCreatePost && (
+          <div className="create-post-template">
+            <h2>Create a New Post</h2>
+            <form onSubmit={handleSubmitPost}>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="post-title">Title</InputLabel>
+                <OutlinedInput
+                  id="post-title"
+                  label="Title"
+                  value={postTitle}
+                  onChange={(e) => setPostTitle(e.target.value)}
+                />
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="post-content">Content</InputLabel>
+                <OutlinedInput
+                  id="post-content"
+                  label="Content"
+                  multiline
+                  rows={4}
+                  value={postMessage}
+                  onChange={(e) => setPostMessage(e.target.value)}
+                />
+              </FormControl>
+              <button type="submit" className="submitpostbutton">Submit</button>
+            </form>
+          </div>
+        )}
         {loading ? (
           <CircularProgress />
         ) : (

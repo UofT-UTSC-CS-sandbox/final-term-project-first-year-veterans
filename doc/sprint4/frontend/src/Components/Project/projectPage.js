@@ -34,7 +34,7 @@ function ProjectPage() {
   const handleSubmitProject = (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('userId', "Richie_Hsieh");
+    formData.append('userId', uid);
     formData.append('projectTitle', projectTitle);
     formData.append('projectDescription', projectDescription);
     if (projectFile) {
@@ -56,72 +56,72 @@ function ProjectPage() {
   const handleProjectClick = (projectId) => {
     setExpandedProjectId(projectId === expandedProjectId ? null : projectId);
     setShowCreateProject(false);
-    api_fetch_all_projects(uid,(data) => {
-      setProjects(data);
-      setLoading(false);
-    });
   };
   
   return (
-    <div className="projectcontainer" >
-      <button className="createprojectbutton" onClick={handleCreateProjectClick}>
-        {showCreateProject ? 'Cancel' : 'Create Project'}
-      </button>
-      <div className="sidebar" style = {{ maxHeight: '725px', overflow: 'scroll' }}>
-        {loading ? (
-          <CircularProgress />
-        ) : (
-          projects.map(project => (
-            <div 
-              key={project.projectId} 
-              onClick={() => handleProjectClick(project.projectId)} 
-              className={`project-list-item ${expandedProjectId === project.projectId ? 'selected' : ''}`}
-            >
-              <h4>{project.projectTitle}</h4>
-            </div>
-          ))
-        )}
+    <div className="page-container">
+      <div className="createprojectbutton-container">
+        <button className="createprojectbutton" onClick={handleCreateProjectClick}>
+          {showCreateProject ? 'Cancel' : 'Create Project'}
+        </button>
       </div>
-      <Container className="main-content">
-        {showCreateProject ? (
-          <div className="create-project-template">
-            <h2>Create a New Project</h2>
-            <form onSubmit={handleSubmitProject}>
-              <FormControl fullWidth margin="normal">
-                <InputLabel htmlFor="project-title">Title</InputLabel>
-                <OutlinedInput
-                  id="project-title"
-                  label="Title"
-                  value={projectTitle}
-                  onChange={(e) => setProjectTitle(e.target.value)}
-                />
-              </FormControl>
-              <FormControl fullWidth margin="normal">
-                <InputLabel htmlFor="project-description">Description</InputLabel>
-                <OutlinedInput
-                  id="project-description"
-                  label="Description"
-                  multiline
-                  rows={4}
-                  value={projectDescription}
-                  onChange={(e) => setProjectDescription(e.target.value)}
-                />
-              </FormControl>
-              <input type="file" onChange={handleFileChange} style={{ marginTop: '10px' }} />
-              <button type="submit" className="submitprojectbutton">Submit</button>
-            </form>
-          </div>
-        ) : (
-          expandedProjectId && projects.filter(project => project.projectId === expandedProjectId).map(project => (
-            <ProjectCard 
-              key={project.projectId} 
-              project={project} 
-              isExpanded={true}
-              onToggleExpand={() => handleProjectClick(project.projectId)}
-            />
-          ))
-        )}
-      </Container>
+      <div className="projectcontainer">
+        <div className="sidebar">
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            projects.map(project => (
+              <div 
+                key={project.projectId} 
+                onClick={() => handleProjectClick(project.projectId)} 
+                className={`project-list-item ${expandedProjectId === project.projectId ? 'selected' : ''}`}
+              >
+                <h4>{project.projectTitle}</h4>
+              </div>
+            ))
+          )}
+        </div>
+        <Container className="main-content">
+          {showCreateProject ? (
+            <div className="create-project-template">
+              <h2>Create a New Project</h2>
+              <form onSubmit={handleSubmitProject}>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel htmlFor="project-title">Title</InputLabel>
+                  <OutlinedInput
+                    id="project-title"
+                    label="Title"
+                    value={projectTitle}
+                    onChange={(e) => setProjectTitle(e.target.value)}
+                  />
+                </FormControl>
+                <FormControl fullWidth margin="normal">
+                  <InputLabel htmlFor="project-description">Description</InputLabel>
+                  <OutlinedInput
+                    id="project-description"
+                    label="Description"
+                    multiline
+                    rows={4}
+                    value={projectDescription}
+                    onChange={(e) => setProjectDescription(e.target.value)}
+                  />
+                </FormControl>
+                <input type="file" onChange={handleFileChange} style={{ marginTop: '10px' }} />
+                <button type="submit" className="submitprojectbutton">Submit</button>
+              </form>
+            </div>
+          ) : (
+            expandedProjectId && projects.filter(project => project.projectId === expandedProjectId).map(project => (
+              <ProjectCard 
+                key={project.projectId} 
+                project={project} 
+                isExpanded={true}
+                onToggleExpand={() => handleProjectClick(project.projectId)}
+              />
+            ))
+          )}
+        </Container>
+      </div>
     </div>
   );
 }
