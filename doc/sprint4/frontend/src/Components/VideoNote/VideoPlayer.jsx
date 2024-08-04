@@ -4,7 +4,7 @@ import { Card } from '@mui/material';
 
 const VideoPlayer = ({ url, onProgress }) => {
   return (
-    <Card style={{ height: '80vh' }}>
+    <Card style={{ height: '100%' }}>
       <ReactPlayer
         url={url}
         controls

@@ -15,6 +15,7 @@ import socket from './socket'; // Import the socket object, the socket is create
 import Mentorship from './MentorshipPage.js';
 import VideoList from './VideoNote/VideoList.jsx';
 import RecordingPage from './VideoNote/RecordingPage.jsx';
+import VideoCreateForm from './VideoNote/VideoCreateForm.jsx';
 
 const uid = 'Richie_Hsieh';
 
@@ -59,6 +60,8 @@ function Main() {
         <Route path="chat" element={<Chat newMessage={newMessage} sendMessage={sendMessage} />} />
         <Route path="videos" element={<VideoList/>} />
         <Route path="video/:id" element={<RecordingPage/>} />
+        <Route path="/video/create" element={<VideoCreateForm/>} />  
+
       </Routes>
     </div>
   );

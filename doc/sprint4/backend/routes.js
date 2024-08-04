@@ -20,7 +20,8 @@ const projects_api = require('./routes/projects_api');
 const chat_fetch_api = require('./routes/chatApi/chat_fetch_api');
 const message_fetch_api = require('./routes/chatApi/message_fetch_api');
 const message_send_api = require('./routes/chatApi/message_send_api');
-const video_api = require('./routes/video_api');
+const video_api = require('./routes/videoNoteApi/video_api');
+const video_note_api = require('./routes/videoNoteApi/video_note_api');
 
 module.exports = (app) => {
     app.use('', cookie_api);
@@ -46,4 +47,5 @@ module.exports = (app) => {
     app.use('', message_fetch_api);
     app.use('', message_send_api);
     app.use('', video_api);
+    app.use('', video_note_api);
 };

@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 
 const AddNoteForm = ({ addNote, timestamp }) => {
-  const [noteText, setNoteText] = useState('');
+  const [noteContent, setNoteContent] = useState('');
   let hours = Math.floor(timestamp / 3600);
   let minutes = Math.floor((timestamp % 3600) / 60);
   let seconds = Math.floor(timestamp % 60);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newNote = { content: noteText, timestamp };
+    const newNote = { noteContent: noteContent, noteTimestamp: timestamp };
     addNote(newNote);
-    setNoteText('');
+    setNoteContent('');
   };
 
   return (
@@ -22,8 +22,8 @@ const AddNoteForm = ({ addNote, timestamp }) => {
         fullWidth
         multiline
         rows={4}
-        value={noteText}
-        onChange={(e) => setNoteText(e.target.value)}
+        value={noteContent}
+        onChange={(e) => setNoteContent(e.target.value)}
         placeholder={`[${hours.toString().padStart(2, 0)}:${minutes.toString().padStart(2, 0)}:${seconds.toString().padStart(2, 0)}] Add a note`}
         sx={{
           mb: 2,
