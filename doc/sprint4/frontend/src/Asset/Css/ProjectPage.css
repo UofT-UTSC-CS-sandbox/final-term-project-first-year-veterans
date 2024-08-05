@@ -1,70 +1,90 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.createprojectbutton-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+.createprojectbutton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.createprojectbutton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
 .projectcontainer {
   display: flex;
   flex-direction: row;
+  flex-grow: 1;
 }
 
 .sidebar {
   width: 25%;
-  padding: 10px;
-  background-color: #f4f4f4;
+  padding: 20px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
 }
 
 .project-list-item {
-  padding: 10px;
+  padding: 15px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s ease;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+  background-color: #f8f9fa;
 }
 
 .project-list-item:hover, .project-list-item.selected {
-  background-color: #e0e0e0;
-}
-
-.createprojectbutton {
-  background-color: #6c757d; /* Grey button */
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  border-radius: 25px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition */
-  display: flex;
-  max-height: 75px;
-}
-
-.createprojectbutton:hover {
-  background-color: #001affcb; /* Light grey on hover */
-  border-radius: 25px; /* Rounded corners */
-  max-height: 75px;
+  background-color: #e9ecef;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .submitprojectbutton {
-  background-color: #6c757d;
+  background-color: #007bff;
   color: white;
   padding: 10px 20px;
   font-size: 16px;
   border: none;
   cursor: pointer;
-  border-radius: 25px; /* Rounded corners */
-  transition: background-color 0.3s ease; /* Smooth transition */
-  display: flexbox;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  margin: 10px 0;
 }
 
 .submitprojectbutton:hover {
-  background-color: #00ff77cb; /* Light Green on hover */
-  border-radius: 25px; /* Rounded corners */
+  background-color: #0056b3;
+  transform: scale(1.05);
 }
 
 .create-project-template {
-  padding: 15px;
+  padding: 20px;
   background-color: white;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  margin: 10px 0;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .main-content {
   flex-grow: 1;
-  padding: 20px;
+  padding: 40px;
+  background-color: #f1f3f5;
+  overflow-y: auto;
 }

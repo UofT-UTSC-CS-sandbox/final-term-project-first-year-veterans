@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Typography, Grid, Box, IconButton, Avatar } from '@mui/material';
 import DailyPlanCard from './DailyCalendarCard'; // Assuming you have a component named DailyPlanCard for the daily plan section
-import { api_fetch_newest_post } from '../API/PostsApi.js';
+import { api_fetch_newest_post, api_fetch_random } from '../API/PostsApi.js';
 import PostCard from './Posts/PostCard';
 import GroupBar from './GroupBar';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const HomePage = () => {
   // Modify your frontend to handle a single post object instead of an array
   const [post, setPost] = useState(null); // State to hold the newest post
-
+  const [loading, setLoading] = useState(true);
   let uid = "Richie_Hsieh";
 
   useEffect(() => {
-    api_fetch_newest_post(uid,(data) => {
+    api_fetch_random(uid,(data) => {
       setPost(data); // Set the single post object received from the backend
       console.log(data);
+      setLoading(false);
     });
   }, []);
 
@@ -28,12 +30,15 @@ const HomePage = () => {
           </Box>
         </Grid>
 
-        <Grid item xs={6}>
-          {post ? (
-            <PostCard key={post.id} post={post} /> // Render the single post object
+        <Grid item xs={7}>
+          {loading ? (
+            <CircularProgress />
           ) : (
-            <Typography variant="h6">No posts available</Typography>
-          )}
+            post.map(post => (
+              <PostCard key={post.postid} post={post} />
+           ))
+        )}
+     
         </Grid>
 
         <Grid item xs={3}>
