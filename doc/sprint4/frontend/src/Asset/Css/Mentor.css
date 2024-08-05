@@ -1,0 +1,127 @@
+.MP-App {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .MP-App-header {
+    display: flex;
+    width: 100%;
+  }
+  
+  .MP-sidebar {
+    padding: 20px;
+    background-color: #343a40;
+    min-height: 100vh;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: white;
+  }
+  
+  .MP-sidebar button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .MP-sidebar button:hover {
+    background-color: #0056b3;
+  }
+  
+  .MP-main-content,
+  .appointments {
+    padding: 20px;
+    width: calc(100% - 240px);
+    margin-left: auto;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  .appointments ul,
+  .mList ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .appointments li,
+  .mList li {
+    background-color: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 10px auto;
+  }
+  
+  .MP-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+  
+  .MP-button:hover {
+    background-color: #218838;
+  }
+  
+  .MP-delete-button {
+    background-color: #dc3545;
+    margin-left: 10px;
+  }
+  
+  .MP-delete-button:hover {
+    background-color: #c82333;
+  }
+  
+  .MP-form {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .MP-form div {
+    margin-bottom: 10px;
+  }
+  
+  .MP-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #343a40;
+  }
+  
+  .MP-form input,
+  .MP-form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+  }
+  
+  .availability-title {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .availability {
+    font-size: 14px;
+    margin-top: 5px;
+  }
