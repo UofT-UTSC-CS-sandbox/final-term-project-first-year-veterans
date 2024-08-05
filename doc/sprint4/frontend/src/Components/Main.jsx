@@ -11,6 +11,7 @@ import ProjectPage from './Project/projectPage.js';
 import HomePage from './Home';
 import Logout from './Logout.jsx';
 import Chat from './chat';
+import GroupPage from './GroupPage';
 import socket from './socket'; // Import the socket object, the socket is created while importing
 import Mentorship from './MentorshipPage.js';
 import VideoList from './VideoNote/VideoList.jsx';
@@ -62,6 +63,7 @@ function Main() {
         <Route path="video/:id" element={<RecordingPage/>} />
         <Route path="/video/create" element={<VideoCreateForm/>} />  
 
+        <Route path="grouppage" element={<GroupPage />} />
       </Routes>
     </div>
   );
