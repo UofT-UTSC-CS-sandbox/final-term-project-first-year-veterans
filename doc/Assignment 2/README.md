@@ -1,3 +1,6 @@
+# Link to Website
+http://54.167.41.40/login
+
 # CI/CD Pipeline for Project
 
 This project uses GitLab CI/CD for continuous integration and deployment. The pipeline is divided into four stages: PreTest, Build, Deploy, and DeploymentTest. Each stage performs specific tasks to ensure the code is tested, built, deployed, and verified correctly.
