@@ -1,0 +1,20 @@
+services:
+  backend:
+    container_name: backend
+    image:  kforizen/cscc01_assignment_2-backend:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=neo4j+s://fddf35fa.databases.neo4j.io
+      - DATABASE_USER=neo4j
+      - DATABASE_PASSWORD=HfZENvbpnjg6Qas_DO36OD4r20nO0u7bso2EY797X2Q
+
+    restart: always
+  frontend:
+    container_name: frontend
+    depends_on:
+      - backend
+    image: kforizen/cscc01_assignment_2-frontend:latest
+    ports:
+      - "80:80"
+    restart: always
