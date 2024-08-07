@@ -1,5 +1,4 @@
 services:
- 
   backend:
     container_name: backend
     build:
@@ -7,11 +6,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    environment:
-      - DATABASE_URL=neo4j+s://fddf35fa.databases.neo4j.io
-      - DATABASE_USER=neo4j
-      - DATABASE_PASSWORD=HfZENvbpnjg6Qas_DO36OD4r20nO0u7bso2EY797X2Q
-
     restart: always
 
   frontend:
@@ -23,7 +17,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
-    environment:
-      - REACT_APP_API_BASE_URL=http://54.167.41.40:3000
+
     restart: always
 

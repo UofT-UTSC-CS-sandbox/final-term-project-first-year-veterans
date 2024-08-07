@@ -1,3 +1,4 @@
+# Ignore the some stuff that does not need to write into the docker image.
 ../README.md
 ../frontend/node_modules
 ../frontend/README.md
