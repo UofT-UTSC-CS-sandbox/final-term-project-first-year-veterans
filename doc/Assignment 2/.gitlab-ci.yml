@@ -1,0 +1,185 @@
+#################################################################################################################
+# Citation:                                                                                                     #
+# We learn some knowledge and partial code from the following link:                                             #
+# 1. https://docs.gitlab.com/ee/ci/                                                                             #
+# 2. https://www.youtube.com/watch?v=-4XT8-znkuc&list=PLBd8JGCAcUAEwyH2kT1wW2BUmcSPQzGcu                        #
+# 3. https://www.youtube.com/watch?v=qP8kir2GUgo                                                                #
+# 4. Material fron CSCC01 tutorial and lecture slides.                                                          #
+# 5. https://docs.gitlab.com/ee/ci/examples/end_to_end_testing_webdriverio/                                     #
+# 6. https://stackoverflow.com/questions/72263278/running-ui-tests-with-chrome-driver-in-gitlab-ci-cd-pipeline  #
+#################################################################################################################
+
+
+
+# In the following code, we make our CI/CD pipeline into 4 stages: PreTest, Build, Deploy, and DeploymentTest.
+# Pretest stage will run the basic tests for the frontend and backend before building a new image. So, we will not need to spend time on building buggy images.
+# Build stage will build the new images and push to the docker hub
+# Deploy stage will pull the latest images, where are frontend and backend, from docker hub in AWS EC2 and run them using docker-compose.
+# DeploymentTest stage will make sure that the deoployment is successful by running selenium tests.
+stages:
+    - PreTest
+    - Build
+    - Deploy
+    - DeploymentTest
+
+variables:
+    # Image names for each stage
+    PRESTESTIMAGE: node:20.16.0-alpine3.20          # An image for pretest stage to both frontend and backend.
+    BUILDIMAGE: docker:24.0.5                       # An image for build stage to build the new images.
+    DEPLOYIMAGE: docker:24.0.5                      # An image for deploy stage to deploy the images to AWS EC2.
+    DEPOYTESTIMAGE: python:3.9                      # An image for deployment test stage to run selenium tests.
+
+    # A variable inside build stage:
+    
+    # Docker name for frontend 
+    DOCKERFRONTEND: cscc01_assignment_2-frontend
+    # Docker name for backend
+    DOCKERBACKEND: cscc01_assignment_2-backend
+
+
+
+frontend_test:
+    image: $PRESTESTIMAGE       
+    stage: PreTest
+    before_script:
+        - echo "Running frontend pre test"
+        - cd frontend
+        - npm install
+    script:
+        - echo "Running frontend tests"
+        - npm test > frontend_test_results.txt
+
+    after_script:
+        - echo "Frontend pre tests completed"
+        - rm -rf node_modules
+    
+    artifacts:
+        when: always
+        paths:
+        - frontend/frontend_test_results.txt
+        expire_in: 1 week
+        
+
+backend_test:
+    image: $PRESTESTIMAGE
+    stage: PreTest
+    before_script:
+        - echo "Running backend pre test"
+        - cd backend
+        - npm install
+        
+    script:
+        - npm test > backend_test_results.txt
+    after_script:
+        - echo "Backend pre test completed"
+        - rm -rf node_modules
+    artifacts:
+        when: always
+        paths:
+        - backend/backend_test_results.txt
+        expire_in: 1 week
+
+build_image:
+    # We should only run to build the new image if the coming commit is from the master branch (i.e release new version of the website through master branch)
+    only:
+        - master
+        - main
+    needs: [frontend_test, backend_test]
+    image: $BUILDIMAGE
+    # We need to use docker:24.0.5-dind to run docker inside the image(i.e. docker)
+    services:
+        - docker:24.0.5-dind
+    variables:
+        DOCKER_TLS_CERTDIR: "/certs"
+        
+    stage: Build
+    before_script:
+        # Use the update date as the version of the image
+        - export VERSION=$(date +%Y%m%d%H%M%S)
+        # login to the docker hub
+        - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+
+    script:
+        - docker-compose build
+        - docker tag $DOCKERFRONTEND:latest $CI_REGISTRY_USER/$DOCKERFRONTEND:$VERSION        # tag the frontend image with the version date (i.e to let user know the version number on docker hub)
+        - docker tag $DOCKERFRONTEND:latest $CI_REGISTRY_USER/$DOCKERFRONTEND:latest          # tag the frontend image with the latest  (i.e to let user know the latest version on docker hub)
+        - docker tag $DOCKERBACKEND:latest $CI_REGISTRY_USER/$DOCKERBACKEND:$VERSION          # tag the backend image with the version date (i.e to let user know the version number on docker hub)
+        - docker tag $DOCKERBACKEND:latest $CI_REGISTRY_USER/$DOCKERBACKEND:latest            # tag the backend image with the latest  (i.e to let user know the latest version on docker hub)
+        - docker push $CI_REGISTRY_USER/$DOCKERFRONTEND:$VERSION       # push the frontend image with the version date to the docker hub
+        - docker push $CI_REGISTRY_USER/$DOCKERFRONTEND:latest         # push the frontend image with the latest to the docker hub
+        - docker push $CI_REGISTRY_USER/$DOCKERBACKEND:$VERSION        # push the backend image with the version date to the docker hub
+        - docker push $CI_REGISTRY_USER/$DOCKERBACKEND:latest          # push the backend image with the latest to the docker hub
+
+    after_script:
+        - echo "Build docker image completed"
+
+
+# We are going to deploy the images to AWS EC2
+deploy_image:
+    needs: [build_image]
+    image: $DEPLOYIMAGE
+    services:
+        - docker:24.0.5-dind
+    stage: Deploy
+    variables:
+        # The private key file for the AWS EC2
+        AWS_EC2_URL: ec2-user@ec2-54-167-41-40.compute-1.amazonaws.com
+        AWS_HOME: /home/ec2-user
+
+    before_script:
+        - echo "Deploying the images to AWS EC2"
+        # Make the ssh private key files from gitlab variables
+        - cat $AWS_SSH_KEY > private_key.pem
+        # Change the permission of the private key file
+        - chmod 400 private_key.pem
+
+    script:
+        # copy the config file(i.e. confg_aws) to the AWS EC2
+        - scp -o StrictHostKeyChecking=no -i private_key.pem ./confg_aws $AWS_EC2_URL:$AWS_HOME
+        # let the docker ssh to the AWS EC2 and run the following commands
+        # 1. copy the content inside confg_aws to docker-compose.yml
+        # 2. login to the docker hub
+        # 3. stop all running docker containers
+        # 4. pull the latest frontend and backend images from the docker hub
+        # 5. run the frontend and backend images using docker-compose
+        - ssh -o StrictHostKeyChecking=no -i private_key.pem $AWS_EC2_URL "
+            cat /home/ec2-user/confg_aws > docker-compose.yml &&
+            docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD &&
+            docker-compose down &&
+            docker pull $CI_REGISTRY_USER/$DOCKERFRONTEND:latest &&
+            docker pull $CI_REGISTRY_USER/$DOCKERBACKEND:latest &&
+            docker-compose up -d
+            "
+    after_script:
+        - echo "Deploy docker completed"
+
+# We are going to use selenium to test the website has been deployed on AWS EC2
+deploy_test:
+    needs: [deploy_image]
+    image: $DEPOYTESTIMAGE
+    stage: DeploymentTest
+    # We need to use selenium/standalone-chrome:latest to run the selenium tests because we neeed to use the chrome browser
+    services:
+        - name: selenium/standalone-chrome:latest
+          alias: selenium
+    before_script:
+
+        - echo "Running Deployment tests through selenium"
+
+        # install the selenium and unittest-xml-reporting to generate the xml report
+        - pip install selenium unittest-xml-reporting
+
+    script:
+        # start the selenium tests
+        - python -m xmlrunner DeploymentTest > automated-test-results
+
+    after_script:
+        - echo "Deployment Test completed"
+
+    # Generate the test results
+    artifacts:
+        when: always
+        paths:
+        - automated-test-results
+        expire_in: 1 week
+

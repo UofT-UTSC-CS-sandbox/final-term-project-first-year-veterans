@@ -1,0 +1,90 @@
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.createprojectbutton-container {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+.createprojectbutton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+}
+
+.createprojectbutton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.projectcontainer {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+}
+
+.sidebar {
+  width: 25%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  overflow-y: auto;
+}
+
+.project-list-item {
+  padding: 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 10px;
+  background-color: #f8f9fa;
+}
+
+.project-list-item:hover, .project-list-item.selected {
+  background-color: #e9ecef;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submitprojectbutton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 25px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block;
+  margin: 10px 0;
+}
+
+.submitprojectbutton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.create-project-template {
+  padding: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 40px;
+  background-color: #f1f3f5;
+  overflow-y: auto;
+}
